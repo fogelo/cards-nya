@@ -47,10 +47,12 @@ const Register: React.FC<IRegisterProps> = ({}) => {
                 <input type="text"
                        name={"email"}
                        placeholder={"enter your email"}
+                       value={email}
                        onChange={(e) => setEmail(e.currentTarget.value)}/>
                 <input type="text"
                        name={"password"}
                        placeholder={"enter your password"}
+                       value={password}
                        onChange={(e) => setPassword(e.currentTarget.value)}/>
                 <button type={"submit"}
                         onClick={buttonOnClickHandler}
