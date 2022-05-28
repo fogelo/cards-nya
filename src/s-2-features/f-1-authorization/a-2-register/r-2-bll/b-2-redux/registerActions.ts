@@ -1,17 +1,9 @@
-export const REGISTER_LOADING = 'REGISTER/LOADING';
-export const REGISTER_ERROR = 'REGISTER/ERROR';
-export const REGISTER_SUCCESS = 'REGISTER/SUCCESS';
+export const setErrorRegister = (error: string) => ({type:  "REGISTER/ERROR", error} as const);
+export const setSuccessRegister = (isSuccess: boolean) => ({type: "REGISTER/SUCCESS", isSuccess} as const)
+export const setLoadingRegister = (isLoading: boolean) => ({type: "REGISTER/LOADING", isLoading} as const)
 
-export const REGISTER = 'REGISTER/SOME';
-
-interface IRegisterSome { // blank
-    type: typeof REGISTER;
-
-}
-
-export type IRegisterActions = IRegisterSome;
-
-export const registerSome = (): IRegisterSome => ({ // blank
-    type: REGISTER,
-
-});
+// types
+export type IRegisterActions =
+    ReturnType<typeof setErrorRegister>
+    | ReturnType<typeof setSuccessRegister>
+    | ReturnType<typeof setLoadingRegister>

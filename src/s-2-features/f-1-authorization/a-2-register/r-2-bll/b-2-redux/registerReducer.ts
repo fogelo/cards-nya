@@ -1,17 +1,15 @@
 import {registerInitialState} from "./registerInitialState";
-import {IRegisterActions, REGISTER} from "./registerActions";
+import {IRegisterActions} from "./registerActions";
 
 export const registerReducer = (state = registerInitialState, action: IRegisterActions) => {
     switch (action.type) {
-        case REGISTER: { // blank
-            return {
-                ...state,
-
-            }
-        }
-
-        default: {
+        case "REGISTER/LOADING":
+            return {...state, loading: action.isLoading}
+        case "REGISTER/SUCCESS":
+            return {...state, success: action.isSuccess}
+        case "REGISTER/ERROR":
+            return {...state, error: action.error}
+        default:
             return state;
-        }
     }
 };
