@@ -25,7 +25,7 @@ const Routing: React.FC = () => {
     return (
         <>
             <Routes>
-                <Route path={"/"} element={<SignInPage/>}/>
+                <Route path={"/"} element={<ProfilePage/>}/>
                 <Route path={SIGN_IN_PATH} element={<SignInPage/>}/>
                 <Route path={REGISTER_PATH} element={<RegisterPage/>}/>
                 <Route path={FORGOT_PATH} element={<ForgotPage/>}/>
