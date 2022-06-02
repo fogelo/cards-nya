@@ -4,6 +4,8 @@ import App from "./App";
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import {HashRouter} from "react-router-dom";
+import {Provider} from "react-redux";
+import store from "./s-1-main/m-2-bll/store";
 
 
 const root = ReactDOM.createRoot(
@@ -11,9 +13,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <>
-        <HashRouter>
-            <App/>
-        </HashRouter>
+        <Provider store={store}>
+            <HashRouter>
+                <App/>
+            </HashRouter>
+        </Provider>
     </>
 );
 

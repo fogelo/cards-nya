@@ -1,0 +1,10 @@
+
+.header img {
+    max-width: 150px;
+    height: 150px;
+    border-radius: 100px;
+}
+
+.header h2, h1 {
+    margin: 0;
+}
