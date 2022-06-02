@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 import {FORGOT_PATH, REGISTER_PATH} from "../../../../s-1-main/m-1-ui/Routing";
+import Login from "../../../../Login/Login/Login";
 
 interface ISignInProps {
 
@@ -14,9 +15,7 @@ const SignIn: React.FC<ISignInProps> = (
 
     return (
         <div>
-            sign-in
-
-
+           <Login/>
         </div>
     );
 };

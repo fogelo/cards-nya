@@ -7,10 +7,10 @@ import {profileReducer} from "../../s-2-features/f-3-profile/p-2-bll/b-2-redux/p
 import {error404Reducer} from "../../s-2-features/f-4-error404/p-2-bll/b-2-redux/error404Reducer";
 import {recoverPasswordReducer} from "../../s-2-features/f-5-recover-password/p-2-bll/b-2-redux/recoverPasswordReducer";
 import {newPasswordReducer} from "../../s-2-features/f-6-new-password/p-2-bll/b-2-redux/newPasswordReducer";
+import {loginReducer} from "../../Login/loginReducer";
 
 const reducers = combineReducers({
-    signIn: signInReducer,
-    register: registerReducer,
+    login: loginReducer,
     forgot: forgotReducer,
     profile: profileReducer,
     error404: error404Reducer,
