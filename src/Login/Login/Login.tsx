@@ -3,10 +3,10 @@ import {useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
 import {Navigate} from "react-router-dom";
 import {FORGOT_PATH, PROFILE_PATH, REGISTER_PATH} from "../../s-1-main/m-1-ui/Routing";
-//import {ErrorSnackbar} from "./ErrorSnackbar";
-import {Alert, Button} from "@mui/material";
+import {Button} from "@mui/material";
 import {IAppStore, useAppDispatch} from "../../s-1-main/m-2-bll/store";
 import {LoginThunk} from "../../s-2-features/f-1-authorization/a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
+import {ErrorSnackbar} from "./ErrorSnackbar";
 
 const Login = React.memo(() => {
     const [email, setEmail] = useState("cards@test.com");
@@ -55,7 +55,7 @@ const Login = React.memo(() => {
 
                         {error && (
                             <span>
-            <Alert severity="error">{error}</Alert>
+                                <ErrorSnackbar/>
           </span>
                         )}
                         <div>
