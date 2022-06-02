@@ -12,7 +12,7 @@ const Header: React.FC = () => {
 
     //react-REDUX
     const dispatch = useAppDispatch()
-    const isLoggedIn = useSelector<IAppStore, boolean>(state => state.signIn.isLoggedIn)
+    const isLoggedIn = useSelector<IAppStore, boolean>(state => state.login.isLoggedIn)
 
     const logOutHandler = () => {
         dispatch(LogOutThunk())

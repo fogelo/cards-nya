@@ -25,7 +25,7 @@ const Profile: React.FC<IProfileProps> = () => {
 
     // react-redux
     const dispatch = useAppDispatch()
-    const isLoggedIn = useSelector<IAppStore, boolean>(state => state.signIn.isLoggedIn)
+    const isLoggedIn = useSelector<IAppStore, boolean>(state => state.login.isLoggedIn)
     const isProfileLoading = useSelector<IAppStore, boolean>(state => state.app.isLoading);
     const ProfileEditMode = useSelector<IAppStore, boolean>(state => state.profile.profileEditMode);
     const userData = useSelector<IAppStore, UserType>(state => state.profile.userData)

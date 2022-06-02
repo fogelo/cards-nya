@@ -8,10 +8,10 @@ import {newPasswordReducer} from "../../s-2-features/f-6-new-password/p-2-bll/b-
 import {AppAction, appReducer} from "./app-reducer";
 import {useDispatch} from "react-redux";
 import {profileReducer} from "../../s-2-features/f-3-profile/p-2-bll/b-2-redux/profile-reducer";
-import {loginReducer} from "../../Login/loginReducer";
+import {signInReducer} from "../../s-2-features/f-1-authorization/a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
 
 const reducers = combineReducers({
-    login: loginReducer,
+    login: signInReducer,
     register: registerReducer,
     forgot: forgotReducer,
     profile: profileReducer,

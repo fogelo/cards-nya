@@ -12,7 +12,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
 
 export const ErrorSnackbar = React.memo(() => {
 
-    const error = useSelector<IAppStore, string | null>((state) => state.login.error);
+    const error = useSelector<IAppStore, string | null>((state) => state.app.appError);
 
 
     const dispatch = useDispatch();
