@@ -1,4 +1,4 @@
-import React, {FormEvent, useState} from 'react';
+import React, {FormEvent, useState, MouseEvent} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {NavLink} from 'react-router-dom';
 import {Navigate} from 'react-router-dom';
@@ -17,7 +17,7 @@ const Login = React.memo(() => {
     const isInitialized = useSelector<IAppStore, boolean>((state) => state.login.redirectToLogin);
     const error = useSelector<IAppStore, string>((state) => state.login.error);
     const dispatch = useDispatch();
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         dispatch(signIn({email, password, rememberMe}) as any);
     };
@@ -79,7 +79,7 @@ const Login = React.memo(() => {
                     </NavLink>
                 </div>
                 <div>
-                    <Button>Login</Button>
+                    <Button onClick={(e)=>handleSubmit(e)}>Login</Button>
                 </div>
             </form>
             <p>Don't have an account?</p>
