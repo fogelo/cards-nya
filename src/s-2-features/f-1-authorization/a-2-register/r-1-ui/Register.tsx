@@ -5,7 +5,6 @@ import {IAppStore} from "../../../../s-1-main/m-2-bll/store";
 import {IRegisterState} from "../r-2-bll/b-2-redux/registerInitialState";
 import {useNavigate} from "react-router-dom";
 import {setErrorRegister, setLoadingRegister, setSuccessRegister} from "../r-2-bll/b-2-redux/registerActions";
-import {PROFILE_PATH} from "../../../../s-1-main/m-1-ui/Routing";
 
 interface IRegisterProps {
 
@@ -24,12 +23,10 @@ const Register: React.FC<IRegisterProps> = ({}) => {
         dispatch(setLoadingRegister(true))
         RegisterAPI.register(email, password)
             .then((res) => {
-                console.log(res)
                 dispatch(setSuccessRegister(true))
                 dispatch(setLoadingRegister(false))
             })
             .catch((error) => {
-                console.log(error.response.data.error)
                 dispatch(setLoadingRegister(false))
                 dispatch(setErrorRegister(error.response.data.error))
             })
