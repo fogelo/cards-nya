@@ -49,21 +49,21 @@ export const initializeAppTC = (value: boolean) => async (dispatch: Dispatch<App
             if (res.data._id) {
                 dispatch(setUserDataAC(res.data))
                 dispatch(setIsLoggedInAC(true))
-                console.log('AuthMe - Logged in successfully!')
+                console.log('AuthMe - You are already logged in!')
             } else {
                 dispatch(setIsLoggedInAC(false))
             }
         })
-        .catch((error) => {
-            // if (error.data.in) {
-            //     dispatch(setIsLoggedInAC(false))
-            // }
-            const data = error?.response?.data;
-            if (axios.isAxiosError(error) && data) {
-                dispatch(setAppErrorAC(data.error || 'Some error occurred'));
-            } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
-            console.log({...error});
-        })
+        // .catch((error) => {
+        //     // if (error.data.in) {
+        //     //     dispatch(setIsLoggedInAC(false))
+        //     // }
+        //     const data = error?.response?.data;
+        //     if (axios.isAxiosError(error) && data) {
+        //         dispatch(setAppErrorAC(data.error || 'Some error occurred'));
+        //     } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
+        //     console.log({...error});
+        // })
         .finally(()=> {
             dispatch(changeIsLoadingAC(false))
             dispatch(setIsAuthAC(value))
