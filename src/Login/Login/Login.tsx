@@ -13,7 +13,7 @@ const Login = React.memo(() => {
     const [password, setPassword] = useState("Qwertyuiop123");
     const [rememberMe, setRememberMe] = useState(true);
 
-    // const isInitialized = useSelector<IAppStore, boolean>((state) => state.app.isAppInitialized);
+    const isInitialized = useSelector<IAppStore, boolean>((state) => state.app.isAppInitialized);
     const isLoggedIn = useSelector<IAppStore, boolean>((state) => state.login.isLoggedIn);
 
     const error = useSelector<IAppStore, string | null>((state) => state.app.appError);
@@ -35,7 +35,6 @@ const Login = React.memo(() => {
 
                         <label> Email <br/>
                             <input
-
                                 value={email}
                                 type="email"
                                 name="email"
@@ -53,10 +52,10 @@ const Login = React.memo(() => {
                             />
                         </label>
 
-                        {error && (
+                        {(error) && (
                             <span>
                                 <ErrorSnackbar/>
-          </span>
+                            </span>
                         )}
                         <div>
                             <div>
