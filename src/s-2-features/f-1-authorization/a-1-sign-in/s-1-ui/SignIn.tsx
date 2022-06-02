@@ -41,8 +41,6 @@ const SignIn: React.FC<ISignInProps> = () => {
                 <button onClick={sendUserDataHandler}>LOG IN</button>
                 {/*{isFetching && <span>fetching ... </span>}*/}
             </div>
-
-
         </div>
     );
 };
