@@ -7,12 +7,15 @@ import {
 import {useSelector} from "react-redux";
 import {IAppStore, useAppDispatch} from "../m-2-bll/store";
 import {LogOutThunk} from "../../s-2-features/f-1-authorization/a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
+import SuperButton from "../../s-3-components/c2-SuperButton/SuperButton";
 
 const Header: React.FC = () => {
 
     //react-REDUX
     const dispatch = useAppDispatch()
     const isLoggedIn = useSelector<IAppStore, boolean>(state => state.login.isLoggedIn)
+    const isLoading = useSelector<IAppStore, boolean>((state) => state.app.isLoading);
+
 
     const logOutHandler = () => {
         dispatch(LogOutThunk())
@@ -25,7 +28,8 @@ const Header: React.FC = () => {
             justifyContent: "space-around",
             flexWrap: "wrap",
         }}>
-            {isLoggedIn && <div> <button onClick={logOutHandler}>LOG OUT</button> </div>}
+
+            {isLoggedIn && <div> <SuperButton onClick={logOutHandler} disabled={isLoading}>LOG OUT</SuperButton> </div>}
 
             <NavLink to={SIGN_IN_PATH}>sign-in</NavLink>
             <NavLink to={REGISTER_PATH}>register</NavLink>

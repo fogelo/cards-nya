@@ -55,8 +55,8 @@ export const LogOutThunk = () => async (dispatch: Dispatch<LoginReducerAction>) 
     SignInAPI.logout()
         .then(res => {
             if (res.data.info) {
-                // тут будет диспачится SIGNIn LOG IN
                 dispatch(setIsLoggedInAC(false))
+                dispatch(setAppErrorAC(null))
             }
         })
         .catch((error) => {
