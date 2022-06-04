@@ -1,0 +1,29 @@
+/*.box {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*}*/
+
+.header {
+    display: flex;
+    height: 80px;
+    background-color: #97d9ff;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav {
+    display: flex;
+    /*border: 1px solid;*/
+    width: 400px;
+    justify-content: space-between;
+}
+
+.headerLogoButton {
+    display: flex;
+    /*border: 1px solid;*/
+    width: 220px;
+    justify-content: flex-start;
+    margin: 10px;
+}
+
+

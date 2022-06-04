@@ -1,6 +1,10 @@
 import {profileAPI} from "../../s-2-features/f-3-profile/p-3-dal/profileAPI";
 import {Dispatch} from "redux";
-import {setIsLoggedInAC,SetIsLoggedInType} from "../../s-2-features/f-1-authorization/a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
+import {
+    LoginReducerAction,
+    setIsLoggedInAC,
+    SetIsLoggedInType
+} from "../../s-2-features/f-1-authorization/a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
 import axios from "axios";
 import {
     ProfileReducerAction,
@@ -30,14 +34,12 @@ export const appReducer = (state: InitStateTypeApp = initStateApp, action: AppAc
 
 //ACTION CREATOR
 export const setIsAuthAC = (isAuthAction: boolean) => ({type: "app/SET_IS_AUTH", isAuthAction} as const)
-
 export const changeIsLoadingAC = (isLoadingApp: boolean) => {
     return {
         type: 'app/CHANGE-IS-LOADING',
         isLoadingApp
     } as const
 }
-
 export const setAppErrorAC = (error: string | null) => ({type: 'app/SET-ERROR', error} as const)
 
 

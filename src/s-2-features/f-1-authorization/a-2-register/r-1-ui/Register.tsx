@@ -23,11 +23,8 @@ const Register: React.FC<IRegisterProps> = () => {
     }
 
     //redirect to profile
-    /*
-        if (success) {
-                navigate(PROFILE_PATH)
-            }
-     */
+    
+
     return (
         <div>
             <form name={"register"}>

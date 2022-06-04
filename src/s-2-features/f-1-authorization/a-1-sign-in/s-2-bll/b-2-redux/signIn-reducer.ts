@@ -1,9 +1,10 @@
 import {Dispatch} from "redux";
 import {
+    AppAction,
     ChangeIsLoading,
-    changeIsLoadingAC,
+    changeIsLoadingAC, initializeAppTC,
     setAppErrorAC,
-    SetAppErrorActionType
+    SetAppErrorActionType, setIsAuthAC, SetIsAuthActionType
 } from "../../../../../s-1-main/m-2-bll/app-reducer";
 import {SignInAPI} from "../../s-3-dal/SignInAPI";
 import axios from "axios";
@@ -28,7 +29,7 @@ export const signInReducer = (state: InitStateTypeLogin = initStateIsLoggedIn, a
 export const setIsLoggedInAC = (isLoggedIn: boolean) => ({type: "login/SET_IS_LOGGED_IN", isLoggedIn} as const)
 
 
-// THUNKa
+// THUNK's
 export const LoginThunk = (email: string, password: string, rememberMe: boolean) => async (dispatch: Dispatch<LoginReducerAction>) => {
     dispatch(changeIsLoadingAC(true))
     SignInAPI.login({email, password, rememberMe})
@@ -81,6 +82,7 @@ export const RegisterThunk = (email: string, password: string) => async (dispatc
         .then((res) => {
             if (res.data.addedUser) {
                 console.log("You are registered successfully")
+
             }
         })
         .catch((error) => {

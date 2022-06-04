@@ -34,7 +34,7 @@ const Routing: React.FC = () => {
                 {/*<Route path={ERROR404_PATH} element={<Error404Page/>}/>*/}
                 {/*<Route path={RECOVER_PASSWORD_PATH} element={<RecoverPasswordPage/>}/>*/}
                 {/*<Route path={NEW_PASSWORD_PATH} element={<NewPasswordPage/>}/>*/}
-                {/*<Route path={SUPER_COMPONENTS_PATH} element={<SuperComponentsPage/>}/>*/}
+                <Route path={SUPER_COMPONENTS_PATH} element={<SuperComponentsPage/>}/>
             </Routes>
 
         </>
