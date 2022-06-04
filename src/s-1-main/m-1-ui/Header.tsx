@@ -47,8 +47,8 @@ const Header: React.FC = () => {
             </div>
 
             <div className={s.nav}>
-                {!isLoggedIn && <NavLink to={SIGN_IN_PATH}>sign-in</NavLink>}
-                <NavLink to={REGISTER_PATH}>Register</NavLink>
+                {/*{!isLoggedIn && <NavLink to={SIGN_IN_PATH}>sign-in</NavLink>}*/}
+                {/*<NavLink to={REGISTER_PATH}>Register</NavLink>*/}
                 <NavLink to={FORGOT_PATH}>forgot</NavLink>
                 <NavLink to={PROFILE_PATH} onClick={isLoggedInHandler}>Profile</NavLink>
                 {/*<NavLink to={ERROR404_PATH}>error404</NavLink>*/}
