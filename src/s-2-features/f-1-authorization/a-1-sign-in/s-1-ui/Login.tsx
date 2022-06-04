@@ -2,11 +2,11 @@ import React, {useState, MouseEvent} from "react";
 import {useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
 import {Navigate} from "react-router-dom";
-import {FORGOT_PATH, PROFILE_PATH, REGISTER_PATH} from "../../s-1-main/m-1-ui/Routing";
-import {IAppStore, useAppDispatch} from "../../s-1-main/m-2-bll/store";
-import {LoginThunk} from "../../s-2-features/f-1-authorization/a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
-import {ErrorSnackbar} from "./ErrorSnackbar";
-import SuperButton from "../../s-3-components/c2-SuperButton/SuperButton";
+import {FORGOT_PATH, PROFILE_PATH, REGISTER_PATH} from "../../../../s-1-main/m-1-ui/Routing";
+import {IAppStore, useAppDispatch} from "../../../../s-1-main/m-2-bll/store";
+import {LoginThunk} from "../s-2-bll/b-2-redux/signIn-reducer";
+import {ErrorSnackbar} from "../../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
+import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
 
 const Login = React.memo(() => {
     const [email, setEmail] = useState("nya-admin@nya.nya");

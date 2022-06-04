@@ -7,7 +7,7 @@ import Error404Page from "../../s-2-features/f-4-error404/p-1-ui/Error404Page";
 import RecoverPasswordPage from "../../s-2-features/f-5-recover-password/p-1-ui/RecoverPasswordPage";
 import NewPasswordPage from "../../s-2-features/f-6-new-password/p-1-ui/NewPasswordPage";
 import SuperComponentsPage from "../../s-2-features/f-7-super-components/SuperComponentsPage";
-import Login from "../../Login/Login/Login";
+import Login from "../../s-2-features/f-1-authorization/a-1-sign-in/s-1-ui/Login";
 
 // all project paths
 export const SIGN_IN_PATH = "/sign-in";

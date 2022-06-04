@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import {IAppStore, useAppDispatch} from "../../../../s-1-main/m-2-bll/store";
 import {RegisterThunk} from "../../a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
-import {ErrorSnackbar} from "../../../../Login/Login/ErrorSnackbar";
+import {ErrorSnackbar} from "../../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
 
 
 interface IRegisterProps {
