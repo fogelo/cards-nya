@@ -21,10 +21,10 @@ export const ErrorSnackbar = React.memo(() => {
         event?: React.SyntheticEvent | Event,
         reason?: string,
     ) => {
+        dispatch(setAppErrorAC(null))
         if (reason === 'clickaway') {
             return;
         }
-        dispatch(setAppErrorAC(null));
     };
 
     return (

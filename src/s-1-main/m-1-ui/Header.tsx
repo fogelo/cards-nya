@@ -8,6 +8,7 @@ import {useSelector} from "react-redux";
 import {IAppStore, useAppDispatch} from "../m-2-bll/store";
 import {LogOutThunk} from "../../s-2-features/f-1-authorization/a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
 import SuperButton from "../../s-3-components/c2-SuperButton/SuperButton";
+import {setAppErrorAC} from "../m-2-bll/app-reducer";
 
 const Header: React.FC = () => {
 
@@ -21,6 +22,12 @@ const Header: React.FC = () => {
         dispatch(LogOutThunk())
     }
 
+    const isLoggedInHandler = () => {
+        if (!isLoggedIn) {
+            dispatch(setAppErrorAC("You are not authorized. Please log in"))
+        }
+    }
+
     return (
         <div style={{
             display: "flex",
@@ -31,10 +38,10 @@ const Header: React.FC = () => {
 
             {isLoggedIn && <div> <SuperButton onClick={logOutHandler} disabled={isLoading}>LOG OUT</SuperButton> </div>}
 
-            <NavLink to={SIGN_IN_PATH}>sign-in</NavLink>
+            {!isLoggedIn && <NavLink to={SIGN_IN_PATH}>sign-in</NavLink>}
             <NavLink to={REGISTER_PATH}>register</NavLink>
             <NavLink to={FORGOT_PATH}>forgot</NavLink>
-            <NavLink to={PROFILE_PATH}>profile</NavLink>
+            <NavLink to={PROFILE_PATH} onClick={isLoggedInHandler}>profile</NavLink>
             <NavLink to={ERROR404_PATH}>error404</NavLink>
             <NavLink to={RECOVER_PASSWORD_PATH}>recover password</NavLink>
             <NavLink to={NEW_PASSWORD_PATH}>new password</NavLink>

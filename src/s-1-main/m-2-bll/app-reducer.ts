@@ -54,16 +54,20 @@ export const initializeAppTC = (value: boolean) => async (dispatch: Dispatch<App
                 dispatch(setIsLoggedInAC(false))
             }
         })
-        // .catch((error) => {
-        //     // if (error.data.in) {
-        //     //     dispatch(setIsLoggedInAC(false))
-        //     // }
-        //     const data = error?.response?.data;
-        //     if (axios.isAxiosError(error) && data) {
-        //         dispatch(setAppErrorAC(data.error || 'Some error occurred'));
-        //     } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
-        //     console.log({...error});
-        // })
+        .catch((error) => {
+            // if (error.data.in) {
+            //     dispatch(setIsLoggedInAC(false))
+            // }
+            const data = error?.response?.data;
+            if (axios.isAxiosError(error) && data) {
+                // тут типа при проверке живой куки не будет появлятся ошибка, а другие ошибки будут отображаться
+                if (data.error === "you are not authorized /ᐠ-ꞈ-ᐟ\\") {
+                    return
+                }
+                dispatch(setAppErrorAC(data.error || 'Some error occurred'));
+            } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
+            console.log({...error});
+        })
         .finally(()=> {
             dispatch(changeIsLoadingAC(false))
             dispatch(setIsAuthAC(value))

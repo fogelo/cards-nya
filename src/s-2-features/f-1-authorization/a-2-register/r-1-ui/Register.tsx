@@ -1,35 +1,25 @@
-import React, {MouseEvent, useEffect, useState} from "react";
-import {RegisterAPI} from "../r-3-dal/RegisterAPI";
-import {useDispatch, useSelector} from "react-redux";
-import {IAppStore} from "../../../../s-1-main/m-2-bll/store";
-import {IRegisterState} from "../r-2-bll/b-2-redux/registerInitialState";
-import {useNavigate} from "react-router-dom";
-import {setErrorRegister, setLoadingRegister, setSuccessRegister} from "../r-2-bll/b-2-redux/registerActions";
+import React, {useState} from "react";
+import {useSelector} from "react-redux";
+import {IAppStore, useAppDispatch} from "../../../../s-1-main/m-2-bll/store";
+import {RegisterThunk} from "../../a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
+import {ErrorSnackbar} from "../../../../Login/Login/ErrorSnackbar";
+
 
 interface IRegisterProps {
 
 }
 
-const Register: React.FC<IRegisterProps> = ({}) => {
+const Register: React.FC<IRegisterProps> = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-    const dispatch = useDispatch()
-    const {loading, success, error} = useSelector<IAppStore, IRegisterState>(state => state.register)
-    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    const isAppLoading = useSelector<IAppStore, boolean>(state => state.app.isLoading)
+    const error = useSelector<IAppStore, string | null>(state => state.app.appError)
 
-    const buttonOnClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-        dispatch(setLoadingRegister(true))
-        RegisterAPI.register(email, password)
-            .then((res) => {
-                dispatch(setSuccessRegister(true))
-                dispatch(setLoadingRegister(false))
-            })
-            .catch((error) => {
-                dispatch(setLoadingRegister(false))
-                dispatch(setErrorRegister(error.response.data.error))
-            })
+
+    const buttonOnClickHandler = () => {
+        dispatch(RegisterThunk(email, password))
     }
 
     //redirect to profile
@@ -56,9 +46,11 @@ const Register: React.FC<IRegisterProps> = ({}) => {
                 >
                     sign up
                 </button>
-                {
-                    loading ? <div>loading...</div> : error ? <div>{error}</div> : ""
-                }
+                {(error) && (
+                    <span>
+                                <ErrorSnackbar/>
+                            </span>
+                )}
             </form>
         </div>
     );

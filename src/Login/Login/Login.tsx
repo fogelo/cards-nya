@@ -9,8 +9,8 @@ import {ErrorSnackbar} from "./ErrorSnackbar";
 import SuperButton from "../../s-3-components/c2-SuperButton/SuperButton";
 
 const Login = React.memo(() => {
-    const [email, setEmail] = useState("cards@test.com");
-    const [password, setPassword] = useState("Qwertyuiop123");
+    const [email, setEmail] = useState("nya-admin@nya.nya");
+    const [password, setPassword] = useState("1qazxcvBG");
     const [rememberMe, setRememberMe] = useState(true);
 
     // const isInitialized = useSelector<IAppStore, boolean>((state) => state.app.isAppInitialized);

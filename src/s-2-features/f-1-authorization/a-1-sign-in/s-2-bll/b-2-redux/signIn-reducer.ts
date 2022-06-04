@@ -8,6 +8,7 @@ import {
 import {SignInAPI} from "../../s-3-dal/SignInAPI";
 import axios from "axios";
 import {setUserDataAC, SetUserDataType} from "../../../../f-3-profile/p-2-bll/b-2-redux/profile-reducer";
+import {RegisterAPI} from "../../../a-2-register/r-3-dal/RegisterAPI";
 
 
 const initStateIsLoggedIn = {
@@ -61,6 +62,9 @@ export const LogOutThunk = () => async (dispatch: Dispatch<LoginReducerAction>) 
         })
         .catch((error) => {
             const data = error?.response?.data;
+            if (data.error && data.in) {
+                dispatch(setIsLoggedInAC(false))
+            }
             if (axios.isAxiosError(error) && data) {
                 dispatch(setAppErrorAC(data.error || 'Some error occurred'));
             } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
@@ -70,6 +74,27 @@ export const LogOutThunk = () => async (dispatch: Dispatch<LoginReducerAction>) 
             dispatch(changeIsLoadingAC(false))
         })
 }
+
+export const RegisterThunk = (email: string, password: string) => async (dispatch: Dispatch<LoginReducerAction>) => {
+    dispatch(changeIsLoadingAC(true))
+    RegisterAPI.register(email, password)
+        .then((res) => {
+            if (res.data.addedUser) {
+                console.log("You are registered successfully")
+            }
+        })
+        .catch((error) => {
+                const data = error?.response?.data;
+                if (axios.isAxiosError(error) && data) {
+                    dispatch(setAppErrorAC(data.error || 'Some error occurred'));
+                } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
+                console.log({...error});
+            })
+        .finally(()=> {
+            dispatch(changeIsLoadingAC(false))
+        })
+}
+
 
 //TYPES
 export type SetIsLoggedInType = ReturnType<typeof setIsLoggedInAC>

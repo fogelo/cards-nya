@@ -1,8 +1,8 @@
 import {instance} from "../../../../base-url";
 
-export interface IRegisterData {
-
-}
+// export interface IRegisterData {
+//
+// }
 
 export const RegisterAPI = {
     register(email: string, password: string) {

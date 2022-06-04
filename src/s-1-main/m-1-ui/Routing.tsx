@@ -29,7 +29,7 @@ const Routing: React.FC = () => {
                 <Route path={"/"} element={<ProfilePage/>}/>
                 <Route path={SIGN_IN_PATH} element={<Login/>}/>
                 <Route path={REGISTER_PATH} element={<RegisterPage/>}/>
-                {/*<Route path={FORGOT_PATH} element={<ForgotPage/>}/>*/}
+                <Route path={FORGOT_PATH} element={<ForgotPage/>}/>
                 <Route path={PROFILE_PATH} element={<ProfilePage/>}/>
                 {/*<Route path={ERROR404_PATH} element={<Error404Page/>}/>*/}
                 {/*<Route path={RECOVER_PASSWORD_PATH} element={<RecoverPasswordPage/>}/>*/}

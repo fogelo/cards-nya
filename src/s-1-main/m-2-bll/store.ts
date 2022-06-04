@@ -1,6 +1,5 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunkMiddleware, {ThunkDispatch} from "redux-thunk"
-import {registerReducer} from "../../s-2-features/f-1-authorization/a-2-register/r-2-bll/b-2-redux/registerReducer";
 import {forgotReducer} from "../../s-2-features/f-1-authorization/a-3-forgot/f-2-bll/b-2-redux/forgotReducer";
 import {error404Reducer} from "../../s-2-features/f-4-error404/p-2-bll/b-2-redux/error404Reducer";
 import {recoverPasswordReducer} from "../../s-2-features/f-5-recover-password/p-2-bll/b-2-redux/recoverPasswordReducer";
@@ -12,7 +11,6 @@ import {signInReducer} from "../../s-2-features/f-1-authorization/a-1-sign-in/s-
 
 const reducers = combineReducers({
     login: signInReducer,
-    register: registerReducer,
     forgot: forgotReducer,
     profile: profileReducer,
     error404: error404Reducer,
