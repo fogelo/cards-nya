@@ -10,6 +10,7 @@ import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
 import SuperInputText from "../../../../s-3-components/c1-SuperInputText/SuperInputText";
 import s from './LogIn.module.css'
 import SuperCheckbox from "../../../../s-3-components/c3-SuperCheckbox/SuperCheckbox";
+import companyLogo from '../../../../assets/images/snorlaxpokemon.png'
 
 const Login = React.memo(() => {
     const [email, setEmail] = useState("qwdqwd@wwerer.ru");
@@ -33,6 +34,7 @@ const Login = React.memo(() => {
             <Navigate to={PROFILE_PATH}/>
             :
             <div className={s.authContainer}>
+                <img src={companyLogo}/>
                 <h3>Sign In</h3>
                 <>
                     <div>

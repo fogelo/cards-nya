@@ -6,6 +6,7 @@ import {ErrorSnackbar} from "../../../../s-3-components/ErrorSnackBar/ErrorSnack
 import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
 import SuperInputText from "../../../../s-3-components/c1-SuperInputText/SuperInputText";
 import s from './Register.module.css'
+import companyLogo from "../../../../assets/images/snorlaxpokemon.png";
 
 interface IRegisterProps {
 
@@ -31,6 +32,7 @@ const Register: React.FC<IRegisterProps> = () => {
     return (
         <div>
             <form name={"register"} className={s.authContainer}>
+                <img src={companyLogo}/>
                 <h3>Registration</h3>
                 <SuperInputText
                         className={s.input}

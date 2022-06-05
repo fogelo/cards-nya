@@ -13,6 +13,11 @@
   margin-top: 10px;
   padding-bottom: 20px;
 }
+.authContainer img {
+  max-width: 150px;
+  height: 150px;
+}
+
 
 .input {
   float: right;
