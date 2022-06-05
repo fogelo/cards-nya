@@ -92,7 +92,7 @@ const Profile: React.FC<IProfileProps> = () => {
                 </div>
                 <span className={s.headerLogoButton}>
                     <SuperButton onClick={ChangeProfileEditModeHandler}>
-                    Back to profile
+                    Cancel
                 </SuperButton>
                 <SuperButton
                     onClick={SendNewUserDataHandler}

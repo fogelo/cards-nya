@@ -1,14 +1,17 @@
 import {Dispatch} from "redux";
 import {
-    AppAction,
     ChangeIsLoading,
-    changeIsLoadingAC, initializeAppTC,
+    changeIsLoadingAC,
     setAppErrorAC,
-    SetAppErrorActionType, setIsAuthAC, SetIsAuthActionType
+    SetAppErrorActionType
 } from "../../../../../s-1-main/m-2-bll/app-reducer";
 import {SignInAPI} from "../../s-3-dal/SignInAPI";
 import axios from "axios";
-import {setUserDataAC, SetUserDataType} from "../../../../f-3-profile/p-2-bll/b-2-redux/profile-reducer";
+import {
+    setUserDataAC,
+    SetUserDataType,
+    switchProfileEditModeAC, SwitchProfileEditModeType
+} from "../../../../f-3-profile/p-2-bll/b-2-redux/profile-reducer";
 import {RegisterAPI} from "../../../a-2-register/r-3-dal/RegisterAPI";
 
 
@@ -59,6 +62,7 @@ export const LogOutThunk = () => async (dispatch: Dispatch<LoginReducerAction>) 
             if (res.data.info) {
                 dispatch(setIsLoggedInAC(false))
                 dispatch(setAppErrorAC(null))
+
             }
         })
         .catch((error) => {
@@ -73,6 +77,8 @@ export const LogOutThunk = () => async (dispatch: Dispatch<LoginReducerAction>) 
         })
         .finally(()=> {
             dispatch(changeIsLoadingAC(false))
+            // отключает режим редактирования профайла
+            dispatch(switchProfileEditModeAC(false))
         })
 }
 
@@ -108,3 +114,4 @@ export type LoginReducerAction =
     | ChangeIsLoading
     | SetAppErrorActionType
     | SetUserDataType
+| SwitchProfileEditModeType

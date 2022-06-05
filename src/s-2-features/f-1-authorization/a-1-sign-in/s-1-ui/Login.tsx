@@ -17,7 +17,9 @@ const Login = React.memo(() => {
     const [password, setPassword] = useState("qwerty182");
     const [rememberMe, setRememberMe] = useState(true);
 
-    // const isInitialized = useSelector<IAppStore, boolean>((state) => state.app.isAppInitialized);
+    // Глазик для пароля
+    const [eye, setEye] = useState(true)
+
     const isLoggedIn = useSelector<IAppStore, boolean>((state) => state.login.isLoggedIn);
     const isLoading = useSelector<IAppStore, boolean>((state) => state.app.isLoading);
 
@@ -54,8 +56,8 @@ const Login = React.memo(() => {
                                 <SuperInputText
                                     className={s.input}
                                     value={password}
-                                    type="password"
-                                    name="password"
+                                    type= {!eye ? 'password' : 'text'}
+                                    name='password'
                                     onChange={(e) => setPassword(e.currentTarget.value)}
                                 />
                             </label>
@@ -66,6 +68,15 @@ const Login = React.memo(() => {
                                 <ErrorSnackbar/>
                             </span>
                         )}
+                        <div>
+                            <SuperCheckbox
+                                type="checkbox"
+                                name="passEye"
+                                onChange={(e) => setEye(e
+                                    .currentTarget.checked)}
+                            > Показать пароль
+                            </SuperCheckbox>
+                        </div>
                         <div>
                             <SuperCheckbox
                                 type="checkbox"

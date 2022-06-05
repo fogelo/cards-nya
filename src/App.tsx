@@ -14,7 +14,7 @@ const App: React.FC = () => {
     // хук эффекта сюда
     useEffect(() => {
         dispatch(initializeAppTC(true))
-    }, [])
+    }, [dispatch])
 
     if (!isAppInitialized) {
         return <div>
