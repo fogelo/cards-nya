@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {useSelector} from "react-redux";
-import './App.css';
 import {IAppStore, useAppDispatch} from "./s-1-main/m-2-bll/store";
 import Main from "./s-1-main/m-1-ui/Main";
 import {initializeAppTC} from "./s-1-main/m-2-bll/app-reducer";
@@ -15,7 +14,7 @@ const App: React.FC = () => {
     // хук эффекта сюда
     useEffect(() => {
         dispatch(initializeAppTC(true))
-    }, [dispatch])
+    }, [])
 
     if (!isAppInitialized) {
         return <div>

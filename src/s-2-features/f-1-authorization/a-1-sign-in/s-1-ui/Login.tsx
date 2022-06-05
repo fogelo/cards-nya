@@ -8,6 +8,8 @@ import {LoginThunk} from "../s-2-bll/b-2-redux/signIn-reducer";
 import {ErrorSnackbar} from "../../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
 import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
 import SuperInputText from "../../../../s-3-components/c1-SuperInputText/SuperInputText";
+import s from './LogIn.module.css'
+import SuperCheckbox from "../../../../s-3-components/c3-SuperCheckbox/SuperCheckbox";
 
 const Login = React.memo(() => {
     const [email, setEmail] = useState("qwdqwd@wwerer.ru");
@@ -30,13 +32,14 @@ const Login = React.memo(() => {
             ?
             <Navigate to={PROFILE_PATH}/>
             :
-            <div>
+            <div className={s.authContainer}>
                 <h3>Sign In</h3>
-                <form>
+                <>
                     <div>
                         <div>
                             <label> Email <br/>
                                 <SuperInputText
+                                    className={s.input}
                                     value={email}
                                     type="email"
                                     name="email"
@@ -47,6 +50,7 @@ const Login = React.memo(() => {
                         <div>
                             <label>Password<br/>
                                 <SuperInputText
+                                    className={s.input}
                                     value={password}
                                     type="password"
                                     name="password"
@@ -61,16 +65,13 @@ const Login = React.memo(() => {
                             </span>
                         )}
                         <div>
-                            <div>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        name="rememberMe"
-                                        onChange={(e) => setRememberMe(e.currentTarget.checked)}
-                                    />
-                                    Remember me
-                                </label>
-                            </div>
+                            <SuperCheckbox
+                                type="checkbox"
+                                name="rememberMe"
+                                onChange={(e) => setRememberMe(e
+                                    .currentTarget.checked)}
+                            > Remember Me
+                            </SuperCheckbox>
                         </div>
                     </div>
                     <div>
@@ -86,7 +87,7 @@ const Login = React.memo(() => {
                             Login
                         </SuperButton>
                     </div>
-                </form>
+                </>
                 <p>Don't have an account?</p>
                 <div>
                     <NavLink to={REGISTER_PATH}>

@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, {MouseEvent, useState} from "react";
 import {useSelector} from "react-redux";
 import {IAppStore, useAppDispatch} from "../../../../s-1-main/m-2-bll/store";
 import {RegisterThunk} from "../../a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
 import {ErrorSnackbar} from "../../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
 import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
 import SuperInputText from "../../../../s-3-components/c1-SuperInputText/SuperInputText";
-
+import s from './Register.module.css'
 
 interface IRegisterProps {
 
@@ -20,7 +20,8 @@ const Register: React.FC<IRegisterProps> = () => {
     const error = useSelector<IAppStore, string | null>(state => state.app.appError)
 
 
-    const buttonOnClickHandler = () => {
+    const buttonOnClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
         dispatch(RegisterThunk(email, password))
     }
 
@@ -29,17 +30,18 @@ const Register: React.FC<IRegisterProps> = () => {
 
     return (
         <div>
-            <div>
+            <form name={"register"} className={s.authContainer}>
                 <h3>Registration</h3>
-            </div>
-            <form name={"register"}>
-                <SuperInputText type="text"
+                <SuperInputText
+                        className={s.input}
+                        type="text"
                        name={"email"}
                        placeholder={"enter your email"}
                        value={email}
                        onChange={(e) => setEmail(e.currentTarget.value)}/>
                 <div>
-                    <SuperInputText type="text"
+                    <SuperInputText className={s.input}
+                                    type="text"
                                     name={"password"}
                                     placeholder={"enter your password"}
                                     value={password}
@@ -47,7 +49,7 @@ const Register: React.FC<IRegisterProps> = () => {
                 </div>
                 <div>
                     <SuperButton type={"submit"}
-                                 onClick={buttonOnClickHandler}
+                                 onClick={(e)=>buttonOnClickHandler(e)}
                                  disabled={isAppLoading}
                     >
                         sign up

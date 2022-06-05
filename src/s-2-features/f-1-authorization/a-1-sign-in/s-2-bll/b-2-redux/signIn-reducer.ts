@@ -78,6 +78,7 @@ export const LogOutThunk = () => async (dispatch: Dispatch<LoginReducerAction>) 
 
 export const RegisterThunk = (email: string, password: string) => async (dispatch: Dispatch<LoginReducerAction>) => {
     dispatch(changeIsLoadingAC(true))
+    debugger
     RegisterAPI.register(email, password)
         .then((res) => {
             if (res.data.addedUser) {
