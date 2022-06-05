@@ -82,7 +82,6 @@ export const RegisterThunk = (email: string, password: string) => async (dispatc
         .then((res) => {
             if (res.data.addedUser) {
                 console.log("You are registered successfully")
-
             }
         })
         .catch((error) => {

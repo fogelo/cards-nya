@@ -3,6 +3,8 @@ import {useSelector} from "react-redux";
 import {IAppStore, useAppDispatch} from "../../../../s-1-main/m-2-bll/store";
 import {RegisterThunk} from "../../a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
 import {ErrorSnackbar} from "../../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
+import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
+import SuperInputText from "../../../../s-3-components/c1-SuperInputText/SuperInputText";
 
 
 interface IRegisterProps {
@@ -27,22 +29,31 @@ const Register: React.FC<IRegisterProps> = () => {
 
     return (
         <div>
+            <div>
+                <h3>Registration</h3>
+            </div>
             <form name={"register"}>
-                <input type="text"
+                <SuperInputText type="text"
                        name={"email"}
                        placeholder={"enter your email"}
                        value={email}
                        onChange={(e) => setEmail(e.currentTarget.value)}/>
-                <input type="text"
-                       name={"password"}
-                       placeholder={"enter your password"}
-                       value={password}
-                       onChange={(e) => setPassword(e.currentTarget.value)}/>
-                <button type={"submit"}
-                        onClick={buttonOnClickHandler}
-                >
-                    sign up
-                </button>
+                <div>
+                    <SuperInputText type="text"
+                                    name={"password"}
+                                    placeholder={"enter your password"}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.currentTarget.value)}/>
+                </div>
+                <div>
+                    <SuperButton type={"submit"}
+                                 onClick={buttonOnClickHandler}
+                                 disabled={isAppLoading}
+                    >
+                        sign up
+
+                    </SuperButton>
+                </div>
                 {(error) && (
                     <span>
                                 <ErrorSnackbar/>
