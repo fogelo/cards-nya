@@ -35,7 +35,7 @@ const Login = React.memo(() => {
             :
             <div className={s.authContainer}>
                 <img src={companyLogo}/>
-                <h3>Sign In</h3>
+                <h3>Login</h3>
                 <>
                     <div>
                         <div>
