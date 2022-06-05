@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useCallback, useState} from 'react';
 import {Navigate} from "react-router-dom";
 import {SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
 import {useSelector} from "react-redux";
@@ -34,22 +34,31 @@ const Profile: React.FC<IProfileProps> = () => {
     // ХУКИ
     const [NewAvatar, setNewAvatar] = useState(!userData.avatar ? defaultAvatar : userData.avatar)
     const [NewUserName, setNewUserName] = useState(!userData.name ? "User" : userData.name)
+    const [isInputChanged,setIsInputChanged] = useState<boolean>(false)
 
 
     // КОЛБЭКИ
     const onChangeNameInput = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.currentTarget.value !== userData.name) {setIsInputChanged(true)}
         setNewUserName(e.currentTarget.value)
     }
     const onChangeAvaInput = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.currentTarget.value !== userData.avatar) {setIsInputChanged(true)}
         setNewAvatar(e.currentTarget.value)
     }
 
-    const SendNewUserDataHandler = () => {
-        dispatch(UpdateUserDataThunk(NewUserName, NewAvatar))
+    // const SendNewUserDataHandler = () => {
+    //     dispatch(UpdateUserDataThunk(NewUserName, NewAvatar))
+    // }
 
-    }
+    const SendNewUserDataHandler = useCallback(() => {
+        dispatch(UpdateUserDataThunk(NewUserName, NewAvatar))
+    }, [dispatch, NewUserName, NewAvatar])
 
     const ChangeProfileEditModeHandler = () => {
+        setIsInputChanged(false)
+        setNewUserName(userData.name);
+        setNewAvatar((userData.avatar) as string) ;
         dispatch(switchProfileEditModeAC(!ProfileEditMode))
     }
 
@@ -59,66 +68,52 @@ const Profile: React.FC<IProfileProps> = () => {
 
     if (ProfileEditMode) {
         return (
-            <div>
+            <div className={s.profileContainer}>
+                <h2>Personal information</h2>
+                <img src={userData.avatar}
+                     alt={'avatar'}/>
                 <div>
-                    Profile EDIT MODE
+                    <b>Front-End Developer</b>
+                    <br/>
                 </div>
-                <header className={s.header}>
-                    <h2>Personal information</h2>
-                    <img src={userData.avatar}
-                         alt={'avatar'}/>
-                    <div>
-                        <b>Front-End Developer</b>
-                    </div>
-                    <div>
-                        <span>Change user name: </span>
-                        <SuperInputText
-                            value={NewUserName}
-                            onChange={onChangeNameInput}
-                        />
-                    </div>
-                    <div>
-                        <span>Change avatar URL: </span>
-                        <SuperInputText
-                            value={NewAvatar}
-                            onChange={onChangeAvaInput}
-                        />
-                    </div>
-
-                </header>
-
-                <SuperButton onClick={ChangeProfileEditModeHandler}>
+                <div className={s.input}>
+                    <div>Change user name:</div>
+                    <SuperInputText
+                        className={s.input}
+                        value={NewUserName}
+                        onChange={onChangeNameInput}
+                    />
+                    <div>Change avatar URL:</div>
+                    <SuperInputText
+                        className={s.input}
+                        value={NewAvatar}
+                        onChange={onChangeAvaInput}
+                    />
+                </div>
+                <span className={s.headerLogoButton}>
+                    <SuperButton onClick={ChangeProfileEditModeHandler}>
                     Back to profile
                 </SuperButton>
                 <SuperButton
                     onClick={SendNewUserDataHandler}
-                    disabled={isProfileLoading}
+                    disabled={!isInputChanged ? true : isProfileLoading}
                 >
                     Save
                 </SuperButton>
-
+                </span>
             </div>
         )
     }
 
     return (
-        <div>
+        <div className={s.profileContainer}>
+            <h2>Personal information</h2>
+            <img src={userData.avatar} alt={"avatar"}/>
             <div>
-                Profile INFO
+                <b>Front-End Developer</b>
             </div>
-
-            <header className={s.header}>
-                <h2>Personal information</h2>
-                <img src={userData.avatar} alt={"avatar"}/>
-                <div>
-                    <b>Front-End Developer</b>
-                </div>
-            </header>
-
-            <div className={s.header}>
+            <div>
                 <h3>Name: {userData.name}</h3>
-            </div>
-            <div className={s.header}>
                 <h3>e-mail: {userData.email}</h3>
             </div>
 

@@ -11,8 +11,14 @@
   border: 1px solid green;
   border-radius: 20px;
   margin-top: 10px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 }
+
+.authContainer img {
+  max-width: 150px;
+  height: 150px;
+}
+
 
 .input {
   float: right;

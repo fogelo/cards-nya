@@ -1,10 +1,48 @@
+.profileContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 300px;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
 
-.header img {
+    border: 1px solid green;
+    border-radius: 20px;
+    margin-top: 10px;
+    padding-bottom: 20px;
+}
+
+.profileContainer img {
     max-width: 150px;
     height: 150px;
     border-radius: 100px;
 }
 
-.header h2, h1 {
-    margin: 0;
+
+.input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    margin: 5px 5px;
+    width: 240px;
+}
+
+.clear {
+    clear: both;
+}
+
+.checkboxContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.headerLogoButton {
+    display: flex;
+    /*border: 1px solid;*/
+    width: 240px;
+    justify-content: space-between;
+    margin:  5px 5px 5px 5px;
 }
