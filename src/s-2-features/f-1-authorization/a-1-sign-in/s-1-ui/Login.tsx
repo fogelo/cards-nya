@@ -7,6 +7,7 @@ import {IAppStore, useAppDispatch} from "../../../../s-1-main/m-2-bll/store";
 import {LoginThunk} from "../s-2-bll/b-2-redux/signIn-reducer";
 import {ErrorSnackbar} from "../../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
 import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
+import SuperInputText from "../../../../s-3-components/c1-SuperInputText/SuperInputText";
 
 const Login = React.memo(() => {
     const [email, setEmail] = useState("qwdqwd@wwerer.ru");
@@ -33,25 +34,26 @@ const Login = React.memo(() => {
                 <h3>Sign In</h3>
                 <form>
                     <div>
-
-                        <label> Email <br/>
-                            <input
-                                value={email}
-                                type="email"
-                                name="email"
-                                onChange={(e) => setEmail(e.currentTarget.value)}
-                            />
-                        </label>
-
-                        <label>Password
-                            <input
-
-                                value={password}
-                                type="password"
-                                name="password"
-                                onChange={(e) => setPassword(e.currentTarget.value)}
-                            />
-                        </label>
+                        <div>
+                            <label> Email <br/>
+                                <SuperInputText
+                                    value={email}
+                                    type="email"
+                                    name="email"
+                                    onChange={(e) => setEmail(e.currentTarget.value)}
+                                />
+                            </label>
+                        </div>
+                        <div>
+                            <label>Password<br/>
+                                <SuperInputText
+                                    value={password}
+                                    type="password"
+                                    name="password"
+                                    onChange={(e) => setPassword(e.currentTarget.value)}
+                                />
+                            </label>
+                        </div>
 
                         {(error) && (
                             <span>
