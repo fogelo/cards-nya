@@ -18,7 +18,7 @@ const Login = React.memo(() => {
     const [rememberMe, setRememberMe] = useState(true);
 
     // Глазик для пароля
-    const [eye, setEye] = useState(true)
+    const [eye, setEye] = useState(false)
 
     const isLoggedIn = useSelector<IAppStore, boolean>((state) => state.login.isLoggedIn);
     const isLoading = useSelector<IAppStore, boolean>((state) => state.app.isLoading);

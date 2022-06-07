@@ -14,7 +14,6 @@ export const ErrorSnackbar = React.memo(() => {
 
     const error = useSelector<IAppStore, string | null>((state) => state.app.appError);
 
-
     const dispatch = useDispatch();
 
     const handleClose = (

@@ -47,13 +47,11 @@ const Profile: React.FC<IProfileProps> = () => {
         setNewAvatar(e.currentTarget.value)
     }
 
-    // const SendNewUserDataHandler = () => {
-    //     dispatch(UpdateUserDataThunk(NewUserName, NewAvatar))
-    // }
-
     const SendNewUserDataHandler = useCallback(() => {
-        dispatch(UpdateUserDataThunk(NewUserName, NewAvatar))
-    }, [dispatch, NewUserName, NewAvatar])
+        if (isInputChanged) {
+            dispatch(UpdateUserDataThunk(NewUserName, NewAvatar))
+        }
+    }, [isInputChanged, dispatch, NewUserName, NewAvatar])
 
     const ChangeProfileEditModeHandler = () => {
         setIsInputChanged(false)

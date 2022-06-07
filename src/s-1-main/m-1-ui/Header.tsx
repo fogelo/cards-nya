@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
     SIGN_IN_PATH, REGISTER_PATH, FORGOT_PATH,
-    PROFILE_PATH, ERROR404_PATH, RECOVER_PASSWORD_PATH, NEW_PASSWORD_PATH, SUPER_COMPONENTS_PATH
+    PROFILE_PATH, ERROR404_PATH, RECOVER_PASSWORD_PATH, NEW_PASSWORD_PATH, SUPER_COMPONENTS_PATH, PACKS_PATH
 } from "./Routing";
 import {useSelector} from "react-redux";
 import {IAppStore, useAppDispatch} from "../m-2-bll/store";
@@ -49,7 +49,8 @@ const Header: React.FC = () => {
             <div className={s.nav}>
                 {/*{!isLoggedIn && <NavLink to={SIGN_IN_PATH}>sign-in</NavLink>}*/}
                 {/*<NavLink to={REGISTER_PATH}>Register</NavLink>*/}
-                <NavLink to={FORGOT_PATH}>forgot</NavLink>
+                {/*<NavLink to={FORGOT_PATH}>forgot</NavLink>*/}
+                <NavLink to={PACKS_PATH}>Packs</NavLink>
                 <NavLink to={PROFILE_PATH} onClick={isLoggedInHandler}>Profile</NavLink>
                 {/*<NavLink to={ERROR404_PATH}>error404</NavLink>*/}
                 {/*<NavLink to={RECOVER_PASSWORD_PATH}>recover password</NavLink>*/}

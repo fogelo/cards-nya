@@ -1,7 +1,6 @@
 import {profileAPI} from "../../s-2-features/f-3-profile/p-3-dal/profileAPI";
 import {Dispatch} from "redux";
 import {
-    LoginReducerAction,
     setIsLoggedInAC,
     SetIsLoggedInType
 } from "../../s-2-features/f-1-authorization/a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
