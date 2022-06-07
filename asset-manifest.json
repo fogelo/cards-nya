@@ -1,14 +1,15 @@
 {
   "files": {
-    "main.css": "/cards-nya/static/css/main.d8a02da2.css",
-    "main.js": "/cards-nya/static/js/main.b5670334.js",
+    "main.css": "/cards-nya/static/css/main.221be65d.css",
+    "main.js": "/cards-nya/static/js/main.debba1b0.js",
+    "static/media/snorlaxpokemon.png": "/cards-nya/static/media/snorlaxpokemon.21379c06eaf8d5d7eb84.png",
     "static/media/default_cat_ava.png": "/cards-nya/static/media/default_cat_ava.3948fa2f9f953f52d799.png",
     "index.html": "/cards-nya/index.html",
-    "main.d8a02da2.css.map": "/cards-nya/static/css/main.d8a02da2.css.map",
-    "main.b5670334.js.map": "/cards-nya/static/js/main.b5670334.js.map"
+    "main.221be65d.css.map": "/cards-nya/static/css/main.221be65d.css.map",
+    "main.debba1b0.js.map": "/cards-nya/static/js/main.debba1b0.js.map"
   },
   "entrypoints": [
-    "static/css/main.d8a02da2.css",
-    "static/js/main.b5670334.js"
+    "static/css/main.221be65d.css",
+    "static/js/main.debba1b0.js"
   ]
 }
