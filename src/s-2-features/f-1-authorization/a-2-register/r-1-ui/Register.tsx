@@ -7,6 +7,7 @@ import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
 import SuperInputText from "../../../../s-3-components/c1-SuperInputText/SuperInputText";
 import s from './Register.module.css'
 import companyLogo from "../../../../assets/images/snorlaxpokemon.png";
+import {setAppErrorAC} from "../../../../s-1-main/m-2-bll/app-reducer";
 
 interface IRegisterProps {
 
@@ -31,6 +32,11 @@ const Register: React.FC<IRegisterProps> = () => {
 
     return (
         <div>
+            {(error) && (
+                <span>
+                    <ErrorSnackbar />
+                </span>
+            )}
             <form name={"register"} className={s.authContainer}>
                 <img src={companyLogo}/>
                 <h3>Registration</h3>
@@ -55,14 +61,9 @@ const Register: React.FC<IRegisterProps> = () => {
                                  disabled={isAppLoading}
                     >
                         sign up
-
                     </SuperButton>
                 </div>
-                {(error) && (
-                    <span>
-                                <ErrorSnackbar/>
-                            </span>
-                )}
+
             </form>
         </div>
     );

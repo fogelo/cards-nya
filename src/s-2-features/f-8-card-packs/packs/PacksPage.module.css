@@ -1,0 +1,14 @@
+.mainContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border: red 1px solid;
+
+}
+
+.leftContainer {
+    display: flex;
+    flex-direction: column;
+    width: 220px;
+}
+

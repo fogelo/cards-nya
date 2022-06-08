@@ -10,7 +10,12 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
     <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
 ));
 
-export const ErrorSnackbar = React.memo(() => {
+type snackBarPropsType = {
+    severity?: 'error' | 'warning' | 'info' | 'success',
+    text?: string
+}
+
+export const ErrorSnackbar = React.memo((props: snackBarPropsType) => {
 
     const error = useSelector<IAppStore, string | null>((state) => state.app.appError);
 
@@ -28,12 +33,13 @@ export const ErrorSnackbar = React.memo(() => {
 
     return (
         <Snackbar
+            anchorOrigin={{horizontal : 'center', vertical: 'bottom'}}
             open={error !== null}
             autoHideDuration={5000}
             onClose={handleClose}
         >
-            <Alert onClose={handleClose} severity='error' sx={{width: '100%'}}>
-                {error}
+            <Alert onClose={handleClose} severity={props.severity ? props.severity : 'error'} sx={{width: '100%'}}>
+                {props.text ? props.text : error}
             </Alert>
         </Snackbar>
     );
