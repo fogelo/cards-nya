@@ -1,11 +1,20 @@
 import {instance} from "../../../base-url";
+import {AxiosResponse} from "axios";
 
 export const PacksAPI = {
     getPacksData (params: PackParamsType) {
         return instance.get<PacksType>('/cards/pack', {params})
+    },
+    postNewPack ( params: AddNewPackType) {
+        return instance.post<AddNewPackType, AxiosResponse<PacksType>>('/cards/pack', params)
     }
 
 };
+
+export type AddNewPackType = {
+    name: string,
+    private: boolean
+}
 
 export type PackParamsType = {
     packName?: string

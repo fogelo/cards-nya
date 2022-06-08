@@ -1,6 +1,7 @@
-import {CardPackType, PackParamsType, PacksAPI, PacksType} from "./PacksAPI";
+import {AddNewPackType, CardPackType, PackParamsType, PacksAPI, PacksType} from "./PacksAPI";
 import {Dispatch} from "redux";
 import {
+    AppAction,
     ChangeIsLoading,
     changeIsLoadingAC,
     setAppErrorAC,
@@ -8,7 +9,7 @@ import {
 } from "../../../s-1-main/m-2-bll/app-reducer";
 
 import axios from "axios";
-import {IAppStore} from "../../../s-1-main/m-2-bll/store";
+import {AppThunkType, IAppStore} from "../../../s-1-main/m-2-bll/store";
 
 
 
@@ -44,7 +45,6 @@ const getAllPacksAC = (cardPacks: CardPackType[]) => {return {type: 'packs/SET_P
 
 
 
-
 // THUNKa
 export const GetAllPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>, getState: () => IAppStore) => {
     dispatch(changeIsLoadingAC(true))
@@ -52,7 +52,6 @@ export const GetAllPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>
     PacksAPI.getPacksData(params)
         .then((res) => {
                 dispatch(getAllPacksAC(res.data.cardPacks))
-
                 console.log("You are get packs data successfully")
 
         })
@@ -68,16 +67,39 @@ export const GetAllPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>
         })
 }
 
+// export const AddNewPackThunk = (params: AddNewPackType): AppThunkType  => {
+//     dispatch(changeIsLoadingAC(true))
+//     PacksAPI.postNewPack(params)
+//         .then((res) => {
+//             dispatch(GetAllPacksThunk())
+//             console.log("You are get packs data successfully")
+//
+//         })
+//         .catch((error) => {
+//             const data = error?.response?.data;
+//             if (axios.isAxiosError(error) && data) {
+//                 dispatch(setAppErrorAC(data.error || 'Some error occurred'));
+//             } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
+//             console.log({...error});
+//         })
+//         .finally(()=> {
+//             dispatch(changeIsLoadingAC(false))
+//         })
+// }
+
 
 
 // TYPES
-export type setAllPacksDataACType = ReturnType<typeof getAllPacksAC>
+export type SetAllPacksDataACType = ReturnType<typeof getAllPacksAC>
+
 
 
 export type PacksInitStateType = typeof initState
 
 export type PacksAllActions =
-    setAllPacksDataACType
+    SetAllPacksDataACType
     | ChangeIsLoading
     | SetAppErrorActionType
+
+
 
