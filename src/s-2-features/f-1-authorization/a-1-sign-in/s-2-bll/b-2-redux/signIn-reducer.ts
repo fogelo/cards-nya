@@ -113,4 +113,4 @@ export type LoginReducerAction =
     | ChangeIsLoading
     | SetAppErrorActionType
     | SetUserDataType
-| SwitchProfileEditModeType
+    | SwitchProfileEditModeType

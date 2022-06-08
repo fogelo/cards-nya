@@ -89,7 +89,10 @@ const Profile: React.FC<IProfileProps> = () => {
                     />
                 </div>
                 <span className={s.headerLogoButton}>
-                    <SuperButton onClick={ChangeProfileEditModeHandler}>
+                    <SuperButton
+                        onClick={!isProfileLoading ? ChangeProfileEditModeHandler : ()=> {}}
+                        disabled={isProfileLoading}
+                    >
                     Cancel
                 </SuperButton>
                 <SuperButton
@@ -115,8 +118,11 @@ const Profile: React.FC<IProfileProps> = () => {
                 <h3>e-mail: {userData.email}</h3>
             </div>
 
-            <SuperButton onClick={ChangeProfileEditModeHandler}>
-                Edit profile
+            <SuperButton
+                onClick={!isProfileLoading ? ChangeProfileEditModeHandler : ()=>{}}
+                disabled={isProfileLoading}
+            >
+                Settings
             </SuperButton>
         </div>
     );

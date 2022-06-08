@@ -39,6 +39,11 @@ const Login = React.memo(() => {
             <Navigate to={PROFILE_PATH}/>
             :
             <div className={s.authContainer}>
+                {(error) && (
+                    <span>
+                        <ErrorSnackbar severity={'error'}/>
+                    </span>
+                )}
                 <img src={companyLogo}/>
                 <h3>Login</h3>
                 <>
@@ -66,11 +71,7 @@ const Login = React.memo(() => {
                             </label>
                         </div>
 
-                        {(error) && (
-                            <span>
-                                <ErrorSnackbar/>
-                            </span>
-                        )}
+
                         <div>
                             <SuperCheckbox
                                 type="checkbox"
