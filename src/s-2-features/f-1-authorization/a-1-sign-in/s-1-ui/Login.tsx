@@ -1,6 +1,6 @@
 import React, {useState, MouseEvent} from "react";
 import {useSelector} from "react-redux";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {Navigate} from "react-router-dom";
 import {FORGOT_PATH, PROFILE_PATH, REGISTER_PATH} from "../../../../s-1-main/m-1-ui/Routing";
 import {IAppStore, useAppDispatch} from "../../../../s-1-main/m-2-bll/store";
@@ -8,9 +8,10 @@ import {LoginThunk} from "../s-2-bll/b-2-redux/signIn-reducer";
 import {ErrorSnackbar} from "../../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
 import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
 import SuperInputText from "../../../../s-3-components/c1-SuperInputText/SuperInputText";
-import s from './LogIn.module.css'
+import s from "./LogIn.module.css"
 import SuperCheckbox from "../../../../s-3-components/c3-SuperCheckbox/SuperCheckbox";
-import companyLogo from '../../../../assets/images/snorlaxpokemon.png'
+import companyLogo from "../../../../assets/images/snorlaxpokemon.png"
+import {Button} from "@mui/material";
 
 const Login = React.memo(() => {
     const [email, setEmail] = useState("qwdqwd@wwerer.ru");
@@ -29,6 +30,8 @@ const Login = React.memo(() => {
         e.preventDefault();
         dispatch(LoginThunk(email, password, rememberMe));
     };
+
+    const navigate = useNavigate()
 
     return (
         isLoggedIn
@@ -56,8 +59,8 @@ const Login = React.memo(() => {
                                 <SuperInputText
                                     className={s.input}
                                     value={password}
-                                    type= {!eye ? 'password' : 'text'}
-                                    name='password'
+                                    type={!eye ? "password" : "text"}
+                                    name="password"
                                     onChange={(e) => setPassword(e.currentTarget.value)}
                                 />
                             </label>
@@ -88,9 +91,9 @@ const Login = React.memo(() => {
                         </div>
                     </div>
                     <div>
-                        <NavLink to={FORGOT_PATH}>
+                        <Button onClick={() => navigate(FORGOT_PATH)}>
                             Forgot password
-                        </NavLink>
+                        </Button>
                     </div>
                     <div>
                         <SuperButton
@@ -103,9 +106,9 @@ const Login = React.memo(() => {
                 </>
                 <p>Don't have an account?</p>
                 <div>
-                    <NavLink to={REGISTER_PATH}>
+                    <Button onClick={() => navigate(REGISTER_PATH)} color={"secondary"} variant={"outlined"}>
                         Sign Up
-                    </NavLink>
+                    </Button>
                 </div>
 
             </div>

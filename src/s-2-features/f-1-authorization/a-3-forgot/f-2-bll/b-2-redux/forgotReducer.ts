@@ -1,17 +1,25 @@
-import {forgotInitialState} from "./forgotInitialState";
-import {IForgotActions, FORGOT} from "./forgotActions";
+export const forgotInitialState: ForgotStateType = {
+    recoveryEmail: ""
+};
 
-export const forgotReducer = (state = forgotInitialState, action: IForgotActions) => {
+export type ForgotStateType = {
+    recoveryEmail: string
+}
+
+export const forgotReducer = (state = forgotInitialState, action: ForgotActionType) => {
     switch (action.type) {
-        case FORGOT: { // blank
-            return {
-                ...state,
-
-            }
-        }
-
-        default: {
+        case "forgot/set-recovery-email":
+            return {...state, recoveryEmail: action.recoveryEmail}
+        default:
             return state;
-        }
     }
 };
+
+
+export const setRecoveryEmail = (recoveryEmail: string) => ({
+    type: "forgot/set-recovery-email",
+    recoveryEmail
+} as const);
+
+//types
+export type ForgotActionType = ReturnType<typeof setRecoveryEmail>;

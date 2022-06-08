@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {
     SIGN_IN_PATH, REGISTER_PATH, FORGOT_PATH,
     PROFILE_PATH, ERROR404_PATH, RECOVER_PASSWORD_PATH, NEW_PASSWORD_PATH, SUPER_COMPONENTS_PATH, PACKS_PATH
@@ -38,14 +38,21 @@ const Header: React.FC = () => {
     return (
         <div className={s.header}>
             <div className={s.headerLogoButton}>
-                {isLoggedIn && <div> <SuperButton onClick={logOutHandler} disabled={isLoading} >LOGOUT</SuperButton> </div>}
+                {isLoggedIn &&
+                    <div><SuperButton onClick={logOutHandler} disabled={isLoading}>LOGOUT</SuperButton></div>}
                 {!isLoggedIn &&
                     <>
-                        <SuperButton onClick={()=>routeChange(SIGN_IN_PATH)} disabled={isLoading} >LOGIN</SuperButton>
-                        <SuperButton onClick={()=>routeChange(REGISTER_PATH)} disabled={isLoading} >REGISTER</SuperButton>
+                        <SuperButton onClick={() => routeChange(SIGN_IN_PATH)} disabled={isLoading}>LOGIN</SuperButton>
+                        <SuperButton onClick={() => routeChange(REGISTER_PATH)}
+                                     disabled={isLoading}>REGISTER</SuperButton>
                     </>}
             </div>
-
+            <SuperButton onClick={() => routeChange(RECOVER_PASSWORD_PATH)} disabled={isLoading}>
+                recover password
+            </SuperButton>
+            <SuperButton onClick={() => routeChange(NEW_PASSWORD_PATH)} disabled={isLoading}>
+                new password
+            </SuperButton>
             <div className={s.nav}>
                 {/*{!isLoggedIn && <NavLink to={SIGN_IN_PATH}>sign-in</NavLink>}*/}
                 {/*<NavLink to={REGISTER_PATH}>Register</NavLink>*/}

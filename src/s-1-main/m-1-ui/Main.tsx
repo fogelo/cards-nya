@@ -8,7 +8,6 @@ const Main: React.FC = () => {
     return (
         <div className={s.mainContainer}>
             <Header/>
-
             <Routing/>
         </div>
     );
