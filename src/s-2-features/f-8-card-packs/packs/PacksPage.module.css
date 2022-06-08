@@ -3,7 +3,6 @@
     flex-direction: row;
     width: 100%;
     border: red 1px solid;
-
 }
 
 .leftContainer {
@@ -35,7 +34,7 @@
 
 .findContainer {
     display: flex;
-    width: 80%;
+    width: 50%;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
@@ -84,10 +83,14 @@
     z-index: 100;
     background: white;
     border: #97d9ff 1px solid;
-
 }
 
 .td {
+    padding: 5px;
+    border: 1px solid;
+    font-size: 14px;
+}
+.tdButtons {
     padding: 5px;
     border: 1px solid;
     font-size: 14px;

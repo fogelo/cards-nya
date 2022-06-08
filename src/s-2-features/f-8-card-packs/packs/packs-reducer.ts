@@ -9,7 +9,8 @@ import {
 } from "../../../s-1-main/m-2-bll/app-reducer";
 
 import axios from "axios";
-import {AppThunkType, IAppStore} from "../../../s-1-main/m-2-bll/store";
+import {AppThunkType, IAppStore, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
+import {setIsLoggedInAC, SetIsLoggedInType} from "../../f-1-authorization/a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
 
 
 
@@ -57,6 +58,10 @@ export const GetAllPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>
         })
         .catch((error) => {
             const data = error?.response?.data;
+            // При запросе колод если сервер сказал что куки нет, то разлогиниваемся в редаксе.
+            if (error === "you are not authorized /ᐠ-ꞈ-ᐟ\\") {
+                dispatch(setIsLoggedInAC(false))
+            }
             if (axios.isAxiosError(error) && data) {
                 dispatch(setAppErrorAC(data.error || 'Some error occurred'));
             } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
@@ -67,25 +72,26 @@ export const GetAllPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>
         })
 }
 
-// export const AddNewPackThunk = (params: AddNewPackType): AppThunkType  => {
-//     dispatch(changeIsLoadingAC(true))
-//     PacksAPI.postNewPack(params)
-//         .then((res) => {
-//             dispatch(GetAllPacksThunk())
-//             console.log("You are get packs data successfully")
-//
-//         })
-//         .catch((error) => {
-//             const data = error?.response?.data;
-//             if (axios.isAxiosError(error) && data) {
-//                 dispatch(setAppErrorAC(data.error || 'Some error occurred'));
-//             } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
-//             console.log({...error});
-//         })
-//         .finally(()=> {
-//             dispatch(changeIsLoadingAC(false))
-//         })
-// }
+export const AddNewPackThunk = (params: AddNewPackType) => async (dispatch: AppThunkType) => {
+    dispatch(changeIsLoadingAC(true))
+    PacksAPI.postNewPack(params)
+        .then((res) => {
+            if (res.data.newCardsPack) {
+                console.log("You are added new pack successfully")
+            }
+            dispatch(GetAllPacksThunk())
+        })
+        .catch((error) => {
+            const data = error?.response?.data;
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppErrorAC(data.error || 'Some error occurred'));
+            } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
+            console.log({...error});
+        })
+        .finally(()=> {
+            dispatch(changeIsLoadingAC(false))
+        })
+}
 
 
 
@@ -100,6 +106,7 @@ export type PacksAllActions =
     SetAllPacksDataACType
     | ChangeIsLoading
     | SetAppErrorActionType
+    | SetIsLoggedInType
 
 
 

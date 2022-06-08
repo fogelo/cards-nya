@@ -18,7 +18,7 @@ const App: React.FC = () => {
 
     if (!isAppInitialized) {
         return <div>
-            Please wait. APP IS LOADING...
+            Loading... Please wait...
         </div>
     }
 

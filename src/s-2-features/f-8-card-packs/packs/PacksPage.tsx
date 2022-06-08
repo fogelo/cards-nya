@@ -7,7 +7,7 @@ import RangeSlider from "../../../s-3-components/c7-Slider/Slider";
 import {useSelector} from "react-redux";
 import {IAppStore, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
 import {CardPackType} from "./PacksAPI";
-import {GetAllPacksThunk} from "./packs-reducer";
+import {AddNewPackThunk, GetAllPacksThunk} from "./packs-reducer";
 
 import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import {Navigate} from "react-router-dom";
@@ -22,12 +22,13 @@ const PacksPage = () => {
     const isLoading = useSelector<IAppStore, boolean>((state) => state.app.isLoading);
     const isLoggedIn = useSelector<IAppStore, boolean>((state) => state.login.isLoggedIn);
 
+
     //хуки сюда:
     const [isPrivate, setPrivate] = useState<boolean>(false);
+    const [packName, setPackName] = useState<string>('Тестовая колода1');
 
-    useEffect(() => {
-        dispatch(GetAllPacksThunk());
-    }, [dispatch]);
+
+
 
     // коллбэки тут:
     const findFromInputHandler = () => {
@@ -35,9 +36,15 @@ const PacksPage = () => {
     }
 
     const addNewPackHandler = () => {
-
+        dispatch(AddNewPackThunk({name: 'asdasdasd', deckCover: '', private: isPrivate}))
+        setPackName('');
+        setPrivate(false);
     }
 
+
+    useEffect(() => {
+        dispatch(GetAllPacksThunk());
+    }, [dispatch]);
 
     // редирект на логин тут:
     if (!isLoggedIn) {
@@ -112,7 +119,7 @@ const PacksPage = () => {
                                         <td className={s.td}>{t.cardsCount}</td>
                                         <td className={s.td}>{t.updated}</td>
                                         <td className={s.td}>{t.user_name}</td>
-                                        <td className={s.td}>
+                                        <td className={s.tdButtons}>
                                             <button>Delete</button>
                                             <button>Edit</button>
                                             <button>Learn</button>
@@ -120,12 +127,11 @@ const PacksPage = () => {
                                     </tr>
                                 )}
                             </tbody>
+
                         </table>
                         {isLoading && <LinearIndeterminate/>}
-
                     </div>
                 </div>
-
                 <div className={s.paginationBox}>
                     pagination 1 2 3 4 5 6 7 8 9
                 </div>

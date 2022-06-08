@@ -2,17 +2,18 @@ import {instance} from "../../../base-url";
 import {AxiosResponse} from "axios";
 
 export const PacksAPI = {
-    getPacksData (params: PackParamsType) {
+    getPacksData(params: PackParamsType) {
         return instance.get<PacksType>('/cards/pack', {params})
     },
-    postNewPack ( params: AddNewPackType) {
-        return instance.post<AddNewPackType, AxiosResponse<PacksType>>('/cards/pack', params)
+    postNewPack(cardsPack: AddNewPackType) {
+        return instance.post<AddNewPackType, AxiosResponse<NewAddedPackType>>('/cards/pack', {cardsPack})
     }
 
 };
 
 export type AddNewPackType = {
     name: string,
+    deckCover?: string
     private: boolean
 }
 
@@ -45,4 +46,27 @@ export type CardPackType = {
     created: string
     updated: string
     deckCover: string
+}
+
+export type NewAddedPackType = {
+    newCardsPack: {
+        _id: string,
+        user_id: string,
+        user_name: string,
+        private: boolean,
+        name: string,
+        path: string,
+        grade: number,
+        shots: number,
+        deckCover: string,
+        cardsCount: number,
+        type: string,
+        rating: number,
+        created: string,
+        updated: string,
+        more_id: string,
+        __v: number
+    },
+    token: string,
+    tokenDeathTime: number
 }
