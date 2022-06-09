@@ -11,6 +11,7 @@ const App: React.FC = () => {
     const dispatch = useAppDispatch();
     const isAppInitialized = useSelector<IAppStore, boolean>(state => state.app.isAppInitialized)
 
+
     // хук эффекта сюда
     useEffect(() => {
         dispatch(initializeAppTC(true))
@@ -18,7 +19,7 @@ const App: React.FC = () => {
 
     if (!isAppInitialized) {
         return <div>
-            Please wait. APP IS LOADING...
+            Loading... Please wait...
         </div>
     }
 

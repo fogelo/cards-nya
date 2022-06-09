@@ -3,17 +3,21 @@
     flex-direction: row;
     width: 100%;
     border: red 1px solid;
-    overflow: hidden;
-    /*height: 100vh;*/
 }
 
 .leftContainer {
     display: flex;
     flex-direction: column;
+    align-content: center;
+    align-items: center;
     width: 220px;
     height: 85vh;
     padding: 10px 20px 10px 10px;
     border: greenyellow 1px solid;
+}
+
+.sideBox {
+
 }
 
 .rightContainer {
@@ -36,7 +40,7 @@
 
 .findContainer {
     display: flex;
-    width: 80%;
+    width: 50%;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
@@ -85,10 +89,14 @@
     z-index: 100;
     background: white;
     border: #97d9ff 1px solid;
-
 }
 
 .td {
+    padding: 5px;
+    border: 1px solid;
+    font-size: 14px;
+}
+.tdButtons {
     padding: 5px;
     border: 1px solid;
     font-size: 14px;

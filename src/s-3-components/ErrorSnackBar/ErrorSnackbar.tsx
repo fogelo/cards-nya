@@ -12,14 +12,17 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
 
 type snackBarPropsType = {
     severity?: 'error' | 'warning' | 'info' | 'success',
-    text?: string
+    text?: string,
+    width?: string,
+    vertical?: 'top' | 'bottom';
+    horizontal?: 'left' | 'center' | 'right';
 }
 
 export const ErrorSnackbar = React.memo((props: snackBarPropsType) => {
 
+    const dispatch = useDispatch();
     const error = useSelector<IAppStore, string | null>((state) => state.app.appError);
 
-    const dispatch = useDispatch();
 
     const handleClose = (
         event?: React.SyntheticEvent | Event,
@@ -33,12 +36,12 @@ export const ErrorSnackbar = React.memo((props: snackBarPropsType) => {
 
     return (
         <Snackbar
-            anchorOrigin={{horizontal : 'center', vertical: 'bottom'}}
+            anchorOrigin={{horizontal : props.horizontal ? props.horizontal : 'center', vertical: props.vertical ? props.vertical : 'bottom'}}
             open={error !== null}
             autoHideDuration={5000}
             onClose={handleClose}
         >
-            <Alert onClose={handleClose} severity={props.severity ? props.severity : 'error'} sx={{width: '100%'}}>
+            <Alert onClose={handleClose} severity={props.severity ? props.severity : 'error'} sx={{width: props.width ? props.width : '100%'}}>
                 {props.text ? props.text : error}
             </Alert>
         </Snackbar>

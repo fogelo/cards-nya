@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import CardsPage from "./cards/CardsPage";
 import s from './PacksPage.module.css'
 import SuperButton from "../../../s-3-components/c2-SuperButton/SuperButton";
@@ -6,12 +6,14 @@ import SuperButton from "../../../s-3-components/c2-SuperButton/SuperButton";
 import RangeSlider from "../../../s-3-components/c7-Slider/Slider";
 import {useSelector} from "react-redux";
 import {IAppStore, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
-import {CardPackType} from "./PacksAPI";
-import {GetAllPacksThunk} from "./packs-reducer";
+import {CardPackType, PackParamsType} from "./PacksAPI";
+import {AddNewPackThunk, DeletePackThunk, EditPackThunk, GetAllPacksThunk, ParamAC_SetSearch} from "./packs-reducer";
 
 import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import {Navigate} from "react-router-dom";
 import {SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
+import {ErrorSnackbar} from "../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
+import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
 import {RangeSliderContainer} from "./cards/RangeSlider/RangeSliderContainer";
 import {Button} from "@mui/material";
 // import {ChooseOwner} from "./cards/ChooseOwner/ChooseOwner";
@@ -21,73 +23,102 @@ const PacksPage = () => {
 
     //react-redux:
     const dispatch = useAppDispatch();
+    const appError = useSelector<IAppStore, string | null>(state => state.app.appError)
+
     const packsData = useSelector<IAppStore, CardPackType[]>(state => state.packs.cardPacks)
     const isLoading = useSelector<IAppStore, boolean>((state) => state.app.isLoading);
     const isLoggedIn = useSelector<IAppStore, boolean>((state) => state.login.isLoggedIn);
+    const userId = useSelector<IAppStore, string>((state) => state.packs.params.user_id);
+    const params = useSelector<IAppStore, PackParamsType>((state) => state.packs.params);
 
     //хуки сюда:
     const [isPrivate, setPrivate] = useState<boolean>(false);
+    const [packName, setPackName] = useState<string>('');
+    const [searchItem, setSearchItem] = useState<string>('');
+
+
+    // коллбэки тут:
+    const searchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchItem(e.currentTarget.value)
+    }
+
+    const sendSearchInputHandler = () => {
+        dispatch(ParamAC_SetSearch(searchItem))
+        setSearchItem('')
+    }
+
+
+    const newPackInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setPackName(e.currentTarget.value)
+    }
+    const sendNewPackHandler = () => {
+        dispatch(AddNewPackThunk({name: packName, deckCover: '', private: isPrivate}))
+        setPackName('');
+        setPrivate(false);
+    }
+
+    // коллбэки для кнопок внутри таблицы:
+    const deletePackHandler =(packId: string) => {
+        dispatch(DeletePackThunk(packId))
+    }
+    const editPackHandler =(packId: string) => {
+        dispatch(EditPackThunk({_id: packId, name:'Тест колода3'}))
+    }
+    const openPackHandler =(packId: string) => {
+
+    }
 
     useEffect(() => {
         dispatch(GetAllPacksThunk());
-    }, [dispatch]);
-
-    // коллбэки тут:
-    const findFromInputHandler = () => {
-
-    }
-
-    const addNewPackHandler = () => {
-
-    }
-
+    }, [dispatch, params]);
 
     // редирект на логин тут:
+
     if (!isLoggedIn) {
         return <Navigate to={SIGN_IN_PATH}/>
     }
 
     return (
         <div className={s.mainContainer}>
+            {appError && <ErrorSnackbar/>}
             <div className={s.leftContainer}>
                 <div className={s.sideBox}>
-                    Sider
+                    Sidebar
                 </div>
                 <div>
                     Profile
                 </div>
                 <div>
-                    <div>
-                    <Button>All</Button>
-                    <Button>MY</Button>
-                    </div>
-                    {/*<ChooseOwner/>*/}
+                    MY & ALL BUTTONS
                 </div>
                 <div>
                     <RangeSliderContainer/>
                 </div>
-
             </div>
             <div className={s.rightContainer}>
                 <div>
                     <div className={s.findContainer}>
 
                         <input
+                            value={searchItem}
+                            onChange={searchInputHandler}
                             placeholder={'Search'}
                             className={s.input}
                         />
                         <SuperButton
-                            onClick={findFromInputHandler}
+                            onClick={sendSearchInputHandler}
                         >
                             Search
                         </SuperButton>
 
                         <input
+                            value={packName}
+                            onChange={newPackInputHandler}
                             placeholder={'New pack'}
                             className={s.input}
                         />
                         <SuperButton
-                            onClick={addNewPackHandler}
+                            onClick={sendNewPackHandler}
                         >
                             Add pack
                         </SuperButton>
@@ -119,20 +150,19 @@ const PacksPage = () => {
                                         <td className={s.td}>{t.cardsCount}</td>
                                         <td className={s.td}>{t.updated}</td>
                                         <td className={s.td}>{t.user_name}</td>
-                                        <td className={s.td}>
-                                            <button>Delete</button>
-                                            <button>Edit</button>
-                                            <button>Learn</button>
+                                        <td className={s.tdButtons}>
+                                            <button onClick={()=>deletePackHandler(t._id)}>Delete</button>
+                                            <button onClick={()=>editPackHandler(t._id)}>Edit</button>
+                                            <button onClick={()=>openPackHandler(t._id)}>Learn</button>
                                         </td>
                                     </tr>
                                 )}
                             </tbody>
+
                         </table>
                         {isLoading && <LinearIndeterminate/>}
-
                     </div>
                 </div>
-
                 <div className={s.paginationBox}>
                     pagination 1 2 3 4 5 6 7 8 9
                 </div>

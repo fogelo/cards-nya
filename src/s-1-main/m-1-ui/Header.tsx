@@ -24,7 +24,6 @@ const Header: React.FC = () => {
         navigate(newPath)
     }
 
-
     const logOutHandler = () => {
         dispatch(LogOutThunk())
     }

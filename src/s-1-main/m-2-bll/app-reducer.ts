@@ -10,10 +10,13 @@ import {
     setUserDataAC,
     SetUserDataType
 } from "../../s-2-features/f-3-profile/p-2-bll/b-2-redux/profile-reducer";
-import {PacksAllActions} from "../../s-2-features/f-8-card-packs/packs/packs-reducer";
+import {PacksAllActions, ParamAC_SetSearchType} from "../../s-2-features/f-8-card-packs/packs/packs-reducer";
 
 const initStateApp = {
     appError: null as null | string,
+    appSuccess: null as null | string,
+    appInfo: null as null | string,
+
     isLoading: false,
     isAppInitialized: false
 }
@@ -90,3 +93,4 @@ export type AppAction =
     | SetIsLoggedInType
     | SetUserDataType
     | ProfileReducerAction
+    | ParamAC_SetSearchType
