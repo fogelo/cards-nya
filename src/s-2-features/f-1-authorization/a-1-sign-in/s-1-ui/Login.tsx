@@ -10,7 +10,7 @@ import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
 import SuperInputText from "../../../../s-3-components/c1-SuperInputText/SuperInputText";
 import s from "./LogIn.module.css"
 import SuperCheckbox from "../../../../s-3-components/c3-SuperCheckbox/SuperCheckbox";
-import companyLogo from "../../../../assets/images/snorlaxpokemon.png"
+import companyLogo from "../../../../assets/images/snorlax.png"
 import {Button} from "@mui/material";
 
 const Login = React.memo(() => {

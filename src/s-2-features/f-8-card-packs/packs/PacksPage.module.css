@@ -3,7 +3,8 @@
     flex-direction: row;
     width: 100%;
     border: red 1px solid;
-
+    overflow: hidden;
+    /*height: 100vh;*/
 }
 
 .leftContainer {
