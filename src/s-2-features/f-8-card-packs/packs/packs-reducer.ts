@@ -17,12 +17,12 @@ import {AppThunkType, IAppStore} from "../../../s-1-main/m-2-bll/store";
 const initState = {
     cardPacks: [] as CardPackType[],
     minCardsCount: 0,
-    maxCardsCount: 0,
+    maxCardsCount: 11,
     cardPacksTotalCount: 0,
     params: {
         packName: '',
         min: 0,
-        max: 0,
+        max: 11,
         sortPacks: '',
         page: 1,
         pageCount: 10,
@@ -40,7 +40,8 @@ export const packsReducer = (state: PacksInitStateType = initState, action: Pack
     }
 }
 
-
+ // const setWithMyIdAC = (withMyId: boolean) =>
+ //    ({type: 'PACKS/SET-WITH-MY-ID', withMyId} as const)
 
 export const setCardsPacksCountFromRangeAC = (numbers: Array<number>) =>  // min and max cardsPacks
     ({type: 'PACKS/RANGE-SET-CARDS-PACKS-COUNT', min: numbers[0], max: numbers[1]} as const)
@@ -105,6 +106,7 @@ export type PacksAllActions =
     SetAllPacksDataACType
     | ChangeIsLoading
     | SetAppErrorActionType
+
 
 
 

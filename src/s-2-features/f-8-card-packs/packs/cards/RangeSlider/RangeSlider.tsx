@@ -70,6 +70,7 @@ export const RangeSlider = React.memo((props: RangeSliderType) => {
                 onChangeCommitted={onChangeCommitted}
                 valueLabelDisplay="on"
                 min={props.minCardsCount}//цифры
+
                 max={props.maxCardsCount}
             />
 

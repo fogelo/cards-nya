@@ -13,6 +13,8 @@ import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/Pr
 import {Navigate} from "react-router-dom";
 import {SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
 import {RangeSliderContainer} from "./cards/RangeSlider/RangeSliderContainer";
+import {Button} from "@mui/material";
+// import {ChooseOwner} from "./cards/ChooseOwner/ChooseOwner";
 
 
 const PacksPage = () => {
@@ -55,7 +57,11 @@ const PacksPage = () => {
                     Profile
                 </div>
                 <div>
-                    MY & ALL BUTTONS
+                    <div>
+                    <Button>All</Button>
+                    <Button>MY</Button>
+                    </div>
+                    {/*<ChooseOwner/>*/}
                 </div>
                 <div>
                     <RangeSliderContainer/>
