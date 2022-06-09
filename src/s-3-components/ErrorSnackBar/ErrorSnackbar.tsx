@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, {AlertProps} from '@mui/material/Alert';
 import {useDispatch, useSelector} from 'react-redux';
@@ -23,12 +23,15 @@ export const ErrorSnackbar = React.memo((props: snackBarPropsType) => {
     const dispatch = useDispatch();
     const error = useSelector<IAppStore, string | null>((state) => state.app.appError);
 
+    const [openByProps, setOpenByProps] = useState<boolean>(props.text !== '')
+
 
     const handleClose = (
         event?: React.SyntheticEvent | Event,
         reason?: string,
     ) => {
         dispatch(setAppErrorAC(null))
+        setOpenByProps(false)
         if (reason === 'clickaway') {
             return;
         }
@@ -37,8 +40,8 @@ export const ErrorSnackbar = React.memo((props: snackBarPropsType) => {
     return (
         <Snackbar
             anchorOrigin={{horizontal : props.horizontal ? props.horizontal : 'center', vertical: props.vertical ? props.vertical : 'bottom'}}
-            open={error !== null}
-            autoHideDuration={5000}
+            open={ error !== null || openByProps}
+            autoHideDuration={4000}
             onClose={handleClose}
         >
             <Alert onClose={handleClose} severity={props.severity ? props.severity : 'error'} sx={{width: props.width ? props.width : '100%'}}>

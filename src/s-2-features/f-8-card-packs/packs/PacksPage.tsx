@@ -15,6 +15,7 @@ import {SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
 import {ErrorSnackbar} from "../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
 import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
 import SuperInputText from "../../../s-3-components/c1-SuperInputText/SuperInputText";
+import {dividerClasses} from "@mui/material";
 
 
 const PacksPage = () => {
@@ -160,8 +161,8 @@ const PacksPage = () => {
                             </thead>
 
                             <tbody className={s.trBody}>
-                            {!packsData
-                                ? ''
+                            {packsData.length === 0 || !packsData
+                                ? <ErrorSnackbar severity={"warning"} text={'Данные не найдены'}/>
                                 : packsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trBody}
@@ -194,7 +195,6 @@ const PacksPage = () => {
                     pagination 1 2 3 4 5 6 7 8 9
                 </div>
             </div>
-
         </div>
     );
 };
