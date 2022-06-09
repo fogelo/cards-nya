@@ -12,6 +12,7 @@ import s from "./LogIn.module.css"
 import SuperCheckbox from "../../../../s-3-components/c3-SuperCheckbox/SuperCheckbox";
 import companyLogo from "../../../../assets/images/snorlax.png"
 import {Button} from "@mui/material";
+import PikachuLoading from "../../../../s-3-components/PikachuLoading";
 
 const Login = React.memo(() => {
     const [email, setEmail] = useState("qwdqwd@wwerer.ru");
@@ -39,9 +40,10 @@ const Login = React.memo(() => {
             <Navigate to={PROFILE_PATH}/>
             :
             <div className={s.authContainer}>
+                {isLoading ? <PikachuLoading/> : ""}
                 {(error) && (
                     <span>
-                        <ErrorSnackbar severity={'error'}/>
+                        <ErrorSnackbar severity={"error"}/>
                     </span>
                 )}
                 <img src={companyLogo}/>

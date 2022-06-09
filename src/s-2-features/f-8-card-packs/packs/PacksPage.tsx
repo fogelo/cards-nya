@@ -25,6 +25,7 @@ import {RangeSliderContainer} from "./cards/RangeSlider/RangeSliderContainer";
 import {Button, InputAdornment, TextField} from "@mui/material";
 // import {ChooseOwner} from "./cards/ChooseOwner/ChooseOwner";
 import SearchIcon from "@mui/icons-material/Search";
+import PikachuLoading from "../../../s-3-components/PikachuLoading";
 
 
 const PacksPage = () => {

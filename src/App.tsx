@@ -1,8 +1,10 @@
-import React, {useEffect} from 'react';
+import React, {useEffect} from "react";
 import {useSelector} from "react-redux";
 import {IAppStore, useAppDispatch} from "./s-1-main/m-2-bll/store";
 import Main from "./s-1-main/m-1-ui/Main";
 import {initializeAppTC} from "./s-1-main/m-2-bll/app-reducer";
+import pikachu from "../src/assets/images/pikachu.gif"
+import PikachuLoading from "./s-3-components/PikachuLoading";
 
 // add context
 const App: React.FC = () => {
@@ -18,9 +20,7 @@ const App: React.FC = () => {
     }, [dispatch])
 
     if (!isAppInitialized) {
-        return <div>
-            Loading... Please wait...
-        </div>
+        return <PikachuLoading/>
     }
 
     return (
