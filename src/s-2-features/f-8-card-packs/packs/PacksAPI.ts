@@ -32,14 +32,14 @@ export type AddNewPackType = {
 }
 
 export type PackParamsType = {
-    packName: string
-    min: number
-    max: number
-    sortPacks: string
-    page: number
-    pageCount: number
+    packName?: string
+    min?: number
+    max?: number
+    sortPacks?: string
+    page?: number
+    pageCount?: number
 
-    user_id: string
+    user_id?: string
 }
 
 export type PacksType = {
