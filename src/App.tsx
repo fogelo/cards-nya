@@ -11,6 +11,7 @@ const App: React.FC = () => {
     const dispatch = useAppDispatch();
     const isAppInitialized = useSelector<IAppStore, boolean>(state => state.app.isAppInitialized)
 
+
     // хук эффекта сюда
     useEffect(() => {
         dispatch(initializeAppTC(true))

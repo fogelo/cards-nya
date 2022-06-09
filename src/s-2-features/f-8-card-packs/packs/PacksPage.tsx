@@ -6,29 +6,32 @@ import SuperButton from "../../../s-3-components/c2-SuperButton/SuperButton";
 import RangeSlider from "../../../s-3-components/c7-Slider/Slider";
 import {useSelector} from "react-redux";
 import {IAppStore, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
-import {CardPackType} from "./PacksAPI";
-import {AddNewPackThunk, GetAllPacksThunk} from "./packs-reducer";
+import {CardPackType, PackParamsType} from "./PacksAPI";
+import {AddNewPackThunk, DeletePackThunk, EditPackThunk, GetAllPacksThunk, ParamAC_SetSearch} from "./packs-reducer";
 
 import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import {Navigate} from "react-router-dom";
 import {SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
+import {ErrorSnackbar} from "../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
+import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
 
 
 const PacksPage = () => {
 
     //react-redux:
     const dispatch = useAppDispatch();
+    const appError = useSelector<IAppStore, string | null>(state => state.app.appError)
+
     const packsData = useSelector<IAppStore, CardPackType[]>(state => state.packs.cardPacks)
     const isLoading = useSelector<IAppStore, boolean>((state) => state.app.isLoading);
     const isLoggedIn = useSelector<IAppStore, boolean>((state) => state.login.isLoggedIn);
-
+    const userId = useSelector<IAppStore, string>((state) => state.packs.params.user_id);
+    const params = useSelector<IAppStore, PackParamsType>((state) => state.packs.params);
 
     //хуки сюда:
     const [isPrivate, setPrivate] = useState<boolean>(false);
     const [packName, setPackName] = useState<string>('');
     const [searchItem, setSearchItem] = useState<string>('');
-
-
 
 
     // коллбэки тут:
@@ -37,7 +40,7 @@ const PacksPage = () => {
     }
 
     const sendSearchInputHandler = () => {
-
+        dispatch(ParamAC_SetSearch(searchItem))
         setSearchItem('')
     }
 
@@ -51,21 +54,33 @@ const PacksPage = () => {
         setPrivate(false);
     }
 
+    // коллбэки для кнопок внутри таблицы:
+    const deletePackHandler =(packId: string) => {
+        dispatch(DeletePackThunk(packId))
+    }
+    const editPackHandler =(packId: string) => {
+        dispatch(EditPackThunk({_id: packId, name:'Тест колода3'}))
+    }
+    const openPackHandler =(packId: string) => {
+
+    }
 
     useEffect(() => {
         dispatch(GetAllPacksThunk());
-    }, [dispatch]);
+    }, [dispatch, params]);
 
     // редирект на логин тут:
+
     if (!isLoggedIn) {
         return <Navigate to={SIGN_IN_PATH}/>
     }
 
     return (
         <div className={s.mainContainer}>
+            {appError && <ErrorSnackbar/>}
             <div className={s.leftContainer}>
                 <div className={s.sideBox}>
-                    Sider
+                    Sidebar
                 </div>
                 <div>
                     Profile
@@ -76,7 +91,6 @@ const PacksPage = () => {
                 <div>
                     <RangeSlider/>
                 </div>
-
             </div>
             <div className={s.rightContainer}>
                 <div>
@@ -107,6 +121,8 @@ const PacksPage = () => {
                         </SuperButton>
 
                     </div>
+
+                    <FormDialog/>
                     <div className={s.tableBox}>
                         table
 
@@ -134,9 +150,9 @@ const PacksPage = () => {
                                         <td className={s.td}>{t.updated}</td>
                                         <td className={s.td}>{t.user_name}</td>
                                         <td className={s.tdButtons}>
-                                            <button>Delete</button>
-                                            <button>Edit</button>
-                                            <button>Learn</button>
+                                            <button onClick={()=>deletePackHandler(t._id)}>Delete</button>
+                                            <button onClick={()=>editPackHandler(t._id)}>Edit</button>
+                                            <button onClick={()=>openPackHandler(t._id)}>Learn</button>
                                         </td>
                                     </tr>
                                 )}
