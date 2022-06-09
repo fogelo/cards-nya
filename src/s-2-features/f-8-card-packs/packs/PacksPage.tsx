@@ -14,6 +14,7 @@ import {Navigate} from "react-router-dom";
 import {SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
 import {ErrorSnackbar} from "../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
 import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
+import SuperInputText from "../../../s-3-components/c1-SuperInputText/SuperInputText";
 
 
 const PacksPage = () => {
@@ -25,7 +26,7 @@ const PacksPage = () => {
     const packsData = useSelector<IAppStore, CardPackType[]>(state => state.packs.cardPacks)
     const isLoading = useSelector<IAppStore, boolean>((state) => state.app.isLoading);
     const isLoggedIn = useSelector<IAppStore, boolean>((state) => state.login.isLoggedIn);
-    const userId = useSelector<IAppStore, string>((state) => state.packs.params.user_id);
+    const loggedUserId = useSelector<IAppStore, string>((state) => state.profile.userData._id);
     const params = useSelector<IAppStore, PackParamsType>((state) => state.packs.params);
 
     //хуки сюда:
@@ -33,6 +34,9 @@ const PacksPage = () => {
     const [packName, setPackName] = useState<string>('');
     const [searchItem, setSearchItem] = useState<string>('');
 
+    const [editPackMode, setEditPackMode] = useState(false)
+    const [editedName, setEditedName] = useState<string>('');
+    const [packIdToEdit, setPackIdToEdit] = useState<string>('')
 
     // коллбэки тут:
     const searchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -58,9 +62,25 @@ const PacksPage = () => {
     const deletePackHandler =(packId: string) => {
         dispatch(DeletePackThunk(packId))
     }
-    const editPackHandler =(packId: string) => {
-        dispatch(EditPackThunk({_id: packId, name:'Тест колода3'}))
+
+    const sendEditPackHandler =(packId: string) => {
+        setEditedName('')
+        setEditPackMode(!editPackMode)
+        dispatch(EditPackThunk({_id: packId, name: editedName}))
     }
+
+    const changeEditModeHandler = (userIdFromMap: string) => {
+        if (!editPackMode) {
+            setEditedName('')
+        }
+        setEditPackMode(!editPackMode)
+        setPackIdToEdit(userIdFromMap)
+    }
+
+    const editPackNameInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setEditedName(e.currentTarget.value)
+    }
+
     const openPackHandler =(packId: string) => {
 
     }
@@ -143,13 +163,20 @@ const PacksPage = () => {
                                     <tr key={t._id}
                                         className={s.trBody}
                                     >
-                                        <td className={s.td}>{t.name}</td>
+                                        {t.user_id === loggedUserId && editPackMode && t._id === packIdToEdit
+                                            ? <input
+                                                placeholder={'New pack name'}
+                                                value={editedName}
+                                                onChange={editPackNameInputHandler}
+                                                autoFocus onBlur={()=>sendEditPackHandler(t._id)}
+                                            />
+                                            : <td className={s.td}>{t.name}</td>}
                                         <td className={s.td}>{t.cardsCount}</td>
                                         <td className={s.td}>{t.updated}</td>
                                         <td className={s.td}>{t.user_name}</td>
                                         <td className={s.tdButtons}>
-                                            <button onClick={()=>deletePackHandler(t._id)}>Delete</button>
-                                            <button onClick={()=>editPackHandler(t._id)}>Edit</button>
+                                            {t.user_id === loggedUserId && <button onClick={()=>deletePackHandler(t._id)}>Delete</button>}
+                                            {t.user_id === loggedUserId && <button onClick={()=>changeEditModeHandler(t._id)}>Edit</button>}
                                             <button onClick={()=>openPackHandler(t._id)}>Learn</button>
                                         </td>
                                     </tr>
