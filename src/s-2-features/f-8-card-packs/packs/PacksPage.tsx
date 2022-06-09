@@ -63,16 +63,19 @@ const PacksPage = () => {
         dispatch(DeletePackThunk(packId))
     }
 
-    const sendEditPackHandler =(packId: string) => {
+    const sendEditPackHandler =(packId: string, oldName: string) => {
+        if (oldName !== editedName) {
+            dispatch(EditPackThunk({_id: packId, name: editedName}))
+        }
         setEditedName('')
         setEditPackMode(!editPackMode)
-        dispatch(EditPackThunk({_id: packId, name: editedName}))
     }
 
-    const changeEditModeHandler = (userIdFromMap: string) => {
+    const changeEditModeHandler = (userIdFromMap: string, packNameFromMap: string) => {
         if (!editPackMode) {
             setEditedName('')
         }
+        setEditedName(packNameFromMap)
         setEditPackMode(!editPackMode)
         setPackIdToEdit(userIdFromMap)
     }
@@ -165,10 +168,10 @@ const PacksPage = () => {
                                     >
                                         {t.user_id === loggedUserId && editPackMode && t._id === packIdToEdit
                                             ? <input
-                                                placeholder={'New pack name'}
+                                                placeholder={t.name}
                                                 value={editedName}
                                                 onChange={editPackNameInputHandler}
-                                                autoFocus onBlur={()=>sendEditPackHandler(t._id)}
+                                                autoFocus onBlur={()=>sendEditPackHandler(t._id, t.name)}
                                             />
                                             : <td className={s.td}>{t.name}</td>}
                                         <td className={s.td}>{t.cardsCount}</td>
@@ -176,7 +179,7 @@ const PacksPage = () => {
                                         <td className={s.td}>{t.user_name}</td>
                                         <td className={s.tdButtons}>
                                             {t.user_id === loggedUserId && <button onClick={()=>deletePackHandler(t._id)}>Delete</button>}
-                                            {t.user_id === loggedUserId && <button onClick={()=>changeEditModeHandler(t._id)}>Edit</button>}
+                                            {t.user_id === loggedUserId && <button onClick={()=>changeEditModeHandler(t._id, t.name)}>Edit</button>}
                                             <button onClick={()=>openPackHandler(t._id)}>Learn</button>
                                         </td>
                                     </tr>
