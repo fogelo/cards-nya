@@ -72,13 +72,13 @@ const PacksPage = () => {
         setEditPackMode(!editPackMode)
     }
 
-    const changeEditModeHandler = (userIdFromMap: string, packNameFromMap: string) => {
-        if (!editPackMode) {
+    const changeEditModeHandler = (userIdFromMap: string, packNameFromMap: string ) => {
+        if (editPackMode) {
             setEditedName('')
         }
         setEditedName(packNameFromMap)
-        setEditPackMode(!editPackMode)
         setPackIdToEdit(userIdFromMap)
+        setEditPackMode(true)
     }
 
     const editPackNameInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -162,7 +162,7 @@ const PacksPage = () => {
 
                             <tbody className={s.trBody}>
                             {packsData.length === 0 || !packsData
-                                ? <ErrorSnackbar severity={"warning"} text={'Данные не найдены'}/>
+                                ? <div> {!isLoading && <ErrorSnackbar severity={"warning"} text={'Данные не найдены'}/>}</div>
                                 : packsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trBody}
@@ -172,7 +172,8 @@ const PacksPage = () => {
                                                 placeholder={t.name}
                                                 value={editedName}
                                                 onChange={editPackNameInputHandler}
-                                                autoFocus onBlur={()=>sendEditPackHandler(t._id, t.name)}
+                                                autoFocus
+                                                onBlur={()=>sendEditPackHandler(t._id, t.name)}
                                             />
                                             : <td className={s.td}>{t.name}</td>}
                                         <td className={s.td}>{t.cardsCount}</td>
@@ -180,7 +181,10 @@ const PacksPage = () => {
                                         <td className={s.td}>{t.user_name}</td>
                                         <td className={s.tdButtons}>
                                             {t.user_id === loggedUserId && <button onClick={()=>deletePackHandler(t._id)}>Delete</button>}
-                                            {t.user_id === loggedUserId && <button onClick={()=>changeEditModeHandler(t._id, t.name)}>Edit</button>}
+                                            {t.user_id === loggedUserId && <button
+                                                onClick={()=>changeEditModeHandler(t._id, t.name)}
+                                                disabled={editPackMode}
+                                            >Edit</button>}
                                             <button onClick={()=>openPackHandler(t._id)}>Learn</button>
                                         </td>
                                     </tr>

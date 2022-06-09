@@ -22,8 +22,9 @@ export const ErrorSnackbar = React.memo((props: snackBarPropsType) => {
 
     const dispatch = useDispatch();
     const error = useSelector<IAppStore, string | null>((state) => state.app.appError);
+    let isTextProps = props.text
 
-    const [openByProps, setOpenByProps] = useState<boolean>(props.text !== '')
+    const [openByProps, setOpenByProps] = useState<boolean>(isTextProps ? true : false)
 
 
     const handleClose = (
@@ -40,12 +41,15 @@ export const ErrorSnackbar = React.memo((props: snackBarPropsType) => {
     return (
         <Snackbar
             anchorOrigin={{horizontal : props.horizontal ? props.horizontal : 'center', vertical: props.vertical ? props.vertical : 'bottom'}}
-            open={ error !== null || openByProps}
+            open={ (error !== null || openByProps)}
             autoHideDuration={4000}
             onClose={handleClose}
         >
-            <Alert onClose={handleClose} severity={props.severity ? props.severity : 'error'} sx={{width: props.width ? props.width : '100%'}}>
-                {props.text ? props.text : error}
+            <Alert
+                onClose={handleClose}
+                severity={props.severity ? props.severity : 'error'}
+                sx={{width: props.width ? props.width : '100%'}}>
+                {isTextProps ? isTextProps : error}
             </Alert>
         </Snackbar>
     );
