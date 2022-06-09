@@ -55,6 +55,11 @@
     margin-left: 10px;
 }
 
+
+.input input:focus {
+    box-shadow: none;
+}
+
 .table {
     min-width: 90%;
     border-collapse: collapse;

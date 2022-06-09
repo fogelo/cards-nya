@@ -22,8 +22,9 @@ import {SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
 import {ErrorSnackbar} from "../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
 import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
 import {RangeSliderContainer} from "./cards/RangeSlider/RangeSliderContainer";
-import {Button} from "@mui/material";
+import {Button, InputAdornment, TextField} from "@mui/material";
 // import {ChooseOwner} from "./cards/ChooseOwner/ChooseOwner";
+import SearchIcon from "@mui/icons-material/Search";
 
 
 const PacksPage = () => {
@@ -116,11 +117,24 @@ const PacksPage = () => {
                 <div>
                     <div className={s.findContainer}>
 
-                        <input
-                            value={searchItem}
-                            onChange={searchInputHandler}
-                            placeholder={"Search"}
-                            className={s.input}
+                        {/*<input*/}
+                        {/*    value={searchItem}*/}
+                        {/*    onChange={searchInputHandler}*/}
+                        {/*    placeholder={"Search"}*/}
+                        {/*    className={s.input}*/}
+                        {/*/>*/}
+                        <TextField type="text"
+                                   value={searchItem}
+                                   placeholder={"Search"}
+                                   onChange={searchInputHandler}
+                                   variant={"outlined"}
+                                   size={"small"}
+                                   className={s.input}
+                                   fullWidth
+                                   sx={{minWidth: "60%"}}
+                                   InputProps={{
+                                       startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>
+                                   }}
                         />
                         <SuperButton
                             onClick={sendSearchInputHandler}
