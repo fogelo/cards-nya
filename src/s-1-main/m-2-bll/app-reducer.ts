@@ -14,6 +14,9 @@ import {PacksAllActions} from "../../s-2-features/f-8-card-packs/packs/packs-red
 
 const initStateApp = {
     appError: null as null | string,
+    appSuccess: null as null | string,
+    appInfo: null as null | string,
+
     isLoading: false,
     isAppInitialized: false
 }

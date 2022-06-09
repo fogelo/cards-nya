@@ -95,6 +95,7 @@ export const AddNewPackThunk = (params: AddNewPackType) => async (dispatch: AppT
 
 
 
+
 // TYPES
 export type SetAllPacksDataACType = ReturnType<typeof getAllPacksAC>
 

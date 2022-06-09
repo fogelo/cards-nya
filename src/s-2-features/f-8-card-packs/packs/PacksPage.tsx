@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import CardsPage from "./cards/CardsPage";
 import s from './PacksPage.module.css'
 import SuperButton from "../../../s-3-components/c2-SuperButton/SuperButton";
@@ -25,18 +25,28 @@ const PacksPage = () => {
 
     //хуки сюда:
     const [isPrivate, setPrivate] = useState<boolean>(false);
-    const [packName, setPackName] = useState<string>('Тестовая колода1');
+    const [packName, setPackName] = useState<string>('');
+    const [searchItem, setSearchItem] = useState<string>('');
 
 
 
 
     // коллбэки тут:
-    const findFromInputHandler = () => {
-
+    const searchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchItem(e.currentTarget.value)
     }
 
-    const addNewPackHandler = () => {
-        dispatch(AddNewPackThunk({name: 'asdasdasd', deckCover: '', private: isPrivate}))
+    const sendSearchInputHandler = () => {
+
+        setSearchItem('')
+    }
+
+
+    const newPackInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setPackName(e.currentTarget.value)
+    }
+    const sendNewPackHandler = () => {
+        dispatch(AddNewPackThunk({name: packName, deckCover: '', private: isPrivate}))
         setPackName('');
         setPrivate(false);
     }
@@ -73,21 +83,25 @@ const PacksPage = () => {
                     <div className={s.findContainer}>
 
                         <input
+                            value={searchItem}
+                            onChange={searchInputHandler}
                             placeholder={'Search'}
                             className={s.input}
                         />
                         <SuperButton
-                            onClick={findFromInputHandler}
+                            onClick={sendSearchInputHandler}
                         >
                             Search
                         </SuperButton>
 
                         <input
+                            value={packName}
+                            onChange={newPackInputHandler}
                             placeholder={'New pack'}
                             className={s.input}
                         />
                         <SuperButton
-                            onClick={addNewPackHandler}
+                            onClick={sendNewPackHandler}
                         >
                             Add pack
                         </SuperButton>
