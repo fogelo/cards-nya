@@ -40,6 +40,11 @@ export const packsReducer = (state: PacksInitStateType = initState, action: Pack
     }
 }
 
+
+
+export const setCardsPacksCountFromRangeAC = (numbers: Array<number>) =>  // min and max cardsPacks
+    ({type: 'PACKS/RANGE-SET-CARDS-PACKS-COUNT', min: numbers[0], max: numbers[1]} as const)
+
 // ACTION CREATOR
 const getAllPacksAC = (cardPacks: CardPackType[]) => {return {type: 'packs/SET_PACKS_DATA',cardPacks } as const}
 

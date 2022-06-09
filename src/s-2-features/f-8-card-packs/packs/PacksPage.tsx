@@ -12,6 +12,7 @@ import {GetAllPacksThunk} from "./packs-reducer";
 import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import {Navigate} from "react-router-dom";
 import {SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
+import {RangeSliderContainer} from "./cards/RangeSlider/RangeSliderContainer";
 
 
 const PacksPage = () => {
@@ -57,7 +58,7 @@ const PacksPage = () => {
                     MY & ALL BUTTONS
                 </div>
                 <div>
-                    <RangeSlider/>
+                    <RangeSliderContainer/>
                 </div>
 
             </div>

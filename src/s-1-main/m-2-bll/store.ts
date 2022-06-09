@@ -29,6 +29,6 @@ export default store
 export type IAppStore = ReturnType<typeof reducers>
 export type AppThunkType = ThunkDispatch<IAppStore, void, AppAction>
 export const useAppDispatch = () => useDispatch<AppThunkType>();
-
+export type RootStateType = ReturnType<typeof reducers>;
 // @ts-ignore
 window.store = store; // for dev
