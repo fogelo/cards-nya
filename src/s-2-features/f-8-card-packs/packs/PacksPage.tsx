@@ -121,8 +121,6 @@ const PacksPage = () => {
                         </SuperButton>
 
                     </div>
-
-                    <FormDialog/>
                     <div className={s.tableBox}>
                         table
 
