@@ -62,7 +62,7 @@ const Header: React.FC = () => {
                 {/*<NavLink to={ERROR404_PATH}>error404</NavLink>*/}
                 {/*<NavLink to={RECOVER_PASSWORD_PATH}>recover password</NavLink>*/}
                 {/*<NavLink to={NEW_PASSWORD_PATH}>new password</NavLink>*/}
-                <NavLink to={SUPER_COMPONENTS_PATH}>super components</NavLink>
+                {/*<NavLink to={SUPER_COMPONENTS_PATH}>super components</NavLink>*/}
             </div>
 
         </div>

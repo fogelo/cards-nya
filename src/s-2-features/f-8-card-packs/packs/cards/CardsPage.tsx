@@ -100,7 +100,7 @@ const CardsPage = () => {
     useEffect(() => {
         dispatch(GetCardsThunk());
     }, [
-        dispatch, isLoggedIn,
+        dispatch,
         cardsParams.cardsPack_id,
         cardsParams.sortCards,
         cardsParams.page,

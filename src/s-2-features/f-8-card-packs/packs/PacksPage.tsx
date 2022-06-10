@@ -22,6 +22,8 @@ import {Button, InputAdornment, TextField} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import PikachuLoading from "../../../s-3-components/PikachuLoading";
 import {setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
+import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
+import Pagination from "../../../s-3-components/c10-Pagination/Pagination";
 
 
 const PacksPage = () => {
@@ -59,7 +61,6 @@ const PacksPage = () => {
     const sendSearchInputHandler = () => {
         dispatch(ParamAC_SetSearch(searchItem))
         dispatch(getAllPacksAC([]))
-        setSearchItem('')
     }
 
 
@@ -203,7 +204,7 @@ const PacksPage = () => {
                             </thead>
 
                             <tbody className={s.trBody}>
-                            {packsData.length === 0 || !packsData
+                            {!(packsData.length > 0) || !packsData
                                 ? <div> {!isLoading && <ErrorSnackbar severity={"warning"} text={'Колоды не найдены'}/>}</div>
                                 : packsData.map((t) =>
                                     <tr key={t._id}
@@ -244,11 +245,11 @@ const PacksPage = () => {
                             </tbody>
 
                         </table>
-                        {isLoading && <PikachuLoading/>}
+                        {isLoading && <><PikachuLoading/><LinearIndeterminate/></>}
                     </div>
                 </div>
                 <div className={s.paginationBox}>
-                    pagination 1 2 3 4 5 6 7 8 9
+                    <Pagination/>
                 </div>
             </div>
         </div>

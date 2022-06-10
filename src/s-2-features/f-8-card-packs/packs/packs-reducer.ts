@@ -84,9 +84,9 @@ export const GetAllPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>
         .catch((error) => {
             const data = error?.response?.data;
             // При запросе колод если сервер сказал что куки нет, то разлогиниваемся в редаксе.
-            // if (error.error === 'you are not authorized /ᐠ-ꞈ-ᐟ\\') {
-            //     dispatch(setIsLoggedInAC(false))
-            // }
+            if (error.error === 'you are not authorized /ᐠ-ꞈ-ᐟ\\') {
+                dispatch(setIsLoggedInAC(false))
+            }
             if (axios.isAxiosError(error) && data) {
                 dispatch(setAppErrorAC(data.error || "Some error occurred"));
             } else (dispatch(setAppErrorAC(error.message + ". More details in the console")))
