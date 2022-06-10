@@ -109,9 +109,11 @@ const PacksPage = () => {
 
     const getMyPacks = () => {
         dispatch(GetMyPacksThunk())
+        dispatch(getAllPacksAC([]))
     }
     const getAllPacks = () => {
         dispatch(GetAllPacksThunk())
+        dispatch(getAllPacksAC([]))
     }
 
     useEffect(() => {
@@ -153,6 +155,7 @@ const PacksPage = () => {
                         {/*    className={s.input}*/}
                         {/*/>*/}
                         <TextField type="text"
+                                   disabled={isLoading}
                                    value={searchItem}
                                    placeholder={"Search"}
                                    onChange={searchInputHandler}
@@ -166,18 +169,21 @@ const PacksPage = () => {
                                    }}
                         />
                         <SuperButton
+                            disabled={isLoading}
                             onClick={sendSearchInputHandler}
                         >
                             Search
                         </SuperButton>
 
                         <input
+                            disabled={isLoading}
                             value={packName}
                             onChange={newPackInputHandler}
                             placeholder={'New pack'}
                             className={s.input}
                         />
                         <SuperButton
+                            disabled={isLoading}
                             onClick={sendNewPackHandler}
                         >
                             Add pack
