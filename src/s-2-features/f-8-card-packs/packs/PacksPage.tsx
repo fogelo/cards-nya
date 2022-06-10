@@ -16,7 +16,7 @@ import {ErrorSnackbar} from "../../../s-3-components/ErrorSnackBar/ErrorSnackbar
 import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
 import SuperInputText from "../../../s-3-components/c1-SuperInputText/SuperInputText";
 import {dividerClasses} from "@mui/material";
-import {setPackIdAC, setPackUserIdAC} from "./cards/cards-reducer";
+import {setPackIdAC, setPackNameAC, setPackUserIdAC, setPackUserNameAC} from "./cards/cards-reducer";
 
 
 const PacksPage = () => {
@@ -33,6 +33,7 @@ const PacksPage = () => {
     const isLoading = useSelector<IAppStore, boolean>((state) => state.app.isLoading);
     const isLoggedIn = useSelector<IAppStore, boolean>((state) => state.login.isLoggedIn);
     const loggedUserId = useSelector<IAppStore, string>((state) => state.profile.userData._id);
+    const loggedUserName = useSelector<IAppStore, string>((state) => state.profile.userData.name);
 
     const packsData = useSelector<IAppStore, CardPackType[]>(state => state.packs.cardPacks)
     const params = useSelector<IAppStore, PackParamsType>((state) => state.packs.params);
@@ -55,7 +56,6 @@ const PacksPage = () => {
         dispatch(ParamAC_SetSearch(searchItem))
         setSearchItem('')
     }
-
 
     const newPackInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setPackName(e.currentTarget.value)
@@ -92,17 +92,18 @@ const PacksPage = () => {
         setEditedName(e.currentTarget.value)
     }
 
-    const openPackHandler =(packId: string) => {
+    const openPackHandler =(packId: string, createdBy: string, packNameInMap: string) => {
         dispatch(setPackIdAC(packId))
+        dispatch(setPackUserNameAC(createdBy))
+        dispatch(setPackNameAC(packNameInMap))
         routeChange(CARDS_PATH)
     }
 
     useEffect(() => {
         dispatch(GetAllPacksThunk());
-    }, [dispatch, params]);
+    }, [dispatch, isLoggedIn, params]);
 
     // редирект на логин тут:
-
     if (!isLoggedIn) {
         return <Navigate to={SIGN_IN_PATH}/>
     }
@@ -112,10 +113,10 @@ const PacksPage = () => {
             {appError && <ErrorSnackbar/>}
             <div className={s.leftContainer}>
                 <div className={s.sideBox}>
-                    Sidebar
+                    Frontend developer
                 </div>
                 <div>
-                    Profile
+                    <h3>{loggedUserName}</h3>
                 </div>
                 <div>
                     MY & ALL BUTTONS
@@ -185,18 +186,22 @@ const PacksPage = () => {
                                         <td className={s.td}>{t.updated}</td>
                                         <td className={s.td}>{t.user_name}</td>
                                         <td className={s.tdButtons}>
+
                                             {t.user_id === loggedUserId && <button
                                                 onClick={()=>deletePackHandler(t._id)}
                                                 disabled={isLoading || editPackMode}
                                             >Delete</button>}
+
                                             {t.user_id === loggedUserId && <button
                                                 onClick={()=>changeEditModeHandler(t._id, t.name)}
                                                 disabled={isLoading || editPackMode}
                                             >Edit</button>}
+
                                             <button
-                                                onClick={()=>openPackHandler(t._id)}
+                                                onClick={()=>openPackHandler(t._id, t.user_name, t.name)}
                                                 disabled={isLoading || editPackMode}
                                             >Learn</button>
+
                                         </td>
                                     </tr>
                                 )}

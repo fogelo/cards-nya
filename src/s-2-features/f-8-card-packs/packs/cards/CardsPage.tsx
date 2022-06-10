@@ -4,7 +4,14 @@ import s from './CardsPage.module.css'
 import {useSelector} from "react-redux";
 
 import {CardsParamsType, CardType} from "./CardsAPI";
-import {AddNewCardThunk, GetCardsThunk} from "./cards-reducer";
+import {
+    AddNewCardThunk,
+    DeleteCardThunk, getAllCardsAC,
+    GetCardsThunk,
+    setPackIdAC,
+    setPackNameAC,
+    setPackUserNameAC
+} from "./cards-reducer";
 
 import {Navigate, useNavigate} from "react-router-dom";
 import {IAppStore, useAppDispatch} from "../../../../s-1-main/m-2-bll/store";
@@ -29,12 +36,17 @@ const CardsPage = () => {
     const appError = useSelector<IAppStore, string | null>(state => state.app.appError)
     const isLoading = useSelector<IAppStore, boolean>((state) => state.app.isLoading);
     const isLoggedIn = useSelector<IAppStore, boolean>((state) => state.login.isLoggedIn);
+    const loggedUserId = useSelector<IAppStore, string>((state) => state.profile.userData._id);
+
 
     const cardsData = useSelector<IAppStore, CardType[]>(state => state.cards.cards)
     const cardsParams = useSelector<IAppStore, CardsParamsType>((state) => state.cards.params);
+    const createdBy = useSelector<IAppStore, string>((state) => state.cards.createdBy);
+    const packNameInMap = useSelector<IAppStore, string>((state) => state.cards.packNameInMap);
 
     //хуки сюда:
     const [newCardValue, setNewCardValue] = useState<string>('');
+    const [editCardMode, setEditCardMode] = useState(false)
 
 
     // коллбэки тут:
@@ -45,19 +57,29 @@ const CardsPage = () => {
     const sendNewCardInputHandler = () => {
         dispatch(AddNewCardThunk({
             cardsPack_id: cardsParams.cardsPack_id,
-            question: '1223r34r34t',
-            answer: 'dddfswfwefwef',
+            question: newCardValue,
+            answer: 'Какой-то ответ...',
         }))
         setNewCardValue('')
     }
 
-    // коллбэки для кнопок внутри таблицы:
+    const backToPackPageHandler = () => {
+        routeChange(PACKS_PATH)
+        dispatch(setPackIdAC(''))
+        dispatch(setPackUserNameAC(''))
+        dispatch(setPackNameAC(''))
+        dispatch(getAllCardsAC([]))
+    }
 
+    // коллбэки для кнопок внутри таблицы:
+    const deleteCardHandler = (cardId: string) => {
+        dispatch(DeleteCardThunk(cardId))
+    }
 
     useEffect(() => {
         dispatch(GetCardsThunk());
     }, [
-        dispatch,
+        dispatch, isLoggedIn,
         cardsParams.cardsPack_id,
         cardsParams.sortCards,
         cardsParams.page,
@@ -71,9 +93,13 @@ const CardsPage = () => {
         return <Navigate to={SIGN_IN_PATH}/>
     }
 
-    // редирект на КОЛОДЫ если нет PACK_Id
-    if (!cardsParams.cardsPack_id) {
-        return <Navigate to={PACKS_PATH}/>
+    // редирект на КОЛОДЫ если нет cardPACK_Id
+    if (cardsParams.cardsPack_id === '' || !cardsParams.cardsPack_id ) {
+        return (
+            <div>
+                <Navigate to={PACKS_PATH}/>
+            </div>
+        )
     }
 
 
@@ -86,13 +112,13 @@ const CardsPage = () => {
                     <div className={s.findContainer}>
                         <SuperButton
                             className={s.button1}
-                            onClick={() => routeChange(PACKS_PATH)}
+                            onClick={backToPackPageHandler}
                         >BACK TO PACKS</SuperButton>
                         <div>
                             <input
                                 value={newCardValue}
                                 onChange={addCardInputHandler}
-                                placeholder={'Card name'}
+                                placeholder={'New card question'}
                                 className={s.input}
                             />
                             <SuperButton
@@ -101,8 +127,14 @@ const CardsPage = () => {
                                 Add card
                             </SuperButton>
                         </div>
-
                     </div>
+                    <div className={s.spanCreatedBy}>
+                        <span>
+                            <h2>{packNameInMap}</h2>
+                        </span>
+                        Pack created by&nbsp;{createdBy}
+                    </div>
+
                     <div className={s.tableBox}>
                         <table className={s.table}>
                             <thead className={s.thead}>
@@ -128,7 +160,12 @@ const CardsPage = () => {
                                         <td className={s.td}>{t.updated}</td>
                                         <td className={s.td}>{t.grade}</td>
                                         <td className={s.td}>
-                                            <button>Delete</button>
+
+                                            {t.user_id === loggedUserId && <button
+                                                onClick={()=>deleteCardHandler(t._id)}
+                                                disabled={isLoading || editCardMode}
+                                            >Delete</button>}
+
                                             <button>Edit</button>
                                             <button>Open</button>
                                         </td>

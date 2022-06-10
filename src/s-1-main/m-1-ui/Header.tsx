@@ -46,12 +46,12 @@ const Header: React.FC = () => {
                                      disabled={isLoading}>REGISTER</SuperButton>
                     </>}
             </div>
-            <SuperButton onClick={() => routeChange(RECOVER_PASSWORD_PATH)} disabled={isLoading}>
-                recover password
-            </SuperButton>
-            <SuperButton onClick={() => routeChange(NEW_PASSWORD_PATH)} disabled={isLoading}>
-                new password
-            </SuperButton>
+            {/*<SuperButton onClick={() => routeChange(RECOVER_PASSWORD_PATH)} disabled={isLoading}>*/}
+            {/*    recover password*/}
+            {/*</SuperButton>*/}
+            {/*<SuperButton onClick={() => routeChange(NEW_PASSWORD_PATH)} disabled={isLoading}>*/}
+            {/*    new password*/}
+            {/*</SuperButton>*/}
             <div className={s.nav}>
                 {/*{!isLoggedIn && <NavLink to={SIGN_IN_PATH}>sign-in</NavLink>}*/}
                 {/*<NavLink to={REGISTER_PATH}>Register</NavLink>*/}

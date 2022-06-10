@@ -20,6 +20,8 @@ import {
 
 
 const initState = {
+    createdBy: '',
+    packNameInMap: '',
     cards: [] as CardType[],
     cardsTotalCount: 0,
     maxGrade: 0,
@@ -45,19 +47,25 @@ export const cardsReducer = (state: CardsInitStateType = initState, action: Card
             return {...state, cards: action.cards}
         case "cards/SET_PACK_USERID":
             return {...state, packUserId: action.packUserId}
+        case "cards/SET_PACK_USER_NAME":
+            return {...state, createdBy: action.packUserName}
         case "cards/SET_PACK_ID":
             return {...state, params: {...state.params, cardsPack_id: action.packId }}
+        case "cards/SET_PACK_NAME_IN_MAP":
+            return {...state, packNameInMap: action.packName}
         default:
-            return state
+            return {...state}
     }
 }
 
 // ACTION CREATORS
-const getAllCardsAC = (cards: CardType[]) => {
+export const getAllCardsAC = (cards: CardType[]) => {
     return {type: 'cards/SET_CARDS_DATA', cards} as const
 }
 export const setPackUserIdAC = (packUserId: string) => { return {type: 'cards/SET_PACK_USERID', packUserId} as const}
+export const setPackUserNameAC = (packUserName: string) => { return {type: 'cards/SET_PACK_USER_NAME', packUserName} as const}
 export const setPackIdAC = (packId: string) => { return {type: 'cards/SET_PACK_ID', packId} as const}
+export const setPackNameAC = (packName: string) => { return {type: 'cards/SET_PACK_NAME_IN_MAP', packName} as const}
 
 
 // THUNKS
@@ -71,11 +79,12 @@ export const GetCardsThunk = () => async (dispatch: Dispatch<CardsAllActions>, g
 
         })
         .catch((error) => {
+            if (error.error === `you are not authorized /ᐠ-ꞈ-ᐟ\\`) {
+                dispatch(setIsLoggedInAC(false))
+            }
             const data = error?.response?.data;
             // При запросе колод если сервер сказал что куки нет, то разлогиниваемся в редаксе.
-            // if (error.error === `you are not authorized /ᐠ-ꞈ-ᐟ\\`) {
-            //     dispatch(setIsLoggedInAC(false))
-            // }
+
             if (axios.isAxiosError(error) && data) {
                 dispatch(setAppErrorAC(data.error || 'Some error occurred'));
             } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
@@ -88,7 +97,6 @@ export const GetCardsThunk = () => async (dispatch: Dispatch<CardsAllActions>, g
 
 export const AddNewCardThunk = (params: SendNewCardType) => async (dispatch: AppThunkType) => {
     dispatch(changeIsLoadingAC(true))
-
     CardsAPI.sendNewCardData(params)
         .then((res) => {
             if (res.data.newCard) {
@@ -112,13 +120,40 @@ export const AddNewCardThunk = (params: SendNewCardType) => async (dispatch: App
         })
 }
 
+export const DeleteCardThunk = (cardId: string) => async (dispatch: AppThunkType) => {
+    dispatch(changeIsLoadingAC(true))
+    CardsAPI.deleteCard(cardId)
+        .then((res) => {
+            if (res.data.deletedCard) {
+                console.log("You are DELETED CARD successfully")
+            }
+            dispatch(GetCardsThunk())
+        })
+        .catch((error) => {
+            const data = error?.response?.data;
+            // При запросе колод если сервер сказал что куки нет, то разлогиниваемся в редаксе.
+            if (error.error === `you are not authorized /ᐠ-ꞈ-ᐟ\\`) {
+                dispatch(setIsLoggedInAC(false))
+            }
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppErrorAC(data.error || 'Some error occurred'));
+            } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
+            console.log({...error});
+        })
+        .finally(() => {
+            dispatch(changeIsLoadingAC(false))
+        })
+}
+
 
 // TYPES
 export type CardsInitStateType = typeof initState
 
 export type SetAllCardsDataACType = ReturnType<typeof getAllCardsAC>
 export type SetPackUserIdACType = ReturnType<typeof setPackUserIdAC>
-export type SetPackIdACIdACType = ReturnType<typeof setPackIdAC>
+export type SetPackUserNameACType = ReturnType<typeof setPackUserNameAC>
+export type SetPackIdACType = ReturnType<typeof setPackIdAC>
+export type SetPackNameACType = ReturnType<typeof setPackNameAC>
 
 
 export type CardsAllActions =
@@ -129,7 +164,9 @@ export type CardsAllActions =
     | SetIsLoggedInType
 
     | SetPackUserIdACType
-    | SetPackIdACIdACType
+    | SetPackUserNameACType
+    | SetPackIdACType
+    | SetPackNameACType
 
 
 

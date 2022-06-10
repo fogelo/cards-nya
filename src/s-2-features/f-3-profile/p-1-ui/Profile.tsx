@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useCallback, useState} from 'react';
-import {Navigate} from "react-router-dom";
-import {SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
+import {Navigate, useNavigate} from "react-router-dom";
+import {PACKS_PATH, SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
 import {useSelector} from "react-redux";
 import {IAppStore, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
 import {UserType} from "../../f-1-authorization/a-1-sign-in/s-3-dal/SignInAPI";
@@ -23,9 +23,16 @@ const Profile: React.FC<IProfileProps> = () => {
 
     console.log('render profile');
 
+    //react-router v6
+    let navigate = useNavigate();
+    const routeChange = (newPath: string) => {
+        navigate(newPath)
+    }
+
     // react-redux
     const dispatch = useAppDispatch()
     const isLoggedIn = useSelector<IAppStore, boolean>(state => state.login.isLoggedIn)
+    const isLoading = useSelector<IAppStore, boolean>((state) => state.app.isLoading);
     const isProfileLoading = useSelector<IAppStore, boolean>(state => state.app.isLoading);
     const ProfileEditMode = useSelector<IAppStore, boolean>(state => state.profile.profileEditMode);
     const userData = useSelector<IAppStore, UserType>(state => state.profile.userData)
@@ -117,13 +124,17 @@ const Profile: React.FC<IProfileProps> = () => {
                 <h3>Name: {userData.name}</h3>
                 <h3>e-mail: {userData.email}</h3>
             </div>
+            <span>
+                <SuperButton
+                    onClick={!isProfileLoading ? ChangeProfileEditModeHandler : ()=>{}}
+                    disabled={isProfileLoading}
+                >
+                    Settings
+                </SuperButton>
+                <SuperButton onClick={() => routeChange(PACKS_PATH)} disabled={isLoading}>SHOW PACKS</SuperButton>
+            </span>
 
-            <SuperButton
-                onClick={!isProfileLoading ? ChangeProfileEditModeHandler : ()=>{}}
-                disabled={isProfileLoading}
-            >
-                Settings
-            </SuperButton>
+
         </div>
     );
 };

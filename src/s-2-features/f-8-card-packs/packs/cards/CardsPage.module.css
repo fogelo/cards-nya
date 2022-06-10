@@ -48,6 +48,16 @@
     margin: 10px 0px 10px 0px;
 }
 
+.spanCreatedBy {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    margin: -30px 0px 10px 0px;
+
+}
+
 .button1 {
     width: 300px;
 }
