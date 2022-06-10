@@ -29,6 +29,7 @@ export const appReducer = (state: InitStateTypeApp = initStateApp, action: AppAc
             return {...state, isLoading: action.isLoadingApp}
         case "app/SET-ERROR":
             return {...state, appError: action.error}
+
         default:
             return state
 

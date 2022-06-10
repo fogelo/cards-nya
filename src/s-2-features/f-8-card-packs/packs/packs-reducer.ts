@@ -15,7 +15,7 @@ import {setIsLoggedInAC, SetIsLoggedInType} from "../../f-1-authorization/a-1-si
 const initState = {
     cardPacks: [] as CardPackType[],
     minCardsCount: 0,
-    maxCardsCount: 0,
+    maxCardsCount: 10,
     cardPacksTotalCount: 0,
     params: {
         packName: '',
@@ -32,6 +32,8 @@ export const packsReducer = (state: PacksInitStateType = initState, action: Pack
     switch (action.type) {
         case "packs/SET_PACKS_DATA": return {...state, cardPacks: action.cardPacks}
         case "packs/SET_SEARCH_PARAM": return {...state, params: {...state.params, packName: action.packName}}
+        case "packs/RANGE_SET_CARDS_PACKS_COUNT":return {...state, params: {...state.params, min: action.min, max:action.max} }
+
 
         default:
             return state
@@ -43,14 +45,15 @@ const getAllPacksAC = (cardPacks: CardPackType[]) => {
     return {type: 'packs/SET_PACKS_DATA', cardPacks} as const
 }
 export const setCardsPacksCountFromRangeAC = (numbers: Array<number>) =>  // min and max cardsPacks
-    ({type: 'PACKS/RANGE-SET-CARDS-PACKS-COUNT', min: numbers[0], max: numbers[1]} as const)
+    ({type: 'packs/RANGE_SET_CARDS_PACKS_COUNT', min: numbers[0], max: numbers[1]} as const)
 
 
 export const ParamAC_SetSearch = (packName: string) => {
     return {type: 'packs/SET_SEARCH_PARAM', packName} as const
 }
 export const ParamAC_SetMin = (min: number) => {
-    return {type: 'packs/SET_MIN_PARAM'} as const
+    return {type: 'packs/SET_MIN_PARAM', min: 0
+    } as const
 }
 export const ParamAC_SetMax = (max: number) => {
     return {type: 'packs/SET_MAX_PARAM'} as const
@@ -71,6 +74,7 @@ export const ParamAC_SetUserId = (userId: string) => {
 
 // THUNKS
 export const GetAllPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>, getState: () => IAppStore) => {
+
     dispatch(changeIsLoadingAC(true))
     const params = getState().packs.params
     PacksAPI.getPacksData(params)
@@ -162,6 +166,7 @@ export const EditPackThunk = (editPack: EditPackType) => async (dispatch: AppThu
 export type PacksInitStateType = typeof initState
 
 export type SetAllPacksDataACType = ReturnType<typeof getAllPacksAC>
+export type setCardPacksCurrentPageType = ReturnType<typeof setCardsPacksCountFromRangeAC>
 export type ParamAC_SetSearchType = ReturnType<typeof ParamAC_SetSearch>
 export type ParamAC_SetMinType = ReturnType<typeof ParamAC_SetMin>
 export type ParamAC_SetMaxType = ReturnType<typeof ParamAC_SetMax>
@@ -176,7 +181,7 @@ export type PacksAllActions =
     | ChangeIsLoading
     | SetAppErrorActionType
     | SetIsLoggedInType
-
+|setCardPacksCurrentPageType
     | ParamAC_SetSearchType
     | ParamAC_SetMinType
     | ParamAC_SetMaxType
