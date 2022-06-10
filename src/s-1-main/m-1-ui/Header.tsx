@@ -2,7 +2,7 @@ import React from "react";
 import {NavLink, useNavigate} from "react-router-dom";
 import {
     SIGN_IN_PATH, REGISTER_PATH, FORGOT_PATH,
-    PROFILE_PATH, ERROR404_PATH, RECOVER_PASSWORD_PATH, NEW_PASSWORD_PATH, SUPER_COMPONENTS_PATH, PACKS_PATH
+    PROFILE_PATH, ERROR404_PATH, RECOVER_PASSWORD_PATH, NEW_PASSWORD_PATH, SUPER_COMPONENTS_PATH, PACKS_PATH, CARDS_PATH
 } from "./Routing";
 import {useSelector} from "react-redux";
 import {IAppStore, useAppDispatch} from "../m-2-bll/store";
@@ -33,34 +33,38 @@ const Header: React.FC = () => {
             dispatch(setAppErrorAC("You are not authorized. Please log in"))
         }
     }
+
     return (
         <div className={s.header}>
-            {isLoggedIn &&
-                <>
-                    <div className={s.headerLogoButton}>
-                        <SuperButton onClick={logOutHandler} disabled={isLoading}>LOGOUT</SuperButton>
-                    </div>
-                    <div className={s.nav}>
-                        <div className={`${s.linkWrapper} ${s.packs}`}>
-                            <NavLink className={({isActive}: any) => isActive ? s.active : undefined}
-                                     to={PACKS_PATH}>Packs list</NavLink>
-                        </div>
-                        <div className={`${s.linkWrapper} ${s.profile}`}>
-                            <NavLink className={({isActive}: any) => isActive ? s.active : undefined}
-                                     to={PROFILE_PATH}
-                                     onClick={isLoggedInHandler}>Profile
-                            </NavLink>
-                        </div>
-                    </div>
-                </>
-            }
+            <div className={s.headerLogoButton}>
+                {isLoggedIn &&
+                    <div><SuperButton onClick={logOutHandler} disabled={isLoading}>LOGOUT</SuperButton></div>}
+                {!isLoggedIn &&
+                    <>
+                        <SuperButton onClick={() => routeChange(SIGN_IN_PATH)} disabled={isLoading}>LOGIN</SuperButton>
+                        <SuperButton onClick={() => routeChange(REGISTER_PATH)}
+                                     disabled={isLoading}>REGISTER</SuperButton>
+                    </>}
+            </div>
+            {/*<SuperButton onClick={() => routeChange(RECOVER_PASSWORD_PATH)} disabled={isLoading}>*/}
+            {/*    recover password*/}
+            {/*</SuperButton>*/}
+            {/*<SuperButton onClick={() => routeChange(NEW_PASSWORD_PATH)} disabled={isLoading}>*/}
+            {/*    new password*/}
+            {/*</SuperButton>*/}
+            <div className={s.nav}>
+                {/*{!isLoggedIn && <NavLink to={SIGN_IN_PATH}>sign-in</NavLink>}*/}
+                {/*<NavLink to={REGISTER_PATH}>Register</NavLink>*/}
+                {/*<NavLink to={FORGOT_PATH}>forgot</NavLink>*/}
+                <NavLink to={PACKS_PATH}>Packs</NavLink>
+                <NavLink to={CARDS_PATH}>Cards</NavLink>
+                <NavLink to={PROFILE_PATH} onClick={isLoggedInHandler}>Profile</NavLink>
+                {/*<NavLink to={ERROR404_PATH}>error404</NavLink>*/}
+                {/*<NavLink to={RECOVER_PASSWORD_PATH}>recover password</NavLink>*/}
+                {/*<NavLink to={NEW_PASSWORD_PATH}>new password</NavLink>*/}
+                <NavLink to={SUPER_COMPONENTS_PATH}>super components</NavLink>
+            </div>
 
-            {!isLoggedIn &&
-                <>
-                    <SuperButton onClick={() => routeChange(SIGN_IN_PATH)} disabled={isLoading}>LOGIN</SuperButton>
-                    <SuperButton onClick={() => routeChange(REGISTER_PATH)}
-                                 disabled={isLoading}>REGISTER</SuperButton>
-                </>}
         </div>
 
     );

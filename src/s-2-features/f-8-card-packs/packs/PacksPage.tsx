@@ -17,8 +17,8 @@ import {
 } from "./packs-reducer";
 
 import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
-import {Navigate} from "react-router-dom";
-import {SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
+import {Navigate, useNavigate} from "react-router-dom";
+import {CARDS_PATH, SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
 import {ErrorSnackbar} from "../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
 import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
 import {RangeSliderContainer} from "./cards/RangeSlider/RangeSliderContainer";
@@ -26,24 +26,36 @@ import {Button, InputAdornment, TextField} from "@mui/material";
 // import {ChooseOwner} from "./cards/ChooseOwner/ChooseOwner";
 import SearchIcon from "@mui/icons-material/Search";
 import PikachuLoading from "../../../s-3-components/PikachuLoading";
+import SuperInputText from "../../../s-3-components/c1-SuperInputText/SuperInputText";
+import {dividerClasses} from "@mui/material";
+import {setPackIdAC, setPackNameAC, setPackUserIdAC, setPackUserNameAC} from "./cards/cards-reducer";
 
 
 const PacksPage = () => {
 
+    //react-router v6
+    let navigate = useNavigate();
+    const routeChange = (newPath: string) => {
+        navigate(newPath)
+    }
+
     //react-redux:
     const dispatch = useAppDispatch();
     const appError = useSelector<IAppStore, string | null>(state => state.app.appError)
-
-    const packsData = useSelector<IAppStore, CardPackType[]>(state => state.packs.cardPacks)
     const isLoading = useSelector<IAppStore, boolean>((state) => state.app.isLoading);
     const isLoggedIn = useSelector<IAppStore, boolean>((state) => state.login.isLoggedIn);
+    const loggedUserId = useSelector<IAppStore, string>((state) => state.profile.userData._id);
+    const loggedUserName = useSelector<IAppStore, string>((state) => state.profile.userData.name);
     const params = useSelector<IAppStore, PackParamsType>((state) => state.packs.params);
 
     //хуки сюда:
     const [isPrivate, setPrivate] = useState<boolean>(false);
-    const [packName, setPackName] = useState<string>("");
-    const [searchItem, setSearchItem] = useState<string>("");
+    const [packName, setPackName] = useState<string>('');
+    const [searchItem, setSearchItem] = useState<string>('');
 
+    const [editPackMode, setEditPackMode] = useState(false)
+    const [editedName, setEditedName] = useState<string>('');
+    const [packIdToEdit, setPackIdToEdit] = useState<string>('')
 
     // коллбэки тут:
     const searchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +64,7 @@ const PacksPage = () => {
 
     const sendSearchInputHandler = () => {
         dispatch(ParamAC_SetSearch(searchItem))
-        setSearchItem("")
+        setSearchItem('')
     }
 
 
@@ -60,8 +72,8 @@ const PacksPage = () => {
         setPackName(e.currentTarget.value)
     }
     const sendNewPackHandler = () => {
-        dispatch(AddNewPackThunk({name: packName, deckCover: "", private: isPrivate}))
-        setPackName("");
+        dispatch(AddNewPackThunk({name: packName, deckCover: '', private: isPrivate}))
+        setPackName('');
         setPrivate(false);
     }
 
@@ -69,12 +81,36 @@ const PacksPage = () => {
     const deletePackHandler = (packId: string) => {
         dispatch(DeletePackThunk(packId))
     }
-    const editPackHandler = (packId: string) => {
-        dispatch(EditPackThunk({_id: packId, name: "Тест колода3"}))
-    }
-    const openPackHandler = (packId: string) => {
 
+    const sendEditPackHandler =(packId: string, oldName: string) => {
+        if (oldName !== editedName) {
+            dispatch(EditPackThunk({_id: packId, name: editedName}))
+        }
+        setEditedName('')
+        setEditPackMode(!editPackMode)
     }
+
+    const changeEditModeHandler = (userIdFromMap: string, packNameFromMap: string ) => {
+        if (editPackMode) {
+            setEditedName('')
+        }
+        setEditedName(packNameFromMap)
+        setPackIdToEdit(userIdFromMap)
+        setEditPackMode(true)
+    }
+
+    const editPackNameInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setEditedName(e.currentTarget.value)
+    }
+
+    const openPackHandler =(packId: string, createdBy: string, packNameInMap: string) => {
+        dispatch(setPackIdAC(packId))
+        dispatch(setPackUserNameAC(createdBy))
+        dispatch(setPackNameAC(packNameInMap))
+        routeChange(CARDS_PATH)
+    }
+
+
 
     const getMyPacks = () => {
         dispatch(GetMyPacksThunk())
@@ -85,7 +121,7 @@ const PacksPage = () => {
 
     useEffect(() => {
         dispatch(GetAllPacksThunk());
-    }, [dispatch, params]);
+    }, [dispatch, isLoggedIn, params]);
 
     // редирект на логин тут:
 
@@ -97,15 +133,12 @@ const PacksPage = () => {
         <div className={s.mainContainer}>
             {appError && <ErrorSnackbar/>}
             <div className={s.leftContainer}>
-                {/*<div className={s.sideBox}>*/}
-                {/*    Sidebar*/}
-                {/*</div>*/}
-                {/*<div>*/}
-                {/*    Profile*/}
-                {/*</div>*/}
-                <p>
-                    Show packs cards
-                </p>
+                <div className={s.sideBox}>
+                    Frontend developer
+                </div>
+                <div>
+                    <h3>{loggedUserName}</h3>
+                </div>
                 <div>
                     <Button variant={"contained"} onClick={getMyPacks}>MY</Button>
                     <Button variant={"contained"} onClick={getAllPacks} color={"secondary"}>ALL</Button>
@@ -146,7 +179,7 @@ const PacksPage = () => {
                         <input
                             value={packName}
                             onChange={newPackInputHandler}
-                            placeholder={"New pack"}
+                            placeholder={'New pack'}
                             className={s.input}
                         />
                         <SuperButton
@@ -157,10 +190,7 @@ const PacksPage = () => {
 
                     </div>
                     <div className={s.tableBox}>
-                        table
-
                         <table className={s.table}>
-
                             <thead className={s.thead}>
                             <tr className={s.trHead}>
                                 <th className={s.th}>Name</th>
@@ -172,20 +202,41 @@ const PacksPage = () => {
                             </thead>
 
                             <tbody className={s.trBody}>
-                            {!packsData
-                                ? ""
+                            {packsData.length === 0 || !packsData
+                                ? <div> {!isLoading && <ErrorSnackbar severity={"warning"} text={'Данные не найдены'}/>}</div>
                                 : packsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trBody}
                                     >
-                                        <td className={s.td}>{t.name}</td>
+                                        {t.user_id === loggedUserId && editPackMode && t._id === packIdToEdit
+                                            ? <input
+                                                placeholder={t.name}
+                                                value={editedName}
+                                                onChange={editPackNameInputHandler}
+                                                autoFocus
+                                                onBlur={()=>sendEditPackHandler(t._id, t.name)}
+                                            />
+                                            : <td className={s.td}>{t.name}</td>}
                                         <td className={s.td}>{t.cardsCount}</td>
                                         <td className={s.td}>{t.updated.slice(0, 10).replace(/-/g, ".")}</td>
                                         <td className={s.td}>{t.user_name}</td>
                                         <td className={s.tdButtons}>
-                                            <button onClick={() => deletePackHandler(t._id)}>Delete</button>
-                                            <button onClick={() => editPackHandler(t._id)}>Edit</button>
-                                            <button onClick={() => openPackHandler(t._id)}>Learn</button>
+
+                                            {t.user_id === loggedUserId && <button
+                                                onClick={()=>deletePackHandler(t._id)}
+                                                disabled={isLoading || editPackMode}
+                                            >Delete</button>}
+
+                                            {t.user_id === loggedUserId && <button
+                                                onClick={()=>changeEditModeHandler(t._id, t.name)}
+                                                disabled={isLoading || editPackMode}
+                                            >Edit</button>}
+
+                                            <button
+                                                onClick={()=>openPackHandler(t._id, t.user_name, t.name)}
+                                                disabled={isLoading || editPackMode}
+                                            >Learn</button>
+
                                         </td>
                                     </tr>
                                 )}
@@ -199,7 +250,6 @@ const PacksPage = () => {
                     pagination 1 2 3 4 5 6 7 8 9
                 </div>
             </div>
-
         </div>
     );
 };

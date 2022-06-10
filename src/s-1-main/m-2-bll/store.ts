@@ -9,6 +9,7 @@ import {useDispatch} from "react-redux";
 import {profileReducer} from "../../s-2-features/f-3-profile/p-2-bll/b-2-redux/profile-reducer";
 import {signInReducer} from "../../s-2-features/f-1-authorization/a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
 import {packsReducer} from "../../s-2-features/f-8-card-packs/packs/packs-reducer";
+import {cardsReducer} from "../../s-2-features/f-8-card-packs/packs/cards/cards-reducer";
 
 const reducers = combineReducers({
     login: signInReducer,
@@ -18,7 +19,8 @@ const reducers = combineReducers({
     recoverPassword: recoverPasswordReducer,
     newPassword: newPasswordReducer,
     app: appReducer,
-    packs: packsReducer
+    packs: packsReducer,
+    cards: cardsReducer
 });
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware));

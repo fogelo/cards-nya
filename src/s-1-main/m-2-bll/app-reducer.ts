@@ -10,7 +10,8 @@ import {
     setUserDataAC,
     SetUserDataType
 } from "../../s-2-features/f-3-profile/p-2-bll/b-2-redux/profile-reducer";
-import {PacksAllActions, ParamAC_SetSearchType} from "../../s-2-features/f-8-card-packs/packs/packs-reducer";
+import { ParamAC_SetSearchType} from "../../s-2-features/f-8-card-packs/packs/packs-reducer";
+import {CardsAllActions, SetPackIdACType} from "../../s-2-features/f-8-card-packs/packs/cards/cards-reducer";
 
 const initStateApp = {
     appError: null as null | string,
@@ -95,3 +96,5 @@ export type AppAction =
     | SetUserDataType
     | ProfileReducerAction
     | ParamAC_SetSearchType
+    | SetPackIdACType
+    | CardsAllActions
