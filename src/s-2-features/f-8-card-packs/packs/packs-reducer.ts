@@ -34,7 +34,7 @@ export const packsReducer = (state: PacksInitStateType = initState, action: Pack
         case "packs/SET_SEARCH_PARAM": return {...state, params: {...state.params, packName: action.packName}}
 
         default:
-            return state
+            return {...state}
     }
 }
 

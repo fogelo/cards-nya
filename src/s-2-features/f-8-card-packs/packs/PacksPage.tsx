@@ -10,24 +10,31 @@ import {CardPackType, PackParamsType} from "./PacksAPI";
 import {AddNewPackThunk, DeletePackThunk, EditPackThunk, GetAllPacksThunk, ParamAC_SetSearch} from "./packs-reducer";
 
 import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
-import {Navigate} from "react-router-dom";
-import {SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
+import {Navigate, useNavigate} from "react-router-dom";
+import {CARDS_PATH, SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
 import {ErrorSnackbar} from "../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
 import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
 import SuperInputText from "../../../s-3-components/c1-SuperInputText/SuperInputText";
 import {dividerClasses} from "@mui/material";
+import {setPackIdAC, setPackUserIdAC} from "./cards/cards-reducer";
 
 
 const PacksPage = () => {
 
+    //react-router v6
+    let navigate = useNavigate();
+    const routeChange = (newPath: string) => {
+        navigate(newPath)
+    }
+
     //react-redux:
     const dispatch = useAppDispatch();
     const appError = useSelector<IAppStore, string | null>(state => state.app.appError)
-
-    const packsData = useSelector<IAppStore, CardPackType[]>(state => state.packs.cardPacks)
     const isLoading = useSelector<IAppStore, boolean>((state) => state.app.isLoading);
     const isLoggedIn = useSelector<IAppStore, boolean>((state) => state.login.isLoggedIn);
     const loggedUserId = useSelector<IAppStore, string>((state) => state.profile.userData._id);
+
+    const packsData = useSelector<IAppStore, CardPackType[]>(state => state.packs.cardPacks)
     const params = useSelector<IAppStore, PackParamsType>((state) => state.packs.params);
 
     //хуки сюда:
@@ -86,7 +93,8 @@ const PacksPage = () => {
     }
 
     const openPackHandler =(packId: string) => {
-
+        dispatch(setPackIdAC(packId))
+        routeChange(CARDS_PATH)
     }
 
     useEffect(() => {
@@ -146,10 +154,7 @@ const PacksPage = () => {
 
                     </div>
                     <div className={s.tableBox}>
-                        table
-
                         <table className={s.table}>
-
                             <thead className={s.thead}>
                             <tr className={s.trHead}>
                                 <th className={s.th}>Name</th>
@@ -180,12 +185,18 @@ const PacksPage = () => {
                                         <td className={s.td}>{t.updated}</td>
                                         <td className={s.td}>{t.user_name}</td>
                                         <td className={s.tdButtons}>
-                                            {t.user_id === loggedUserId && <button onClick={()=>deletePackHandler(t._id)}>Delete</button>}
+                                            {t.user_id === loggedUserId && <button
+                                                onClick={()=>deletePackHandler(t._id)}
+                                                disabled={isLoading || editPackMode}
+                                            >Delete</button>}
                                             {t.user_id === loggedUserId && <button
                                                 onClick={()=>changeEditModeHandler(t._id, t.name)}
-                                                disabled={editPackMode}
+                                                disabled={isLoading || editPackMode}
                                             >Edit</button>}
-                                            <button onClick={()=>openPackHandler(t._id)}>Learn</button>
+                                            <button
+                                                onClick={()=>openPackHandler(t._id)}
+                                                disabled={isLoading || editPackMode}
+                                            >Learn</button>
                                         </td>
                                     </tr>
                                 )}
