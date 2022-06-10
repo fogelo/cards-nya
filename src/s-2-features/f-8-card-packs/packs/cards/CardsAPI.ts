@@ -10,8 +10,23 @@ export const CardsAPI = {
     },
     deleteCard(cardId: string) {
         return instance.delete<string, AxiosResponse<deletedCardRespType>>(`/cards/card?id=${cardId}` )
+    },
+    sendUpdateCardData (card: SendNewCard) {
+        return instance.put<SendNewCard, AxiosResponse<UpdatedCardType>>(`/cards/card`, {card})
     }
 };
+export type UpdatedCardType = {
+    updatedCard: {}
+}
+
+export type SendNewCard = {
+    _id: string
+    question: string
+    comments: string
+}
+
+
+
 
 export type deletedCardRespType = {
     deletedCard: {}

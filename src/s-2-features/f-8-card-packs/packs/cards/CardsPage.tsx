@@ -10,7 +10,7 @@ import {
     GetCardsThunk,
     setPackIdAC,
     setPackNameAC,
-    setPackUserNameAC
+    setPackUserNameAC, UpdateCardQuestThunk
 } from "./cards-reducer";
 
 import {Navigate, useNavigate} from "react-router-dom";
@@ -20,7 +20,7 @@ import {ErrorSnackbar} from "../../../../s-3-components/ErrorSnackBar/ErrorSnack
 import RangeSlider from "../../../../s-3-components/c7-Slider/Slider";
 import LinearIndeterminate from "../../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
-import {ParamAC_SetSearch} from "../packs-reducer";
+import {EditPackThunk, ParamAC_SetSearch} from "../packs-reducer";
 
 
 const CardsPage = () => {
@@ -46,8 +46,9 @@ const CardsPage = () => {
 
     //хуки сюда:
     const [newCardValue, setNewCardValue] = useState<string>('');
-    const [editCardMode, setEditCardMode] = useState(false)
-
+    const [editCardMode, setEditCardMode] = useState<boolean>(false)
+    const [editedQuest, setEditedQuest] = useState<string>('');
+    const [cardIdToEdit, setCardIdToEdit] = useState<string>('');
 
     // коллбэки тут:
     const addCardInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -69,12 +70,32 @@ const CardsPage = () => {
         dispatch(setPackUserNameAC(''))
         dispatch(setPackNameAC(''))
         dispatch(getAllCardsAC([]))
+        setEditCardMode(false)
     }
 
     // коллбэки для кнопок внутри таблицы:
     const deleteCardHandler = (cardId: string) => {
         dispatch(DeleteCardThunk(cardId))
     }
+
+    const changeEditModeHandler = (cardIdFromMap: string) => {
+        if (!editCardMode) {
+            setEditedQuest('')
+        }
+        setCardIdToEdit(cardIdFromMap)
+        setEditCardMode(true)
+    }
+    const editCardQuestInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setEditedQuest(e.currentTarget.value)
+    }
+    const sendEditCardHandler =(cardId: string, oldQuest: string) => {
+        if (oldQuest !== editedQuest) {
+            dispatch(UpdateCardQuestThunk({_id: cardId, question: editedQuest, comments: '' }))
+        }
+        setEditedQuest('')
+        setEditCardMode(false)
+    }
+
 
     useEffect(() => {
         dispatch(GetCardsThunk());
@@ -155,7 +176,15 @@ const CardsPage = () => {
                                     <tr key={t._id}
                                         className={s.trBody}
                                     >
-                                        <td className={s.td}>{t.question}</td>
+                                        {t._id === cardIdToEdit && editCardMode
+                                            ? <input
+                                                placeholder={t.question}
+                                                value={editedQuest}
+                                                onChange={editCardQuestInputHandler}
+                                                autoFocus
+                                                onBlur={ ()=> sendEditCardHandler (t._id, t.question)}
+                                            />
+                                            : <td className={s.td}>{t.question}</td>}
                                         <td className={s.td}>{t.answer}</td>
                                         <td className={s.td}>{t.updated}</td>
                                         <td className={s.td}>{t.grade}</td>
@@ -166,7 +195,11 @@ const CardsPage = () => {
                                                 disabled={isLoading || editCardMode}
                                             >Delete</button>}
 
-                                            <button>Edit</button>
+                                            {t.user_id === loggedUserId && <button
+                                                onClick={()=>changeEditModeHandler(t._id)}
+                                                disabled={isLoading || editCardMode}
+                                            >Edit</button>}
+
                                             <button>Open</button>
                                         </td>
                                     </tr>
