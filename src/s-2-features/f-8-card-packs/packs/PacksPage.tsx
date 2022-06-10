@@ -47,6 +47,7 @@ const PacksPage = () => {
     const loggedUserId = useSelector<IAppStore, string>((state) => state.profile.userData._id);
     const loggedUserName = useSelector<IAppStore, string>((state) => state.profile.userData.name);
     const params = useSelector<IAppStore, PackParamsType>((state) => state.packs.params);
+    const packsData = useSelector<IAppStore, CardPackType[]>(state => state.packs.cardPacks)
 
     //хуки сюда:
     const [isPrivate, setPrivate] = useState<boolean>(false);
