@@ -198,7 +198,7 @@ const PacksPage = () => {
 
                             <tbody className={s.trBody}>
                             {packsData.length === 0 || !packsData
-                                ? <div> {!isLoading && <PikachuLoading/>}</div>
+                                ? <div> {!isLoading && <ErrorSnackbar severity={"warning"} text={'Колоды не найдены'}/>}</div>
                                 : packsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trBody}

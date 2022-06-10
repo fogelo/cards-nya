@@ -34,7 +34,6 @@ export const packsReducer = (state: PacksInitStateType = initState, action: Pack
         case "packs/SET_SEARCH_PARAM": return {...state, params: {...state.params, packName: action.packName}}
         case "packs/RANGE_SET_CARDS_PACKS_COUNT":return {...state, params: {...state.params, min: action.min, max:action.max} }
 
-
         default:
             return {...state}
     }
