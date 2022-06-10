@@ -42,7 +42,7 @@ export const packsReducer = (state: PacksInitStateType = initState, action: Pack
 
 // ACTION CREATORS
 //TODO исправить get на set по всему проекту
-const getAllPacksAC = (cardPacks: CardPackType[]) => {
+export const getAllPacksAC = (cardPacks: CardPackType[]) => {
     return {type: 'packs/SET_PACKS_DATA', cardPacks} as const
 }
 export const setCardsPacksCountFromRangeAC = (numbers: Array<number>) =>  // min and max cardsPacks

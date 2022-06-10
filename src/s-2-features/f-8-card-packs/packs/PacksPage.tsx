@@ -1,34 +1,27 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
-import CardsPage from "./cards/CardsPage";
 import s from "./PacksPage.module.css"
 import SuperButton from "../../../s-3-components/c2-SuperButton/SuperButton";
 
-import RangeSlider from "../../../s-3-components/c7-Slider/Slider";
 import {useSelector} from "react-redux";
 import {IAppStore, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
-import {CardPackType, PackParamsType, PacksAPI} from "./PacksAPI";
+import {CardPackType, PackParamsType} from "./PacksAPI";
 import {
     AddNewPackThunk,
     DeletePackThunk,
-    EditPackThunk,
+    EditPackThunk, getAllPacksAC,
     GetAllPacksThunk,
     GetMyPacksThunk,
     ParamAC_SetSearch
 } from "./packs-reducer";
 
-import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import {Navigate, useNavigate} from "react-router-dom";
 import {CARDS_PATH, SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
 import {ErrorSnackbar} from "../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
-import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
 import {RangeSliderContainer} from "./cards/RangeSlider/RangeSliderContainer";
 import {Button, InputAdornment, TextField} from "@mui/material";
-// import {ChooseOwner} from "./cards/ChooseOwner/ChooseOwner";
 import SearchIcon from "@mui/icons-material/Search";
 import PikachuLoading from "../../../s-3-components/PikachuLoading";
-import SuperInputText from "../../../s-3-components/c1-SuperInputText/SuperInputText";
-import {dividerClasses} from "@mui/material";
-import {setPackIdAC, setPackNameAC, setPackUserIdAC, setPackUserNameAC} from "./cards/cards-reducer";
+import {setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
 
 
 const PacksPage = () => {
@@ -65,6 +58,7 @@ const PacksPage = () => {
 
     const sendSearchInputHandler = () => {
         dispatch(ParamAC_SetSearch(searchItem))
+        dispatch(getAllPacksAC([]))
         setSearchItem('')
     }
 
@@ -204,7 +198,7 @@ const PacksPage = () => {
 
                             <tbody className={s.trBody}>
                             {packsData.length === 0 || !packsData
-                                ? <div> {!isLoading && <ErrorSnackbar severity={"warning"} text={'Данные не найдены'}/>}</div>
+                                ? <div> {!isLoading && <PikachuLoading/>}</div>
                                 : packsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trBody}
@@ -244,7 +238,7 @@ const PacksPage = () => {
                             </tbody>
 
                         </table>
-                        {isLoading && <LinearIndeterminate/>}
+                        {isLoading && <PikachuLoading/>}
                     </div>
                 </div>
                 <div className={s.paginationBox}>
