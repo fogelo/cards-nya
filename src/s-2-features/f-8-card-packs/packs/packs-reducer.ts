@@ -15,7 +15,7 @@ import {setIsLoggedInAC, SetIsLoggedInType} from "../../f-1-authorization/a-1-si
 const initState = {
     cardPacks: [] as CardPackType[],
     minCardsCount: 0,
-    maxCardsCount: 0,
+    maxCardsCount: 10,
     cardPacksTotalCount: 0,
     params: {
         packName: '',
