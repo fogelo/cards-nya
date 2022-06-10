@@ -119,7 +119,7 @@ const PacksPage = () => {
 
     useEffect(() => {
         dispatch(GetAllPacksThunk());
-    }, [dispatch, isLoggedIn, params]);
+    }, [dispatch, params]);
 
     // редирект на логин тут:
 
