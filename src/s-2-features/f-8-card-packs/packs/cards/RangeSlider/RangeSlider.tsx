@@ -3,6 +3,8 @@ import Slider from '@mui/material/Slider';
 import {styled} from '@mui/material/styles';
 import s from './RangeSlider.module.css'
 import {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {ParamAC_SetMax, ParamAC_SetMin} from "../../packs-reducer";
 
 export type RangeSliderType = {
     maxCardsCount: number
@@ -42,13 +44,18 @@ const CustomSlider = styled(Slider)({
 });
 
 export const RangeSlider = React.memo((props: RangeSliderType) => {
-
-
+    const store = useSelector(store => store);
     const [values, setValues] = useState<number[]>([props.minCardsCount, props.maxCardsCount])
+    const dispatch = useDispatch();
     const handleChange = (event: Event, newValue: number | number[]) => {
+
         if (props.maxCardsCount > 0) {
             setValues(newValue as number[])
+            console.log(values)
+            dispatch(ParamAC_SetMin(values[0]))
+            dispatch(ParamAC_SetMax(values[1]))
         }
+        console.log(store)
     }
     const onChangeCommitted = () => {
         if (props.maxCardsCount > 0) {
