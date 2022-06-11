@@ -17,10 +17,9 @@ import {Navigate, useNavigate} from "react-router-dom";
 import {IAppStore, useAppDispatch} from "../../../../s-1-main/m-2-bll/store";
 import {PACKS_PATH, SIGN_IN_PATH} from "../../../../s-1-main/m-1-ui/Routing";
 import {ErrorSnackbar} from "../../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
-import RangeSlider from "../../../../s-3-components/c7-Slider/Slider";
 import LinearIndeterminate from "../../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
-import {EditPackThunk, ParamAC_SetSearch} from "../packs-reducer";
+import PikachuLoading from "../../../../s-3-components/PikachuLoading";
 
 
 const CardsPage = () => {
@@ -169,9 +168,8 @@ const CardsPage = () => {
                             </thead>
 
                             <tbody className={s.trBody}>
-                            {!cardsData
-                                ? <div> {!isLoading &&
-                                    <ErrorSnackbar severity={"warning"} text={'Data not found'}/>}</div>
+                            {!(cardsData.length > 0) || !cardsData
+                                ? <tr>{!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"} text={'Карты в колоде не найдены'}/>}</tr>
                                 : cardsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trBody}
@@ -209,7 +207,7 @@ const CardsPage = () => {
                             </tbody>
 
                         </table>
-                        {isLoading && <LinearIndeterminate/>}
+                        {isLoading && <><PikachuLoading/><LinearIndeterminate/></>}
 
                     </div>
                 </div>

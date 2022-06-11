@@ -25,7 +25,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 
 import PikachuLoading from "../../../s-3-components/PikachuLoading";
-import {setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
+import {getAllCardsAC, setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
 import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import Pagination from "../../../s-3-components/c10-Pagination/Pagination";
 
@@ -108,6 +108,7 @@ const PacksPage = () => {
         dispatch(setPackIdAC(packId))
         dispatch(setPackUserNameAC(createdBy))
         dispatch(setPackNameAC(packNameInMap))
+        dispatch(getAllCardsAC([]))
         routeChange(CARDS_PATH)
     }
 
@@ -216,7 +217,7 @@ const PacksPage = () => {
 
                             <tbody className={s.trBody}>
                             {!(packsData.length > 0) || !packsData
-                                ? <tr>{!isLoading && <ErrorSnackbar severity={"warning"} text={'Колоды не найдены'}/>}</tr>
+                                ? <tr>{!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"} text={'Колоды не найдены'}/>}</tr>
                                 : packsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trItem}
