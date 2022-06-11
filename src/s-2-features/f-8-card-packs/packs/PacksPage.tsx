@@ -20,10 +20,15 @@ import {ErrorSnackbar} from "../../../s-3-components/ErrorSnackBar/ErrorSnackbar
 import {RangeSliderContainer} from "./cards/RangeSlider/RangeSliderContainer";
 import {Button, InputAdornment, TextField} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+
+import CancelIcon from '@mui/icons-material/Cancel';
+
+
 import PikachuLoading from "../../../s-3-components/PikachuLoading";
 import {setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
 import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import Pagination from "../../../s-3-components/c10-Pagination/Pagination";
+
 
 
 const PacksPage = () => {
@@ -169,10 +174,16 @@ const PacksPage = () => {
                                        startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>
                                    }}
                         />
+                        <CancelIcon
+                            onClick={()=>setSearchItem('')}
+                            className={s.clearButton}
+                        />
+
                         <SuperButton
                             disabled={isLoading}
                             onClick={sendSearchInputHandler}
                         >
+
                             Search
                         </SuperButton>
 
@@ -208,7 +219,8 @@ const PacksPage = () => {
                                 ? <div> {!isLoading && <ErrorSnackbar severity={"warning"} text={'Колоды не найдены'}/>}</div>
                                 : packsData.map((t) =>
                                     <tr key={t._id}
-                                        className={s.trBody}
+                                        className={s.trItem}
+                                        onClick={()=>openPackHandler(t._id, t.user_name, t.name)}
                                     >
                                         {t.user_id === loggedUserId && editPackMode && t._id === packIdToEdit
                                             ? <input
@@ -235,7 +247,6 @@ const PacksPage = () => {
                                             >Edit</button>}
 
                                             <button
-                                                onClick={()=>openPackHandler(t._id, t.user_name, t.name)}
                                                 disabled={isLoading || editPackMode}
                                             >Learn</button>
 
