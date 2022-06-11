@@ -122,7 +122,6 @@ const CardsPage = () => {
         )
     }
 
-
     return (
         <div className={s.mainContainer}>
             {appError && <ErrorSnackbar/>}
@@ -172,7 +171,7 @@ const CardsPage = () => {
                                 ? <tr>{!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"} text={'Карты в колоде не найдены'}/>}</tr>
                                 : cardsData.map((t) =>
                                     <tr key={t._id}
-                                        className={s.trBody}
+                                        className={s.trItem}
                                     >
                                         {t._id === cardIdToEdit && editCardMode
                                             ? <input
@@ -208,7 +207,6 @@ const CardsPage = () => {
 
                         </table>
                         {isLoading && <><PikachuLoading/><LinearIndeterminate/></>}
-
                     </div>
                 </div>
 
