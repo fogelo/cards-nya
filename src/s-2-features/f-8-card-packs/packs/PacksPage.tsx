@@ -143,8 +143,8 @@ const PacksPage = () => {
                     <h3>{loggedUserName}</h3>
                 </div>
                 <div>
-                    <Button variant={"contained"} onClick={getMyPacks}>MY</Button>
-                    <Button variant={"contained"} onClick={getAllPacks} color={"secondary"}>ALL</Button>
+                    <Button disabled={isLoading} variant={"contained"} onClick={getMyPacks}>MY</Button>
+                    <Button disabled={isLoading} variant={"contained"} onClick={getAllPacks} color={"secondary"}>ALL</Button>
                 </div>
                 <div>
                     <RangeSliderContainer/>
@@ -216,21 +216,21 @@ const PacksPage = () => {
 
                             <tbody className={s.trBody}>
                             {!(packsData.length > 0) || !packsData
-                                ? <div> {!isLoading && <ErrorSnackbar severity={"warning"} text={'Колоды не найдены'}/>}</div>
+                                ? <tr>{!isLoading && <ErrorSnackbar severity={"warning"} text={'Колоды не найдены'}/>}</tr>
                                 : packsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trItem}
                                         onClick={()=>openPackHandler(t._id, t.user_name, t.name)}
                                     >
                                         {t.user_id === loggedUserId && editPackMode && t._id === packIdToEdit
-                                            ? <input
+                                            ?<input
                                                 placeholder={t.name}
                                                 value={editedName}
                                                 onChange={editPackNameInputHandler}
                                                 autoFocus
                                                 onBlur={()=>sendEditPackHandler(t._id, t.name)}
                                             />
-                                            : <td className={s.td}>{t.name}</td>}
+                                            :<td className={s.td}>{t.name}</td>}
                                         <td className={s.td}>{t.cardsCount}</td>
                                         <td className={s.td}>{t.updated.slice(0, 10).replace(/-/g, ".")}</td>
                                         <td className={s.td}>{t.user_name}</td>
@@ -249,12 +249,10 @@ const PacksPage = () => {
                                             <button
                                                 disabled={isLoading || editPackMode}
                                             >Learn</button>
-
                                         </td>
                                     </tr>
                                 )}
                             </tbody>
-
                         </table>
                         {isLoading && <><PikachuLoading/><LinearIndeterminate/></>}
                     </div>
