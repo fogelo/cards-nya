@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {MouseEvent, ChangeEvent, useEffect, useState} from "react";
 import s from "./PacksPage.module.css"
 import SuperButton from "../../../s-3-components/c2-SuperButton/SuperButton";
 
@@ -79,7 +79,8 @@ const PacksPage = () => {
     }
 
     // коллбэки для кнопок внутри таблицы:
-    const deletePackHandler = (packId: string) => {
+    const deletePackHandler = (event: MouseEvent<HTMLButtonElement>, packId: string) => {
+        event.stopPropagation();
         dispatch(DeletePackThunk(packId))
     }
 
@@ -91,7 +92,8 @@ const PacksPage = () => {
         setEditPackMode(!editPackMode)
     }
 
-    const changeEditModeHandler = (userIdFromMap: string, packNameFromMap: string ) => {
+    const changeEditModeHandler = (event: MouseEvent<HTMLButtonElement>, userIdFromMap: string, packNameFromMap: string ) => {
+        event.stopPropagation();
         if (editPackMode) {
             setEditedName('')
         }
@@ -100,16 +102,23 @@ const PacksPage = () => {
         setEditPackMode(true)
     }
 
-    const editPackNameInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const editPackNameInputHandler = (e:ChangeEvent<HTMLInputElement>) => {
         setEditedName(e.currentTarget.value)
     }
 
     const openPackHandler =(packId: string, createdBy: string, packNameInMap: string) => {
-        dispatch(setPackIdAC(packId))
-        dispatch(setPackUserNameAC(createdBy))
-        dispatch(setPackNameAC(packNameInMap))
-        dispatch(getAllCardsAC([]))
-        routeChange(CARDS_PATH)
+        if (!editPackMode) {
+            dispatch(setPackIdAC(packId))
+            dispatch(setPackUserNameAC(createdBy))
+            dispatch(setPackNameAC(packNameInMap))
+            dispatch(getAllCardsAC([]))
+            routeChange(CARDS_PATH)
+        }
+    }
+
+    const learnButtonHandler = (event: MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+
     }
 
 
@@ -227,7 +236,7 @@ const PacksPage = () => {
                                             ?<input
                                                 placeholder={t.name}
                                                 value={editedName}
-                                                onChange={editPackNameInputHandler}
+                                                onChange={(e)=>editPackNameInputHandler(e)}
                                                 autoFocus
                                                 onBlur={()=>sendEditPackHandler(t._id, t.name)}
                                             />
@@ -235,19 +244,23 @@ const PacksPage = () => {
                                         <td className={s.td}>{t.cardsCount}</td>
                                         <td className={s.td}>{t.updated.slice(0, 10).replace(/-/g, ".")}</td>
                                         <td className={s.td}>{t.user_name}</td>
-                                        <td className={s.tdButtons}>
+                                        <td className={s.td}>
 
                                             {t.user_id === loggedUserId && <button
-                                                onClick={()=>deletePackHandler(t._id)}
+                                                className={s.delButton}
+                                                onClick={(event)=>deletePackHandler(event, t._id)}
                                                 disabled={isLoading || editPackMode}
                                             >Delete</button>}
 
                                             {t.user_id === loggedUserId && <button
-                                                onClick={()=>changeEditModeHandler(t._id, t.name)}
+                                                className={s.editButton}
+                                                onClick={(event)=>changeEditModeHandler(event, t._id, t.name)}
                                                 disabled={isLoading || editPackMode}
                                             >Edit</button>}
 
                                             <button
+                                                onClick={(event)=>learnButtonHandler(event)}
+                                                className={s.learnButton}
                                                 disabled={isLoading || editPackMode}
                                             >Learn</button>
                                         </td>

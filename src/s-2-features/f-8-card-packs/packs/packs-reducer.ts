@@ -23,7 +23,7 @@ const initState = {
         max: 0,
         sortPacks: '',
         page: 1,
-        pageCount: 10,
+        pageCount: 15,
         user_id: ''
     } as PackParamsType,
 }
