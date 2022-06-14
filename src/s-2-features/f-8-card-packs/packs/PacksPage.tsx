@@ -30,7 +30,6 @@ import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/Pr
 import Pagination from "../../../s-3-components/c10-Pagination/Pagination";
 
 
-
 const PacksPage = () => {
 
     //react-router v6
@@ -84,7 +83,7 @@ const PacksPage = () => {
         dispatch(DeletePackThunk(packId))
     }
 
-    const sendEditPackHandler =(packId: string, oldName: string) => {
+    const sendEditPackHandler = (packId: string, oldName: string) => {
         if (oldName !== editedName) {
             dispatch(EditPackThunk({_id: packId, name: editedName}))
         }
@@ -92,7 +91,7 @@ const PacksPage = () => {
         setEditPackMode(!editPackMode)
     }
 
-    const changeEditModeHandler = (event: MouseEvent<HTMLButtonElement>, userIdFromMap: string, packNameFromMap: string ) => {
+    const changeEditModeHandler = (event: MouseEvent<HTMLButtonElement>, userIdFromMap: string, packNameFromMap: string) => {
         event.stopPropagation();
         if (editPackMode) {
             setEditedName('')
@@ -102,11 +101,11 @@ const PacksPage = () => {
         setEditPackMode(true)
     }
 
-    const editPackNameInputHandler = (e:ChangeEvent<HTMLInputElement>) => {
+    const editPackNameInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setEditedName(e.currentTarget.value)
     }
 
-    const openPackHandler =(packId: string, createdBy: string, packNameInMap: string) => {
+    const openPackHandler = (packId: string, createdBy: string, packNameInMap: string) => {
         if (!editPackMode) {
             dispatch(setPackIdAC(packId))
             dispatch(setPackUserNameAC(createdBy))
@@ -120,7 +119,6 @@ const PacksPage = () => {
         event.stopPropagation();
 
     }
-
 
 
     const getMyPacks = () => {
@@ -154,7 +152,8 @@ const PacksPage = () => {
                 </div>
                 <div>
                     <Button disabled={isLoading} variant={"contained"} onClick={getMyPacks}>MY</Button>
-                    <Button disabled={isLoading} variant={"contained"} onClick={getAllPacks} color={"secondary"}>ALL</Button>
+                    <Button disabled={isLoading} variant={"contained"} onClick={getAllPacks}
+                            color={"secondary"}>ALL</Button>
                 </div>
                 <div>
                     <RangeSliderContainer/>
@@ -185,7 +184,7 @@ const PacksPage = () => {
                                    }}
                         />
                         <CancelIcon
-                            onClick={()=>setSearchItem('')}
+                            onClick={() => setSearchItem('')}
                             className={s.clearButton}
                         />
 
@@ -224,23 +223,22 @@ const PacksPage = () => {
                             </tr>
                             </thead>
 
-                            <tbody className={s.trBody}>
-                            {!(packsData.length > 0) || !packsData
-                                ? <tr>{!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"} text={'Колоды не найдены'}/>}</tr>
-                                : packsData.map((t) =>
+                            <tbody className={s.trBody}>{!(packsData.length > 0) || !packsData ? <div>{!isLoading &&
+                                <ErrorSnackbar vertical={"top"} severity={"warning"} text={'Колоды не найдены'}/>}</div> : packsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trItem}
-                                        onClick={()=>openPackHandler(t._id, t.user_name, t.name)}
+                                        onClick={() => openPackHandler(t._id, t.user_name, t.name)}
                                     >
                                         {t.user_id === loggedUserId && editPackMode && t._id === packIdToEdit
-                                            ?<input
+                                            ? (<input
                                                 placeholder={t.name}
                                                 value={editedName}
-                                                onChange={(e)=>editPackNameInputHandler(e)}
+                                                onChange={(e) => editPackNameInputHandler(e)}
                                                 autoFocus
-                                                onBlur={()=>sendEditPackHandler(t._id, t.name)}
-                                            />
-                                            :<td className={s.td}>{t.name}</td>}
+                                                onBlur={() => sendEditPackHandler(t._id, t.name)}
+                                            />)
+                                            : <td className={s.td}>{t.name}</td>
+                                        }
                                         <td className={s.td}>{t.cardsCount}</td>
                                         <td className={s.td}>{t.updated.slice(0, 10).replace(/-/g, ".")}</td>
                                         <td className={s.td}>{t.user_name}</td>
@@ -248,27 +246,29 @@ const PacksPage = () => {
 
                                             {t.user_id === loggedUserId && <button
                                                 className={s.delButton}
-                                                onClick={(event)=>deletePackHandler(event, t._id)}
+                                                onClick={(event) => deletePackHandler(event, t._id)}
                                                 disabled={isLoading || editPackMode}
                                             >Delete</button>}
 
                                             {t.user_id === loggedUserId && <button
                                                 className={s.editButton}
-                                                onClick={(event)=>changeEditModeHandler(event, t._id, t.name)}
+                                                onClick={(event) => changeEditModeHandler(event, t._id, t.name)}
                                                 disabled={isLoading || editPackMode}
                                             >Edit</button>}
 
                                             <button
-                                                onClick={(event)=>learnButtonHandler(event)}
+                                                onClick={(event) => learnButtonHandler(event)}
                                                 className={s.learnButton}
                                                 disabled={isLoading || editPackMode}
-                                            >Learn</button>
+                                            >Learn
+                                            </button>
                                         </td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>
                         {isLoading && <><PikachuLoading/><LinearIndeterminate/></>}
+
                     </div>
                 </div>
                 <div className={s.paginationBox}>

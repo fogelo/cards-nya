@@ -167,8 +167,7 @@ const CardsPage = () => {
                             </thead>
 
                             <tbody className={s.trBody}>
-                            {!(cardsData.length > 0) || !cardsData
-                                ? <tr>{!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"} text={'Карты в колоде не найдены'}/>}</tr>
+                            {!(cardsData.length > 0) || !cardsData ? <div>{!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"} text={'Карты в колоде не найдены'}/>}</div>
                                 : cardsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trItem}
@@ -186,19 +185,16 @@ const CardsPage = () => {
                                         <td className={s.td}>{t.updated}</td>
                                         <td className={s.td}>{t.grade}</td>
                                         <td className={s.td}>
-
                                             {t.user_id === loggedUserId && <button
                                                 className={s.delButton}
                                                 onClick={()=>deleteCardHandler(t._id)}
                                                 disabled={isLoading || editCardMode}
                                             >Delete</button>}
-
                                             {t.user_id === loggedUserId && <button
                                                 className={s.editButton}
                                                 onClick={()=>changeEditModeHandler(t._id)}
                                                 disabled={isLoading || editCardMode}
                                             >Edit</button>}
-
                                             <button
                                                 className={s.learnButton}
                                             >Open</button>
@@ -206,7 +202,6 @@ const CardsPage = () => {
                                     </tr>
                                 )
                             }
-
                             </tbody>
 
                         </table>
