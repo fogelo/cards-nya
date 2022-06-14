@@ -188,16 +188,20 @@ const CardsPage = () => {
                                         <td className={s.td}>
 
                                             {t.user_id === loggedUserId && <button
+                                                className={s.delButton}
                                                 onClick={()=>deleteCardHandler(t._id)}
                                                 disabled={isLoading || editCardMode}
                                             >Delete</button>}
 
                                             {t.user_id === loggedUserId && <button
+                                                className={s.editButton}
                                                 onClick={()=>changeEditModeHandler(t._id)}
                                                 disabled={isLoading || editCardMode}
                                             >Edit</button>}
 
-                                            <button>Open</button>
+                                            <button
+                                                className={s.learnButton}
+                                            >Open</button>
                                         </td>
                                     </tr>
                                 )

@@ -122,3 +122,35 @@
     /*border: 1px solid;*/
     font-size: 14px;
 }
+
+.delButton {
+    background-color: tomato;
+    border: 1px white;
+    border-radius: 2px;
+    margin: 1px 1px 1px 1px;
+}
+.delButton:hover {
+    color: white;
+    background-color: red;
+}
+
+.editButton {
+    background-color: greenyellow;
+    border: 0 white;
+    border-radius: 2px;
+    margin: 1px 1px 1px 1px;
+}
+.editButton:hover {
+    color: white;
+    background-color: green;
+}
+.learnButton {
+    background-color: cornflowerblue;
+    border: 0 white;
+    border-radius: 2px;
+    margin: 1px 1px 1px 1px;
+}
+.learnButton:hover {
+    color: white;
+    background-color: #21268F;
+}
