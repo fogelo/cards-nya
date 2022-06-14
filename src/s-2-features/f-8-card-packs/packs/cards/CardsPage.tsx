@@ -167,8 +167,9 @@ const CardsPage = () => {
                             </thead>
 
                             <tbody className={s.trBody}>
-                            {!(cardsData.length > 0) || !cardsData ? <div>{!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"} text={'Карты в колоде не найдены'}/>}</div>
-                                : cardsData.map((t) =>
+                            {!(cardsData.length > 0) || !cardsData
+                                ?<div>{!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"} text={'Карты в колоде не найдены'}/>}</div>
+                                :cardsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trItem}
                                     >
