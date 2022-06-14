@@ -5,7 +5,7 @@ import styled from "styled-components";
 const PikachuLoading = () => {
     return (
         <PikachuLoadingStyled>
-            <img src={pikachu} alt=""/>
+            <img src={pikachu} alt="pikachu"/>
         </PikachuLoadingStyled>
     );
 };

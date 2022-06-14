@@ -13,6 +13,8 @@ import {
     switchProfileEditModeAC, SwitchProfileEditModeType
 } from "../../../../f-3-profile/p-2-bll/b-2-redux/profile-reducer";
 import {RegisterAPI} from "../../../a-2-register/r-3-dal/RegisterAPI";
+import {getAllPacksAC, SetAllPacksDataACType} from "../../../../f-8-card-packs/packs/packs-reducer";
+import {getAllCardsAC, SetAllCardsDataACType} from "../../../../f-8-card-packs/packs/cards/cards-reducer";
 
 
 const initStateIsLoggedIn = {
@@ -62,12 +64,14 @@ export const LogOutThunk = () => async (dispatch: Dispatch<LoginReducerAction>) 
             if (res.data.info) {
                 dispatch(setIsLoggedInAC(false))
                 dispatch(setAppErrorAC(null))
-
+                dispatch(getAllPacksAC([]))
+                dispatch(getAllCardsAC([]))
             }
         })
         .catch((error) => {
             const data = error?.response?.data;
             if (data.error && data.in) {
+                dispatch(setAppErrorAC(null))
                 dispatch(setIsLoggedInAC(false))
             }
             if (axios.isAxiosError(error) && data) {
@@ -114,3 +118,5 @@ export type LoginReducerAction =
     | SetAppErrorActionType
     | SetUserDataType
     | SwitchProfileEditModeType
+    | SetAllPacksDataACType
+    | SetAllCardsDataACType

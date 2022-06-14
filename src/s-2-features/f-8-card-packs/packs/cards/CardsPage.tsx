@@ -17,10 +17,9 @@ import {Navigate, useNavigate} from "react-router-dom";
 import {IAppStore, useAppDispatch} from "../../../../s-1-main/m-2-bll/store";
 import {PACKS_PATH, SIGN_IN_PATH} from "../../../../s-1-main/m-1-ui/Routing";
 import {ErrorSnackbar} from "../../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
-import RangeSlider from "../../../../s-3-components/c7-Slider/Slider";
 import LinearIndeterminate from "../../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
-import {EditPackThunk, ParamAC_SetSearch} from "../packs-reducer";
+import PikachuLoading from "../../../../s-3-components/PikachuLoading";
 
 
 const CardsPage = () => {
@@ -100,7 +99,7 @@ const CardsPage = () => {
     useEffect(() => {
         dispatch(GetCardsThunk());
     }, [
-        dispatch, isLoggedIn,
+        dispatch,
         cardsParams.cardsPack_id,
         cardsParams.sortCards,
         cardsParams.page,
@@ -122,7 +121,6 @@ const CardsPage = () => {
             </div>
         )
     }
-
 
     return (
         <div className={s.mainContainer}>
@@ -169,12 +167,11 @@ const CardsPage = () => {
                             </thead>
 
                             <tbody className={s.trBody}>
-                            {!cardsData
-                                ? <div> {!isLoading &&
-                                    <ErrorSnackbar severity={"warning"} text={'Data not found'}/>}</div>
+                            {!(cardsData.length > 0) || !cardsData
+                                ? <tr>{!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"} text={'Карты в колоде не найдены'}/>}</tr>
                                 : cardsData.map((t) =>
                                     <tr key={t._id}
-                                        className={s.trBody}
+                                        className={s.trItem}
                                     >
                                         {t._id === cardIdToEdit && editCardMode
                                             ? <input
@@ -191,16 +188,20 @@ const CardsPage = () => {
                                         <td className={s.td}>
 
                                             {t.user_id === loggedUserId && <button
+                                                className={s.delButton}
                                                 onClick={()=>deleteCardHandler(t._id)}
                                                 disabled={isLoading || editCardMode}
                                             >Delete</button>}
 
                                             {t.user_id === loggedUserId && <button
+                                                className={s.editButton}
                                                 onClick={()=>changeEditModeHandler(t._id)}
                                                 disabled={isLoading || editCardMode}
                                             >Edit</button>}
 
-                                            <button>Open</button>
+                                            <button
+                                                className={s.learnButton}
+                                            >Open</button>
                                         </td>
                                     </tr>
                                 )
@@ -209,8 +210,7 @@ const CardsPage = () => {
                             </tbody>
 
                         </table>
-                        {isLoading && <LinearIndeterminate/>}
-
+                        {isLoading && <><PikachuLoading/><LinearIndeterminate/></>}
                     </div>
                 </div>
 

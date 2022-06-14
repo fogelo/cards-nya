@@ -5,6 +5,7 @@ import s from './RangeSlider.module.css'
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {ParamAC_SetMax, ParamAC_SetMin} from "../../packs-reducer";
+import {IAppStore} from "../../../../../s-1-main/m-2-bll/store";
 
 export type RangeSliderType = {
     maxCardsCount: number
@@ -45,6 +46,8 @@ const CustomSlider = styled(Slider)({
 
 export const RangeSlider = React.memo((props: RangeSliderType) => {
     const store = useSelector(store => store);
+    const isLoading = useSelector<IAppStore, boolean>((state) => state.app.isLoading);
+
     const [values, setValues] = useState<number[]>([props.minCardsCount, props.maxCardsCount])
     const dispatch = useDispatch();
     const handleChange = (event: Event, newValue: number | number[]) => {
@@ -71,6 +74,7 @@ export const RangeSlider = React.memo((props: RangeSliderType) => {
 
             <div className={s.rangeTitle}><b>Number of cards</b></div>
             <CustomSlider
+                disabled={isLoading}
                 getAriaLabel={() => 'Number of cards'}
                 value={values}
                 onChange={handleChange}
