@@ -223,8 +223,8 @@ const PacksPage = () => {
                             </tr>
                             </thead>
                             <tbody className={s.trBody}>{!(packsData.length > 0) || !packsData
-                                ? <tr><td>(!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"}
-                                                                        text={'Колоды не найдены'}/>)</td></tr>
+                                ? <tr><td>{!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"}
+                                                                        text={'Колоды не найдены'}/>}</td></tr>
                                 : packsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trItem}
