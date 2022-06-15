@@ -222,10 +222,10 @@ const PacksPage = () => {
                                 <th className={s.th}>Actions</th>
                             </tr>
                             </thead>
-
                             <tbody className={s.trBody}>{!(packsData.length > 0) || !packsData
-                                ?<div>{!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"} text={'Колоды не найдены'}/>}</div>
-                                :packsData.map((t) =>
+                                ? <tr><td>(!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"}
+                                                                        text={'Колоды не найдены'}/>)</td></tr>
+                                : packsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trItem}
                                         onClick={() => openPackHandler(t._id, t.user_name, t.name)}
