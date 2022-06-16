@@ -260,7 +260,7 @@ const PacksPage = () => {
                     </div>
                 </div>
                 <div className={s.paginationBox}>
-                   {/*<PaginationPacksContainer/>*/}
+                   <PaginationPacksContainer/>
                 </div>
             </div>
         </div>
