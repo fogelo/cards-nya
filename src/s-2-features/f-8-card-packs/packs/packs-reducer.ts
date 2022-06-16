@@ -103,7 +103,7 @@ export const ParamAC_SetUserId = (userId: string) => {
 
 
 // THUNKS
-export const GetPacksThunk = () => async (dispatch: AppThunkType, getState: () => IAppStore) => {
+export const GetPacksThunk = () => (dispatch: AppThunkType, getState: () => IAppStore) => {
     dispatch(changeIsLoadingAC(true))
     const params = getState().packs.params
     PacksAPI.getPacksData(params)
@@ -150,7 +150,7 @@ export const AddNewPackThunk = (params: AddNewPackType) => async (dispatch: AppT
             dispatch(changeIsLoadingAC(false))
         })
 }
-export const DeletePackThunk = (_id: string) => async (dispatch: AppThunkType) => {
+export const DeletePackThunk = (_id: string) => async (dispatch: AppThunkType, getState: () => IAppStore) => {
     dispatch(changeIsLoadingAC(true))
     PacksAPI.deletePack(_id)
         .then((res) => {

@@ -150,7 +150,7 @@ const PacksPage = () => {
 
     useEffect(() => {
         dispatch(GetPacksThunk());
-    }, []);
+    }, [params.pageCount]);
 
     // редирект на логин тут:
 
