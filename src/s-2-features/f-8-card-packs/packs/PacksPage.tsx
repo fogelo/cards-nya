@@ -109,22 +109,22 @@ const PacksPage = () => {
         setEditPackMode(!editPackMode)
     }
 
-    const changeEditModeHandler = (event: MouseEvent<HTMLButtonElement>, userIdFromMap: string, packNameFromMap: string ) => {
-        event.stopPropagation();
-        if (editPackMode) {
-            setEditedName("")
-        }
-        setEditedName(packNameFromMap)
-        setPackIdToEdit(userIdFromMap)
-        setEditPackMode(true)
-    }
+    // const changeEditModeHandler = (event: MouseEvent<HTMLButtonElement>, userIdFromMap: string, packNameFromMap: string) => {
+    //     event.stopPropagation();
+    //     if (editPackMode) {
+    //         setEditedName("")
+    //     }
+    //     setEditedName(packNameFromMap)
+    //     setPackIdToEdit(userIdFromMap)
+    //     setEditPackMode(true)
+    // }
 
     const editPackNameInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setEditedName(e.currentTarget.value)
     }
 
     const openPackHandler = (packId: string, createdBy: string, packNameInMap: string) => {
-        if (!editPackMode) {
+        if (!isOpenEditPackModal) {
             dispatch(setPackIdAC(packId))
             dispatch(setPackUserNameAC(createdBy))
             dispatch(setPackNameAC(packNameInMap))
@@ -226,85 +226,47 @@ const PacksPage = () => {
                             </tr>
                             </thead>
                             <tbody
-                                className={s.trBody}>{!(packsData.length > 0) || !packsData ? "" : packsData.map((t) =>
-                                <tr key={t._id}
-                                    className={s.trItem}
-                                    onClick={() => openPackHandler(t._id, t.user_name, t.name)}
-                                >{t.user_id === loggedUserId && editPackMode && t._id === packIdToEdit
-                                    ? <input
-                                        placeholder={t.name}
-                                        value={editedName}
-                                        onChange={(e) => editPackNameInputHandler(e)}
-                                        autoFocus
-                                        onBlur={() => sendEditPackHandler(t._id, t.name)}
-                                    />
-                                    : <td className={s.td}>{t.name}</td>}
-                                    <td className={s.td}>{t.cardsCount}</td>
-                                    <td className={s.td}>{t.updated.slice(0, 10).replace(/-/g, ".")}</td>
-                                    <td className={s.td}>{t.user_name}</td>
-                                    <td className={s.td}>
-                                        {t.user_id === loggedUserId && <button
-                                            className={s.delButton}
-                                            onClick={(event) => openDeletePackModal(event, t._id)}
-                                            disabled={isLoading}
-                                        >Delete</button>}
-                                        {t.user_id === loggedUserId && <button
-                                            className={s.editButton}
-                                            onClick={(event) => openEditPackModal(event, t._id, t.name)}
-                                            disabled={isLoading}
-                                        >Edit</button>}
-                                        <button
-                                            onClick={(event) => learnButtonHandler(event)}
-                                            className={s.learnButton}
-                                            disabled={isLoading}
-                                        >Learn
-                                        </button>
-                                    </td>
-                                </tr>)}
-                            <tbody className={s.trBody}>{!(packsData.length > 0) || !packsData
-                                ? <tr><td>{!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"}
-                                                                        text={'Колоды не найдены'}/>}</td></tr>
+                                className={s.trBody}>{!(packsData.length > 0) || !packsData
+                                ? <tr>
+                                    <td>{!isLoading && <ErrorSnackbar vertical={"top"}
+                                                                      severity={"warning"}
+                                                                      text={"Колоды не найдены"}/>}</td>
+                                </tr>
                                 : packsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trItem}
                                         onClick={() => openPackHandler(t._id, t.user_name, t.name)}
-                                    >
-                                        {t.user_id === loggedUserId && editPackMode && t._id === packIdToEdit
-                                            ? (<input
-                                                placeholder={t.name}
-                                                value={editedName}
-                                                onChange={(e) => editPackNameInputHandler(e)}
-                                                autoFocus
-                                                onBlur={() => sendEditPackHandler(t._id, t.name)}
-                                            />)
-                                            : <td className={s.td}>{t.name}</td>
-                                        }
+                                    >{t.user_id === loggedUserId && editPackMode && t._id === packIdToEdit
+                                        ? <input
+                                            placeholder={t.name}
+                                            value={editedName}
+                                            onChange={(e) => editPackNameInputHandler(e)}
+                                            autoFocus
+                                            onBlur={() => sendEditPackHandler(t._id, t.name)}
+                                        />
+                                        : <td className={s.td}>{t.name}</td>}
                                         <td className={s.td}>{t.cardsCount}</td>
                                         <td className={s.td}>{t.updated.slice(0, 10).replace(/-/g, ".")}</td>
                                         <td className={s.td}>{t.user_name}</td>
                                         <td className={s.td}>
-
                                             {t.user_id === loggedUserId && <button
                                                 className={s.delButton}
-                                                onClick={(event) => deletePackHandler(event, t._id)}
-                                                disabled={isLoading || editPackMode}
+                                                onClick={(event) => openDeletePackModal(event, t._id)}
+                                                disabled={isLoading}
                                             >Delete</button>}
-
                                             {t.user_id === loggedUserId && <button
                                                 className={s.editButton}
-                                                onClick={(event) => changeEditModeHandler(event, t._id, t.name)}
-                                                disabled={isLoading || editPackMode}
+                                                onClick={(event) => openEditPackModal(event, t._id, t.name)}
+                                                disabled={isLoading}
                                             >Edit</button>}
-
                                             <button
                                                 onClick={(event) => learnButtonHandler(event)}
                                                 className={s.learnButton}
-                                                disabled={isLoading || editPackMode}
+                                                disabled={isLoading}
                                             >Learn
                                             </button>
                                         </td>
-                                    </tr>
-                                )}
+                                    </tr>)}
                             </tbody>
                         </table>
                         {isLoading && <><PikachuLoading/><LinearIndeterminate/></>}
