@@ -22,24 +22,24 @@ const initState = {
     maxCardsCount: 10,
     cardPacksTotalCount: 0,
     params: {
-        packName: '',
+        packName: "",
         min: 0,
         max: 0,
-        sortPacks: '0updated',
+        sortPacks: "0updated",
         page: 1,
         pageCount: 15,
-        user_id: ''
+        user_id: ""
     } as PackParamsType,
 }
 
 export const packsReducer = (state: PacksInitStateType = initState, action: PacksAllActions): PacksInitStateType => {
     switch (action.type) {
 
-        case 'packs/SET-CARD-PACKS-CURRENT-PAGE':
-            return {...state, params: {...state.params, page:action.page}}
+        case "packs/SET-CARD-PACKS-CURRENT-PAGE":
+            return {...state, params: {...state.params, page: action.page}}
 
-        case 'packs/SET-CARD-PACKS-PAGE-COUNT':
-            return {...state, params: {...state.params, pageCount:action.pageCount}}
+        case "packs/SET-CARD-PACKS-PAGE-COUNT":
+            return {...state, params: {...state.params, pageCount: action.pageCount}}
 
 
         case "packs/SET_PACKS_DATA":
@@ -48,8 +48,10 @@ export const packsReducer = (state: PacksInitStateType = initState, action: Pack
             return {...state, params: {...state.params, packName: action.packName}}
         case "packs/RANGE_SET_CARDS_PACKS_COUNT":
             return {...state, params: {...state.params, min: action.min, max: action.max}}
-        case 'packs/SET-SORT-PACKS-COUNT':
+        case "packs/SET-SORT-PACKS-COUNT":
             return {...state, params: {...state.params, sortPacks: action.value}}
+        case "packs/SET_USERID_PARAM":
+            return {...state, params: {...state.params, user_id: action.userId}}
 
         default:
             return {...state}
@@ -58,54 +60,50 @@ export const packsReducer = (state: PacksInitStateType = initState, action: Pack
 
 // ACTION CREATORS
 //TODO исправить get на set по всему проекту
-
-
 export const setCardPacksCurrentPageAC = (page: number) =>
-    ({type: 'packs/SET-CARD-PACKS-CURRENT-PAGE', page} as const)
+    ({type: "packs/SET-CARD-PACKS-CURRENT-PAGE", page} as const)
 export const setCardPacksPageCountAC = (pageCount: number) =>
-    ({type: 'packs/SET-CARD-PACKS-PAGE-COUNT', pageCount} as const)
+    ({type: "packs/SET-CARD-PACKS-PAGE-COUNT", pageCount} as const)
 
 
-
-
-export const setSortPacksValueAC = (value: SortingPacksType ) =>
-    ({type: 'packs/SET-SORT-PACKS-COUNT', value} as const)
+export const setSortPacksValueAC = (value: SortingPacksType) =>
+    ({type: "packs/SET-SORT-PACKS-COUNT", value} as const)
 
 
 export const getAllPacksAC = (cardPacks: CardPackType[]) => {
-    return {type: 'packs/SET_PACKS_DATA', cardPacks} as const
+    return {type: "packs/SET_PACKS_DATA", cardPacks} as const
 }
 export const setCardsPacksCountFromRangeAC = (numbers: Array<number>) =>  // min and max cardsPacks
-    ({type: 'packs/RANGE_SET_CARDS_PACKS_COUNT', min: numbers[0], max: numbers[1]} as const)
+    ({type: "packs/RANGE_SET_CARDS_PACKS_COUNT", min: numbers[0], max: numbers[1]} as const)
 
 
 export const ParamAC_SetSearch = (packName: string) => {
-    return {type: 'packs/SET_SEARCH_PARAM', packName} as const
+    return {type: "packs/SET_SEARCH_PARAM", packName} as const
 }
 export const ParamAC_SetMin = (min: number) => {
     return {
-        type: 'packs/SET_MIN_PARAM', min: 0
+        type: "packs/SET_MIN_PARAM", min: 0
     } as const
 }
 export const ParamAC_SetMax = (max: number) => {
-    return {type: 'packs/SET_MAX_PARAM'} as const
+    return {type: "packs/SET_MAX_PARAM"} as const
 }
 export const ParamAC_SetSortPacks = () => {
-    return {type: 'packs/SET_SORT_PARAM'} as const
+    return {type: "packs/SET_SORT_PARAM"} as const
 }
 export const ParamAC_SetPage = (pageNum: number) => {
-    return {type: 'packs/SET_PAGE_PARAM'} as const
+    return {type: "packs/SET_PAGE_PARAM"} as const
 }
 export const ParamAC_SetPageCount = (pageCount: number) => {
-    return {type: 'packs/SET_PAGE_COUNT_PARAM'} as const
+    return {type: "packs/SET_PAGE_COUNT_PARAM"} as const
 }
 export const ParamAC_SetUserId = (userId: string) => {
-    return {type: 'packs/SET_USERID_PARAM'} as const
+    return {type: "packs/SET_USERID_PARAM", userId} as const
 }
 
 
 // THUNKS
-export const GetAllPacksThunk = () => async (dispatch: AppThunkType, getState: () => IAppStore) => {
+export const GetPacksThunk = () => async (dispatch: AppThunkType, getState: () => IAppStore) => {
     dispatch(changeIsLoadingAC(true))
     const params = getState().packs.params
     PacksAPI.getPacksData(params)
@@ -129,31 +127,7 @@ export const GetAllPacksThunk = () => async (dispatch: AppThunkType, getState: (
 
         })
 }
-export const GetMyPacksThunk = () => async (dispatch: AppThunkType, getState: () => IAppStore) => {
-    dispatch(changeIsLoadingAC(true))
-    const params = getState().packs.params
-    const userId = getState().profile.userData._id
-    PacksAPI.getPacksData({...params, user_id: userId})
-        .then((res) => {
-            dispatch(getAllPacksAC(res.data.cardPacks))
-            console.log("You are get packs data successfully")
-        })
-        .catch((error) => {
-            const data = error?.response?.data;
-            // При запросе колод если сервер сказал что куки нет, то разлогиниваемся в редаксе.
-            if (error.error === `you are not authorized /ᐠ-ꞈ-ᐟ\\`) {
-                dispatch(LogOutThunk())
-            }
-            if (axios.isAxiosError(error) && data) {
-                dispatch(setAppErrorAC(data.error || "Some error occurred"));
-            } else (dispatch(setAppErrorAC(error.message + ". More details in the console")))
-            console.log({...error});
-        })
-        .finally(() => {
-            dispatch(changeIsLoadingAC(false))
 
-        })
-}
 
 
 export const AddNewPackThunk = (params: AddNewPackType) => async (dispatch: AppThunkType) => {
@@ -163,7 +137,7 @@ export const AddNewPackThunk = (params: AddNewPackType) => async (dispatch: AppT
             if (res.data.newCardsPack) {
                 console.log("You are added new pack successfully")
             }
-            dispatch(GetAllPacksThunk())
+            dispatch(GetPacksThunk())
         })
         .catch((error) => {
             const data = error?.response?.data;
@@ -184,7 +158,7 @@ export const DeletePackThunk = (_id: string) => async (dispatch: AppThunkType) =
                 // сюда добавить success SnackBar надо потом.
                 console.log("Pack deleted successfully")
             }
-            dispatch(GetAllPacksThunk())
+            dispatch(GetPacksThunk())
         })
         .catch((error) => {
             const data = error?.response?.data;
@@ -205,13 +179,13 @@ export const EditPackThunk = (editPack: EditPackType) => async (dispatch: AppThu
             if (res.data.newCardsPack) {
                 console.log("You are added new pack successfully")
             }
-            dispatch(GetAllPacksThunk())
+            dispatch(GetPacksThunk())
         })
         .catch((error) => {
             const data = error?.response?.data;
             if (axios.isAxiosError(error) && data) {
-                dispatch(setAppErrorAC(data.error || 'Some error occurred'));
-            } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
+                dispatch(setAppErrorAC(data.error || "Some error occurred"));
+            } else (dispatch(setAppErrorAC(error.message + ". More details in the console")))
             console.log({...error});
         })
         .finally(() => {
@@ -237,7 +211,6 @@ export type ParamAC_setCardsPageCountType = ReturnType<typeof setCardPacksPageCo
 export type ParamAC_setCardPacksCurrentPageType = ReturnType<typeof setCardPacksCurrentPageAC>
 
 
-
 export type PacksAllActions =
     SetAllPacksDataACType
     | ChangeIsLoading
@@ -252,8 +225,8 @@ export type PacksAllActions =
     | ParamAC_SetPageCountType
     | ParamAC_SetUserIdType
     | ParamAC_SetSortPacksValueType
-    |ParamAC_setCardsPageCountType
-    |ParamAC_setCardPacksCurrentPageType
+    | ParamAC_setCardsPageCountType
+    | ParamAC_setCardPacksCurrentPageType
 
 
 

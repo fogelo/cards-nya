@@ -2,15 +2,14 @@ import React, {MouseEvent, ChangeEvent, useEffect, useState} from "react";
 import s from "./PacksPage.module.css"
 import SuperButton from "../../../s-3-components/c2-SuperButton/SuperButton";
 import {useSelector} from "react-redux";
-import {IAppStore, RootStateType, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
-import {CardPackType, PackParamsType, SortingPacksType} from "./PacksAPI";
+import {IAppStore, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
+import {CardPackType, PackParamsType} from "./PacksAPI";
 import {
     AddNewPackThunk,
     DeletePackThunk,
     EditPackThunk, getAllPacksAC,
-    GetAllPacksThunk,
-    GetMyPacksThunk,
-    ParamAC_SetSearch
+    GetPacksThunk,
+    ParamAC_SetSearch, ParamAC_SetUserId
 } from "./packs-reducer";
 
 import {Navigate, useNavigate} from "react-router-dom";
@@ -27,7 +26,6 @@ import Pagination from "../../../s-3-components/c10-Pagination/Pagination";
 import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
 import {Sorting} from "./cards/Sorting/Sorting";
 import {PaginationPacksContainer} from "./cards/Pagination/PaginationPacksContainer";
-
 
 
 const PacksPage = () => {
@@ -137,19 +135,22 @@ const PacksPage = () => {
 
     }
 
-
     const getMyPacks = () => {
-        dispatch(GetMyPacksThunk())
-        dispatch(getAllPacksAC([]))
+        // dispatch(GetMyPacksThunk())
+        // dispatch(getAllPacksAC([]))
+        dispatch(ParamAC_SetUserId(loggedUserId))
+        dispatch(GetPacksThunk())
     }
     const getAllPacks = () => {
-        dispatch(GetAllPacksThunk())
-        dispatch(getAllPacksAC([]))
+        // dispatch(GetAllPacksThunk())
+        // dispatch(getAllPacksAC([]))
+        dispatch(ParamAC_SetUserId(""))
+        dispatch(GetPacksThunk())
     }
 
     useEffect(() => {
-        dispatch(GetAllPacksThunk());
-    }, [dispatch, params]);
+        dispatch(GetPacksThunk());
+    }, []);
 
     // редирект на логин тут:
 
@@ -273,7 +274,7 @@ const PacksPage = () => {
                     </div>
                 </div>
                 <div className={s.paginationBox}>
-                   <PaginationPacksContainer/>
+                    <PaginationPacksContainer/>
                 </div>
             </div>
             <FormDialog title={"Delete Pack"}
