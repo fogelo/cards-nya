@@ -10,15 +10,14 @@ import {
     DeletePackThunk,
     EditPackThunk, getAllPacksAC,
     GetAllPacksThunk,
-    GetMyPacksThunk,
-    ParamAC_SetSearch
+    GetMyPacksThunk, ParamAC_SetPage, ParamAC_SetSearch
 } from "./packs-reducer";
 
 import {Navigate, useNavigate} from "react-router-dom";
 import {CARDS_PATH, SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
 import {ErrorSnackbar} from "../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
 import {RangeSliderContainer} from "./cards/RangeSlider/RangeSliderContainer";
-import {Button, InputAdornment, TextField} from "@mui/material";
+import {Button, InputAdornment, Pagination, TextField} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -27,7 +26,8 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import PikachuLoading from "../../../s-3-components/PikachuLoading";
 import {getAllCardsAC, setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
 import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
-import Pagination from "../../../s-3-components/c10-Pagination/Pagination";
+// import Pagination from "../../../s-3-components/c10-Pagination/Pagination";
+
 import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
 
 
@@ -49,6 +49,8 @@ const PacksPage = () => {
     const params = useSelector<IAppStore, PackParamsType>((state) => state.packs.params);
     const packsData = useSelector<IAppStore, CardPackType[]>(state => state.packs.cardPacks)
 
+    const cardPacksTotalCount = useSelector<IAppStore, number>(state => state.packs.cardPacksTotalCount)
+
     //хуки сюда:
     const [isPrivate, setPrivate] = useState<boolean>(false);
     const [packName, setPackName] = useState<string>("");
@@ -62,7 +64,6 @@ const PacksPage = () => {
     const [isOpenAddNewPackModal, setIsOpenAddNewPackModal] = useState(false)
     const [isOpenEditPackModal, setIsOpenEditPackModal] = useState(false)
     const [packId, setPackId] = useState("")
-
 
     // коллбэки тут:
     const searchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -143,14 +144,18 @@ const PacksPage = () => {
         dispatch(GetMyPacksThunk())
         dispatch(getAllPacksAC([]))
     }
-    const getAllPacks = () => {
+    const getAllPacks = (pageNum?: number): void => {
+        if (pageNum) {
+            dispatch(ParamAC_SetPage(pageNum))
+        }
         dispatch(GetAllPacksThunk())
         dispatch(getAllPacksAC([]))
+        console.log(pageNum)
     }
 
     useEffect(() => {
         dispatch(GetAllPacksThunk());
-    }, [dispatch, params]);
+    }, [dispatch, params, cardPacksTotalCount]);
 
     // редирект на логин тут:
 
@@ -170,7 +175,7 @@ const PacksPage = () => {
                 </div>
                 <div>
                     <Button disabled={isLoading} variant={"contained"} onClick={getMyPacks}>MY</Button>
-                    <Button disabled={isLoading} variant={"contained"} onClick={getAllPacks}
+                    <Button disabled={isLoading} variant={"contained"} onClick={() => getAllPacks()}
                             color={"secondary"}>ALL</Button>
                 </div>
                 <div>
@@ -271,9 +276,14 @@ const PacksPage = () => {
                     </div>
                 </div>
                 <div className={s.paginationBox}>
-                    <Pagination/>
+                    {/*<Pagination/>*/}
+                    <Pagination count={Math.ceil(cardPacksTotalCount / params.pageCount)}
+                                onChange={(e, page) => getAllPacks(page)}
+                                variant="outlined"
+                                shape="rounded"/>
                 </div>
             </div>
+
             <FormDialog title={"Delete Pack"}
                         buttonTitle={"Delete"}
                         buttonAction={deletePackHandler}
