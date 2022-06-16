@@ -3,8 +3,8 @@ import s from "./PacksPage.module.css"
 import SuperButton from "../../../s-3-components/c2-SuperButton/SuperButton";
 
 import {useSelector} from "react-redux";
-import {IAppStore, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
-import {CardPackType, PackParamsType} from "./PacksAPI";
+import {IAppStore, RootStateType, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
+import {CardPackType, PackParamsType, SortingPacksType} from "./PacksAPI";
 import {
     AddNewPackThunk,
     DeletePackThunk,
@@ -22,6 +22,7 @@ import {Button, InputAdornment, TextField} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import PikachuLoading from "../../../s-3-components/PikachuLoading";
 import {setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
+import {Sorting} from "./cards/Sorting/Sorting";
 
 
 const PacksPage = () => {
@@ -41,6 +42,7 @@ const PacksPage = () => {
     const loggedUserName = useSelector<IAppStore, string>((state) => state.profile.userData.name);
     const params = useSelector<IAppStore, PackParamsType>((state) => state.packs.params);
     const packsData = useSelector<IAppStore, CardPackType[]>(state => state.packs.cardPacks)
+    const sortingBy = useSelector<RootStateType, SortingPacksType | ''>(state => state.packs.sortingBy)
 
     //хуки сюда:
     const [isPrivate, setPrivate] = useState<boolean>(false);
@@ -50,6 +52,10 @@ const PacksPage = () => {
     const [editPackMode, setEditPackMode] = useState(false)
     const [editedName, setEditedName] = useState<string>('');
     const [packIdToEdit, setPackIdToEdit] = useState<string>('')
+
+
+
+
 
     // коллбэки тут:
     const searchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -110,6 +116,9 @@ const PacksPage = () => {
     const getMyPacks = () => {
         dispatch(GetMyPacksThunk())
         dispatch(getAllPacksAC([]))
+
+
+
     }
     const getAllPacks = () => {
         dispatch(GetAllPacksThunk())
@@ -118,7 +127,7 @@ const PacksPage = () => {
 
     useEffect(() => {
         dispatch(GetAllPacksThunk());
-    }, [dispatch, isLoggedIn, params]);
+    }, [dispatch, isLoggedIn, params, sortingBy]);
 
     // редирект на логин тут:
 
@@ -142,6 +151,7 @@ const PacksPage = () => {
                 </div>
                 <div>
                     <RangeSliderContainer/>
+                    <Sorting/>
                 </div>
             </div>
             <div className={s.rightContainer}>

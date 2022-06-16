@@ -8,17 +8,25 @@ export const PacksAPI = {
     postNewPack(cardsPack: AddNewPackType) {
         return instance.post<AddNewPackType, AxiosResponse<NewAddedPackType>>('/cards/pack', {cardsPack})
     },
-    deletePack (_id: string) {
-        return instance.delete<string,AxiosResponse<DeletedPackType>>(`/cards/pack?id=${_id}`)
+    deletePack(_id: string) {
+        return instance.delete<string, AxiosResponse<DeletedPackType>>(`/cards/pack?id=${_id}`)
     },
-    editPackName (cardsPack: EditPackType) {
+    editPackName(cardsPack: EditPackType) {
         return instance.put<EditPackType, AxiosResponse<any>>('/cards/pack', {cardsPack})
     }
 };
 
+export type SortingPacksType = "0cardsCount"
+    | "1cardsCount"
+    | "0name"
+    | "1name"
+    | "0updated"
+    | "1updated"
+
+
 export type EditPackType = {
-        _id: string,
-        name: string,
+    _id: string,
+    name: string,
 }
 
 export type DeletedPackType = {
@@ -38,7 +46,7 @@ export type PackParamsType = {
     sortPacks?: string
     page?: number
     pageCount?: number
-
+    sortingBy?:string
     user_id?: string
 }
 

@@ -1,4 +1,4 @@
-import {AddNewPackType, CardPackType, EditPackType, PackParamsType, PacksAPI} from "./PacksAPI";
+import {AddNewPackType, CardPackType, EditPackType, PackParamsType, PacksAPI, SortingPacksType} from "./PacksAPI";
 import {Dispatch} from "redux";
 import {
     ChangeIsLoading,
@@ -17,6 +17,7 @@ const initState = {
     minCardsCount: 0,
     maxCardsCount: 10,
     cardPacksTotalCount: 0,
+    sortingBy: "",
     params: {
         packName: '',
         min: 0,
@@ -30,9 +31,16 @@ const initState = {
 
 export const packsReducer = (state: PacksInitStateType = initState, action: PacksAllActions): PacksInitStateType => {
     switch (action.type) {
-        case "packs/SET_PACKS_DATA": return {...state, cardPacks: action.cardPacks}
-        case "packs/SET_SEARCH_PARAM": return {...state, params: {...state.params, packName: action.packName}}
-        case "packs/RANGE_SET_CARDS_PACKS_COUNT":return {...state, params: {...state.params, min: action.min, max:action.max} }
+        case "packs/SET_PACKS_DATA":
+            return {...state, cardPacks: action.cardPacks}
+
+        case "packs/SET_SEARCH_PARAM":
+            return {...state, params: {...state.params, packName: action.packName}}
+        case "packs/RANGE_SET_CARDS_PACKS_COUNT":
+            return {...state, params: {...state.params, min: action.min, max: action.max}}
+        case 'packs/SET-SORT-PACKS-COUNT':
+            return {...state, params: {...state.params, sortingBy: action.value}}
+
 
         default:
             return {...state}
@@ -41,6 +49,11 @@ export const packsReducer = (state: PacksInitStateType = initState, action: Pack
 
 // ACTION CREATORS
 //TODO исправить get на set по всему проекту
+
+export const setSortPacksValueAC = (value: SortingPacksType | "") =>
+    ({type: 'packs/SET-SORT-PACKS-COUNT', value} as const)
+
+
 export const getAllPacksAC = (cardPacks: CardPackType[]) => {
     return {type: 'packs/SET_PACKS_DATA', cardPacks} as const
 }
@@ -52,7 +65,8 @@ export const ParamAC_SetSearch = (packName: string) => {
     return {type: 'packs/SET_SEARCH_PARAM', packName} as const
 }
 export const ParamAC_SetMin = (min: number) => {
-    return {type: 'packs/SET_MIN_PARAM', min: 0
+    return {
+        type: 'packs/SET_MIN_PARAM', min: 0
     } as const
 }
 export const ParamAC_SetMax = (max: number) => {
@@ -195,6 +209,7 @@ export type ParamAC_SetMaxType = ReturnType<typeof ParamAC_SetMax>
 export type ParamAC_SetSortPacksType = ReturnType<typeof ParamAC_SetSortPacks>
 export type ParamAC_SetPageType = ReturnType<typeof ParamAC_SetPage>
 export type ParamAC_SetPageCountType = ReturnType<typeof ParamAC_SetPageCount>
+export type ParamAC_SetSortPacksValueType = ReturnType<typeof setSortPacksValueAC>
 export type ParamAC_SetUserIdType = ReturnType<typeof ParamAC_SetUserId>
 
 
@@ -203,7 +218,7 @@ export type PacksAllActions =
     | ChangeIsLoading
     | SetAppErrorActionType
     | SetIsLoggedInType
-|setCardPacksCurrentPageType
+    | setCardPacksCurrentPageType
     | ParamAC_SetSearchType
     | ParamAC_SetMinType
     | ParamAC_SetMaxType
@@ -211,6 +226,7 @@ export type PacksAllActions =
     | ParamAC_SetPageType
     | ParamAC_SetPageCountType
     | ParamAC_SetUserIdType
+    | ParamAC_SetSortPacksValueType
 
 
 
