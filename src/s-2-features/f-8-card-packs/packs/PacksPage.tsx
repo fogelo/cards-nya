@@ -60,6 +60,7 @@ const PacksPage = () => {
     //хуки для модалки удаления колоды
     const [isOpenDeletePackModal, setIsOpenDeletePackModal] = useState(false)
     const [isOpenAddNewPackModal, setIsOpenAddNewPackModal] = useState(false)
+    const [isOpenEditPackModal, setIsOpenEditPackModal] = useState(false)
     const [packId, setPackId] = useState("")
 
 
@@ -92,6 +93,12 @@ const PacksPage = () => {
         event.stopPropagation();
         setPackId(packId)
         setIsOpenDeletePackModal(true)
+    }
+    const openEditPackModal = (event: MouseEvent<HTMLButtonElement>, packId: string, packName: string) => {
+        event.stopPropagation();
+        setPackId(packId)
+        setIsOpenEditPackModal(true)
+        setPackName(packName)
     }
 
     const sendEditPackHandler = (packId: string, oldName: string) => {
@@ -239,17 +246,17 @@ const PacksPage = () => {
                                         {t.user_id === loggedUserId && <button
                                             className={s.delButton}
                                             onClick={(event) => openDeletePackModal(event, t._id)}
-                                            disabled={isLoading || editPackMode}
+                                            disabled={isLoading}
                                         >Delete</button>}
                                         {t.user_id === loggedUserId && <button
                                             className={s.editButton}
-                                            onClick={(event) => changeEditModeHandler(event, t._id, t.name)}
-                                            disabled={isLoading || editPackMode}
+                                            onClick={(event) => openEditPackModal(event, t._id, t.name)}
+                                            disabled={isLoading}
                                         >Edit</button>}
                                         <button
                                             onClick={(event) => learnButtonHandler(event)}
                                             className={s.learnButton}
-                                            disabled={isLoading || editPackMode}
+                                            disabled={isLoading}
                                         >Learn
                                         </button>
                                     </td>
@@ -288,6 +295,36 @@ const PacksPage = () => {
                     placeholder={"New pack name"}
                     fullWidth
                     className={s.input}
+                />
+            </FormDialog>
+            <FormDialog title={"Add New Pack"}
+                        buttonTitle={"Save"}
+                        buttonAction={sendNewPackHandler}
+                        open={isOpenAddNewPackModal}
+                        setOpen={setIsOpenAddNewPackModal}
+                        text={"Enter new pack name"}
+            >
+                <TextField
+                    disabled={isLoading}
+                    value={packName}
+                    onChange={newPackInputHandler}
+                    placeholder={"New pack name"}
+                    fullWidth
+                    className={s.input}
+                />
+            </FormDialog>
+            <FormDialog title={"Edit Pack"}
+                        buttonTitle={"Save"}
+                        buttonAction={() => sendEditPackHandler(packId, packName)}
+                        open={isOpenEditPackModal}
+                        setOpen={setIsOpenEditPackModal}
+                        text={"Enter new pack name"}
+            >
+                <input
+                    placeholder={packName}
+                    value={editedName}
+                    onChange={(e) => editPackNameInputHandler(e)}
+                    autoFocus
                 />
             </FormDialog>
         </div>
