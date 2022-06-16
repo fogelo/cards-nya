@@ -87,9 +87,9 @@ const CardsPage = () => {
     const editCardQuestInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setEditedQuest(e.currentTarget.value)
     }
-    const sendEditCardHandler =(cardId: string, oldQuest: string) => {
+    const sendEditCardHandler = (cardId: string, oldQuest: string) => {
         if (oldQuest !== editedQuest) {
-            dispatch(UpdateCardQuestThunk({_id: cardId, question: editedQuest, comments: '' }))
+            dispatch(UpdateCardQuestThunk({_id: cardId, question: editedQuest, comments: ''}))
         }
         setEditedQuest('')
         setEditCardMode(false)
@@ -114,7 +114,7 @@ const CardsPage = () => {
     }
 
     // редирект на КОЛОДЫ если нет cardPACK_Id
-    if (cardsParams.cardsPack_id === '' || !cardsParams.cardsPack_id ) {
+    if (cardsParams.cardsPack_id === '' || !cardsParams.cardsPack_id) {
         return (
             <div>
                 <Navigate to={PACKS_PATH}/>
@@ -168,45 +168,42 @@ const CardsPage = () => {
 
                             <tbody className={s.trBody}>
                             {!(cardsData.length > 0) || !cardsData
-                                ? <tr>{!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"} text={'Карты в колоде не найдены'}/>}</tr>
+                                ? <tr><td>{!isLoading &&<ErrorSnackbar vertical={"top"} severity={"warning"}
+                                                                     text={'Карты в колоде не найдены'}/>}</td></tr>
                                 : cardsData.map((t) =>
                                     <tr key={t._id}
                                         className={s.trItem}
-                                    >
-                                        {t._id === cardIdToEdit && editCardMode
-                                            ? <input
-                                                placeholder={t.question}
-                                                value={editedQuest}
-                                                onChange={editCardQuestInputHandler}
-                                                autoFocus
-                                                onBlur={ ()=> sendEditCardHandler (t._id, t.question)}
-                                            />
-                                            : <td className={s.td}>{t.question}</td>}
+                                    >{t._id === cardIdToEdit && editCardMode
+                                        ? <input
+                                            placeholder={t.question}
+                                            value={editedQuest}
+                                            onChange={editCardQuestInputHandler}
+                                            autoFocus
+                                            onBlur={() => sendEditCardHandler(t._id, t.question)}
+                                        />
+                                        : <td className={s.td}>{t.question}</td>}
                                         <td className={s.td}>{t.answer}</td>
                                         <td className={s.td}>{t.updated}</td>
                                         <td className={s.td}>{t.grade}</td>
                                         <td className={s.td}>
-
                                             {t.user_id === loggedUserId && <button
                                                 className={s.delButton}
-                                                onClick={()=>deleteCardHandler(t._id)}
+                                                onClick={() => deleteCardHandler(t._id)}
                                                 disabled={isLoading || editCardMode}
                                             >Delete</button>}
-
                                             {t.user_id === loggedUserId && <button
                                                 className={s.editButton}
-                                                onClick={()=>changeEditModeHandler(t._id)}
+                                                onClick={() => changeEditModeHandler(t._id)}
                                                 disabled={isLoading || editCardMode}
                                             >Edit</button>}
-
                                             <button
                                                 className={s.learnButton}
-                                            >Open</button>
+                                            >Open
+                                            </button>
                                         </td>
                                     </tr>
                                 )
                             }
-
                             </tbody>
 
                         </table>
