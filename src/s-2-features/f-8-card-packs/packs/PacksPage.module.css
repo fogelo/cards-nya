@@ -45,12 +45,12 @@
     justify-content: flex-start;
     align-items: center;
     align-content: center;
-    margin: 10px 0px 10px 0px;
+    margin: 10px 0 10px 0;
 }
 
 .input {
-    max-width: 60%;
-    height: 35px;
+    min-width: 60%;
+    /*height: 35px;*/
     font-size: large;
     margin-left: 10px;
 }

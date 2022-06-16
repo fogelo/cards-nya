@@ -58,7 +58,8 @@ const PacksPage = () => {
     const [editedName, setEditedName] = useState<string>("");
     const [packIdToEdit, setPackIdToEdit] = useState<string>("")
     //хуки для модалки удаления колоды
-    const [openDeletePackModal, setOpenDeletePackModal] = useState(false)
+    const [isOpenDeletePackModal, setIsOpenDeletePackModal] = useState(false)
+    const [isOpenAddNewPackModal, setIsOpenAddNewPackModal] = useState(false)
     const [packId, setPackId] = useState("")
 
 
@@ -87,10 +88,10 @@ const PacksPage = () => {
         dispatch(DeletePackThunk(packId))
     }
 
-    const OpenDeletePackModal = (event: MouseEvent<HTMLButtonElement>, packId: string) => {
+    const openDeletePackModal = (event: MouseEvent<HTMLButtonElement>, packId: string) => {
         event.stopPropagation();
         setPackId(packId)
-        setOpenDeletePackModal(true)
+        setIsOpenDeletePackModal(true)
     }
 
     const sendEditPackHandler = (packId: string, oldName: string) => {
@@ -172,13 +173,6 @@ const PacksPage = () => {
             <div className={s.rightContainer}>
                 <div>
                     <div className={s.findContainer}>
-
-                        {/*<input*/}
-                        {/*    value={searchItem}*/}
-                        {/*    onChange={searchInputHandler}*/}
-                        {/*    placeholder={"Search"}*/}
-                        {/*    className={s.input}*/}
-                        {/*/>*/}
                         <TextField type="text"
                                    disabled={isLoading}
                                    value={searchItem}
@@ -202,22 +196,14 @@ const PacksPage = () => {
                             disabled={isLoading}
                             onClick={sendSearchInputHandler}
                         >
-
                             Search
                         </SuperButton>
 
-                        <input
-                            disabled={isLoading}
-                            value={packName}
-                            onChange={newPackInputHandler}
-                            placeholder={"New pack"}
-                            className={s.input}
-                        />
                         <SuperButton
                             disabled={isLoading}
-                            onClick={sendNewPackHandler}
+                            onClick={() => setIsOpenAddNewPackModal(true)}
                         >
-                            Add pack
+                            Add new pack
                         </SuperButton>
 
                     </div>
@@ -252,7 +238,7 @@ const PacksPage = () => {
                                     <td className={s.td}>
                                         {t.user_id === loggedUserId && <button
                                             className={s.delButton}
-                                            onClick={(event) => OpenDeletePackModal(event, t._id)}
+                                            onClick={(event) => openDeletePackModal(event, t._id)}
                                             disabled={isLoading || editPackMode}
                                         >Delete</button>}
                                         {t.user_id === loggedUserId && <button
@@ -284,9 +270,26 @@ const PacksPage = () => {
             <FormDialog title={"Delete Pack"}
                         buttonTitle={"Delete"}
                         buttonAction={deletePackHandler}
-                        open={openDeletePackModal}
-                        setOpen={setOpenDeletePackModal}
+                        open={isOpenDeletePackModal}
+                        setOpen={setIsOpenDeletePackModal}
+                        text={"Do you really want to remove this Pack? All cards will be excluded from this course."}
             />
+            <FormDialog title={"Add New Pack"}
+                        buttonTitle={"Save"}
+                        buttonAction={sendNewPackHandler}
+                        open={isOpenAddNewPackModal}
+                        setOpen={setIsOpenAddNewPackModal}
+                        text={"Enter new pack name"}
+            >
+                <TextField
+                    disabled={isLoading}
+                    value={packName}
+                    onChange={newPackInputHandler}
+                    placeholder={"New pack name"}
+                    fullWidth
+                    className={s.input}
+                />
+            </FormDialog>
         </div>
     );
 };
