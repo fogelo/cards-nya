@@ -9,7 +9,11 @@ import {
 
 import axios from "axios";
 import {AppThunkType, IAppStore} from "../../../s-1-main/m-2-bll/store";
-import {setIsLoggedInAC, SetIsLoggedInType} from "../../f-1-authorization/a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
+import {
+    LogOutThunk,
+    setIsLoggedInAC,
+    SetIsLoggedInType
+} from "../../f-1-authorization/a-1-sign-in/s-2-bll/b-2-redux/signIn-reducer";
 
 
 const initState = {
@@ -73,7 +77,7 @@ export const ParamAC_SetUserId = (userId: string) => {
 
 
 // THUNKS
-export const GetAllPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>, getState: () => IAppStore) => {
+export const GetAllPacksThunk = () => async (dispatch: AppThunkType, getState: () => IAppStore) => {
     dispatch(changeIsLoadingAC(true))
     const params = getState().packs.params
     PacksAPI.getPacksData(params)
@@ -84,8 +88,8 @@ export const GetAllPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>
         .catch((error) => {
             const data = error?.response?.data;
             // При запросе колод если сервер сказал что куки нет, то разлогиниваемся в редаксе.
-            if (error.error === 'you are not authorized /ᐠ-ꞈ-ᐟ\\') {
-                dispatch(setIsLoggedInAC(false))
+            if (error.error === `you are not authorized /ᐠ-ꞈ-ᐟ\\`) {
+                dispatch(LogOutThunk())
             }
             if (axios.isAxiosError(error) && data) {
                 dispatch(setAppErrorAC(data.error || "Some error occurred"));
@@ -96,7 +100,7 @@ export const GetAllPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>
             dispatch(changeIsLoadingAC(false))
         })
 }
-export const GetMyPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>, getState: () => IAppStore) => {
+export const GetMyPacksThunk = () => async (dispatch: AppThunkType, getState: () => IAppStore) => {
     dispatch(changeIsLoadingAC(true))
     const params = getState().packs.params
     const userId = getState().profile.userData._id
@@ -109,7 +113,7 @@ export const GetMyPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>,
             const data = error?.response?.data;
             // При запросе колод если сервер сказал что куки нет, то разлогиниваемся в редаксе.
             if (error.error === `you are not authorized /ᐠ-ꞈ-ᐟ\\`) {
-                dispatch(setIsLoggedInAC(false))
+                dispatch(LogOutThunk())
             }
             if (axios.isAxiosError(error) && data) {
                 dispatch(setAppErrorAC(data.error || "Some error occurred"));

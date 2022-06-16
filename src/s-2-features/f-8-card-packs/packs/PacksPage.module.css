@@ -111,6 +111,8 @@
 }
 
 .td {
+    max-width: 300px;
+    overflow: hidden;
     padding: 5px;
     /*border: 1px solid;*/
     font-size: 14px;

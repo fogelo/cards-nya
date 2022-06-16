@@ -28,6 +28,7 @@ import PikachuLoading from "../../../s-3-components/PikachuLoading";
 import {getAllCardsAC, setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
 import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import Pagination from "../../../s-3-components/c10-Pagination/Pagination";
+import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
 
 
 const PacksPage = () => {
@@ -192,7 +193,6 @@ const PacksPage = () => {
                             disabled={isLoading}
                             onClick={sendSearchInputHandler}
                         >
-
                             Search
                         </SuperButton>
 
@@ -268,6 +268,7 @@ const PacksPage = () => {
                                 )}
                             </tbody>
                         </table>
+                        <FormDialog/>
                         {isLoading && <><PikachuLoading/><LinearIndeterminate/></>}
 
                     </div>
