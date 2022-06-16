@@ -1,7 +1,6 @@
 import React, {MouseEvent, ChangeEvent, useEffect, useState} from "react";
 import s from "./PacksPage.module.css"
 import SuperButton from "../../../s-3-components/c2-SuperButton/SuperButton";
-
 import {useSelector} from "react-redux";
 import {IAppStore, RootStateType, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
 import {CardPackType, PackParamsType, SortingPacksType} from "./PacksAPI";
@@ -20,16 +19,12 @@ import {ErrorSnackbar} from "../../../s-3-components/ErrorSnackBar/ErrorSnackbar
 import {RangeSliderContainer} from "./cards/RangeSlider/RangeSliderContainer";
 import {Button, InputAdornment, TextField} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-
 import CancelIcon from "@mui/icons-material/Cancel";
-
-
 import PikachuLoading from "../../../s-3-components/PikachuLoading";
 import {getAllCardsAC, setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
 import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import Pagination from "../../../s-3-components/c10-Pagination/Pagination";
 import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
-import {setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
 import {Sorting} from "./cards/Sorting/Sorting";
 import {PaginationPacksContainer} from "./cards/Pagination/PaginationPacksContainer";
 
