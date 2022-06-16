@@ -3,8 +3,8 @@ import s from "./PacksPage.module.css"
 import SuperButton from "../../../s-3-components/c2-SuperButton/SuperButton";
 
 import {useSelector} from "react-redux";
-import {IAppStore, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
-import {CardPackType, PackParamsType} from "./PacksAPI";
+import {IAppStore, RootStateType, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
+import {CardPackType, PackParamsType, SortingPacksType} from "./PacksAPI";
 import {
     AddNewPackThunk,
     DeletePackThunk,
@@ -29,6 +29,10 @@ import {getAllCardsAC, setPackIdAC, setPackNameAC, setPackUserNameAC} from "./ca
 import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import Pagination from "../../../s-3-components/c10-Pagination/Pagination";
 import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
+import {setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
+import {Sorting} from "./cards/Sorting/Sorting";
+import {PaginationPacksContainer} from "./cards/Pagination/PaginationPacksContainer";
+
 
 
 const PacksPage = () => {
@@ -175,6 +179,7 @@ const PacksPage = () => {
                 </div>
                 <div>
                     <RangeSliderContainer/>
+                    <Sorting/>
                 </div>
             </div>
             <div className={s.rightContainer}>
@@ -273,7 +278,7 @@ const PacksPage = () => {
                     </div>
                 </div>
                 <div className={s.paginationBox}>
-                    <Pagination/>
+                   <PaginationPacksContainer/>
                 </div>
             </div>
             <FormDialog title={"Delete Pack"}
