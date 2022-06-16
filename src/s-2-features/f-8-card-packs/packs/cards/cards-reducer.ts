@@ -41,8 +41,19 @@ const initState = {
 
 export const cardsReducer = (state: CardsInitStateType = initState, action: CardsAllActions): CardsInitStateType => {
     switch (action.type) {
+
+
+
+
         // case "packs/SET_PACKS_DATA": return {...state, cardPacks: action.cardPacks}
         // case "packs/SET_SEARCH_PARAM": return {...state, params: {...state.params, packName: action.packName}}
+        // case 'cards/SET-CARDS-CURRENT-PAGE': {
+        //     return {...state, page:action.page}}
+        //
+        // case 'cards/SET-CARDS-PAGE-COUNT': {
+        //     return {...state, pageCount: action.pageCount}
+        // }
+
         case "cards/SET_CARDS_DATA":
             return {...state, cards: action.cards}
         case "cards/SET_PACK_USERID":
@@ -53,12 +64,20 @@ export const cardsReducer = (state: CardsInitStateType = initState, action: Card
             return {...state, params: {...state.params, cardsPack_id: action.packId }}
         case "cards/SET_PACK_NAME_IN_MAP":
             return {...state, packNameInMap: action.packName}
+
         default:
             return {...state}
     }
 }
 
 // ACTION CREATORS
+export const setCardsCurrentPageAC = (page: number) =>
+    ({type: 'cards/SET-CARDS-CURRENT-PAGE', page} as const)
+
+
+export const setCardsPageCountAC = (pageCount: number) =>
+    ({type: 'cards/SET-CARDS-PAGE-COUNT', pageCount} as const)
+
 export const getAllCardsAC = (cards: CardType[]) => {
     return {type: 'cards/SET_CARDS_DATA', cards} as const
 }
@@ -179,6 +198,8 @@ export type SetPackUserIdACType = ReturnType<typeof setPackUserIdAC>
 export type SetPackUserNameACType = ReturnType<typeof setPackUserNameAC>
 export type SetPackIdACType = ReturnType<typeof setPackIdAC>
 export type SetPackNameACType = ReturnType<typeof setPackNameAC>
+export type SetCardsCurrentPageACType = ReturnType<typeof setCardsCurrentPageAC>
+export type SetCardsPageCountACType = ReturnType<typeof setCardsPageCountAC>
 
 
 export type CardsAllActions =
@@ -192,6 +213,8 @@ export type CardsAllActions =
     | SetPackUserNameACType
     | SetPackIdACType
     | SetPackNameACType
+|SetCardsCurrentPageACType
+|SetCardsPageCountACType
 
 
 

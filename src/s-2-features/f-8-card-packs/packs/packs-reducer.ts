@@ -17,12 +17,11 @@ const initState = {
     minCardsCount: 0,
     maxCardsCount: 10,
     cardPacksTotalCount: 0,
-    sortingBy: "",
     params: {
         packName: '',
         min: 0,
         max: 0,
-        sortPacks: '',
+        sortPacks: '0updated',
         page: 1,
         pageCount: 10,
         user_id: ''
@@ -31,16 +30,22 @@ const initState = {
 
 export const packsReducer = (state: PacksInitStateType = initState, action: PacksAllActions): PacksInitStateType => {
     switch (action.type) {
+
+        case 'packs/SET-CARD-PACKS-CURRENT-PAGE':
+            return {...state, params: {...state.params, page:action.page}}
+
+        case 'packs/SET-CARD-PACKS-PAGE-COUNT':
+            return {...state, params: {...state.params, pageCount:action.pageCount}}
+
+
         case "packs/SET_PACKS_DATA":
             return {...state, cardPacks: action.cardPacks}
-
         case "packs/SET_SEARCH_PARAM":
             return {...state, params: {...state.params, packName: action.packName}}
         case "packs/RANGE_SET_CARDS_PACKS_COUNT":
             return {...state, params: {...state.params, min: action.min, max: action.max}}
         case 'packs/SET-SORT-PACKS-COUNT':
-            return {...state, params: {...state.params, sortingBy: action.value}}
-
+            return {...state, params: {...state.params, sortPacks: action.value}}
 
         default:
             return {...state}
@@ -50,7 +55,16 @@ export const packsReducer = (state: PacksInitStateType = initState, action: Pack
 // ACTION CREATORS
 //TODO исправить get на set по всему проекту
 
-export const setSortPacksValueAC = (value: SortingPacksType | "") =>
+
+export const setCardPacksCurrentPageAC = (page: number) =>
+    ({type: 'packs/SET-CARD-PACKS-CURRENT-PAGE', page} as const)
+export const setCardPacksPageCountAC = (pageCount: number) =>
+    ({type: 'packs/SET-CARD-PACKS-PAGE-COUNT', pageCount} as const)
+
+
+
+
+export const setSortPacksValueAC = (value: SortingPacksType ) =>
     ({type: 'packs/SET-SORT-PACKS-COUNT', value} as const)
 
 
@@ -108,6 +122,7 @@ export const GetAllPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>
         })
         .finally(() => {
             dispatch(changeIsLoadingAC(false))
+
         })
 }
 export const GetMyPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>, getState: () => IAppStore) => {
@@ -132,6 +147,7 @@ export const GetMyPacksThunk = () => async (dispatch: Dispatch<PacksAllActions>,
         })
         .finally(() => {
             dispatch(changeIsLoadingAC(false))
+
         })
 }
 
@@ -175,6 +191,7 @@ export const DeletePackThunk = (_id: string) => async (dispatch: AppThunkType) =
         })
         .finally(() => {
             dispatch(changeIsLoadingAC(false))
+
         })
 }
 export const EditPackThunk = (editPack: EditPackType) => async (dispatch: AppThunkType) => {
@@ -195,6 +212,7 @@ export const EditPackThunk = (editPack: EditPackType) => async (dispatch: AppThu
         })
         .finally(() => {
             dispatch(changeIsLoadingAC(false))
+
         })
 }
 
@@ -211,6 +229,9 @@ export type ParamAC_SetPageType = ReturnType<typeof ParamAC_SetPage>
 export type ParamAC_SetPageCountType = ReturnType<typeof ParamAC_SetPageCount>
 export type ParamAC_SetSortPacksValueType = ReturnType<typeof setSortPacksValueAC>
 export type ParamAC_SetUserIdType = ReturnType<typeof ParamAC_SetUserId>
+export type ParamAC_setCardsPageCountType = ReturnType<typeof setCardPacksPageCountAC>
+export type ParamAC_setCardPacksCurrentPageType = ReturnType<typeof setCardPacksCurrentPageAC>
+
 
 
 export type PacksAllActions =
@@ -227,6 +248,9 @@ export type PacksAllActions =
     | ParamAC_SetPageCountType
     | ParamAC_SetUserIdType
     | ParamAC_SetSortPacksValueType
+    |ParamAC_setCardsPageCountType
+    |ParamAC_setCardPacksCurrentPageType
+
 
 
 

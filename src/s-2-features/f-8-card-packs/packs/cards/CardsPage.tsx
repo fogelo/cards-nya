@@ -14,13 +14,14 @@ import {
 } from "./cards-reducer";
 
 import {Navigate, useNavigate} from "react-router-dom";
-import {IAppStore, useAppDispatch} from "../../../../s-1-main/m-2-bll/store";
+import {IAppStore, RootStateType, useAppDispatch} from "../../../../s-1-main/m-2-bll/store";
 import {PACKS_PATH, SIGN_IN_PATH} from "../../../../s-1-main/m-1-ui/Routing";
 import {ErrorSnackbar} from "../../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
 import RangeSlider from "../../../../s-3-components/c7-Slider/Slider";
 import LinearIndeterminate from "../../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
 import {EditPackThunk, ParamAC_SetSearch} from "../packs-reducer";
+import {PaginationCardsContainer} from "./Pagination/PaginationCardsContainer";
 
 
 const CardsPage = () => {
@@ -37,12 +38,16 @@ const CardsPage = () => {
     const isLoading = useSelector<IAppStore, boolean>((state) => state.app.isLoading);
     const isLoggedIn = useSelector<IAppStore, boolean>((state) => state.login.isLoggedIn);
     const loggedUserId = useSelector<IAppStore, string>((state) => state.profile.userData._id);
-
+    let page = useSelector<RootStateType, number>(state => state.cards.params.page)
 
     const cardsData = useSelector<IAppStore, CardType[]>(state => state.cards.cards)
     const cardsParams = useSelector<IAppStore, CardsParamsType>((state) => state.cards.params);
     const createdBy = useSelector<IAppStore, string>((state) => state.cards.createdBy);
     const packNameInMap = useSelector<IAppStore, string>((state) => state.cards.packNameInMap);
+
+
+    const pageCount = useSelector<RootStateType, number>(state => state.cards.params.pageCount)
+
 
     //хуки сюда:
     const [newCardValue, setNewCardValue] = useState<string>('');
@@ -105,7 +110,10 @@ const CardsPage = () => {
         cardsParams.sortCards,
         cardsParams.page,
         cardsParams.cardAnswer,
-        cardsParams.cardQuestion
+        cardsParams.cardQuestion,
+        cardsParams. pageCount,
+        cardsParams. page,
+
     ]);
 
 
@@ -215,7 +223,7 @@ const CardsPage = () => {
                 </div>
 
                 <div className={s.paginationBox}>
-                    pagination 1 2 3 4 5 6 7 8 9
+
                 </div>
 
             </div>

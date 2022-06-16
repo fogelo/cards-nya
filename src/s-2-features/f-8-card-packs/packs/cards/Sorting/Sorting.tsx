@@ -13,11 +13,11 @@ export const Sorting = React.memo(() => {
     const [isCardsArrowUp, setCardsArrowUp] = useState<boolean>(false);
     const [isLastUpdatedArrowUp, setLastUpdatedArrowUp] = useState<boolean>(false);
 
-    const sortBy = useSelector<RootStateType,  SortingPacksType >(state =>state.packs.sortingBy)
+    const sortBy = useSelector<RootStateType,  SortingPacksType >(state =>state.packs.params.sortPacks)
 
     useEffect(() => {
         return () => {
-            dispatch(setSortPacksValueAC(""))
+            dispatch(setSortPacksValueAC('0name'))
         }
     }, [])
 
@@ -52,7 +52,7 @@ export const Sorting = React.memo(() => {
                 />
                 <div
                     className={s.resetSortingFilter}
-                    onClick={() => dispatch(setSortPacksValueAC(""))}
+                    onClick={() => dispatch(setSortPacksValueAC("0updated"))}
                 ><button className={s.resetSortingButton}>Reset sorting</button></div>
             </div>
         </div>

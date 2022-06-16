@@ -23,6 +23,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import PikachuLoading from "../../../s-3-components/PikachuLoading";
 import {setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
 import {Sorting} from "./cards/Sorting/Sorting";
+import {PaginationPacksContainer} from "./cards/Pagination/PaginationPacksContainer";
+
 
 
 const PacksPage = () => {
@@ -42,7 +44,7 @@ const PacksPage = () => {
     const loggedUserName = useSelector<IAppStore, string>((state) => state.profile.userData.name);
     const params = useSelector<IAppStore, PackParamsType>((state) => state.packs.params);
     const packsData = useSelector<IAppStore, CardPackType[]>(state => state.packs.cardPacks)
-    const sortingBy = useSelector<RootStateType, SortingPacksType | ''>(state => state.packs.sortingBy)
+    // const sortingBy = useSelector<RootStateType, SortingPacksType | ''>(state => state.packs.sortingBy)
 
     //хуки сюда:
     const [isPrivate, setPrivate] = useState<boolean>(false);
@@ -127,7 +129,7 @@ const PacksPage = () => {
 
     useEffect(() => {
         dispatch(GetAllPacksThunk());
-    }, [dispatch, isLoggedIn, params, sortingBy]);
+    }, [dispatch, isLoggedIn, params ]);
 
     // редирект на логин тут:
 
@@ -258,7 +260,7 @@ const PacksPage = () => {
                     </div>
                 </div>
                 <div className={s.paginationBox}>
-                    pagination 1 2 3 4 5 6 7 8 9
+                   {/*<PaginationPacksContainer/>*/}
                 </div>
             </div>
         </div>

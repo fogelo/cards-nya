@@ -7,13 +7,16 @@ import {SortingPacksType} from "../../PacksAPI";
 import {setSortPacksValueAC} from "../../packs-reducer";
 
 type SortingPropsType = {
+
     title: string
     isArrowUp: boolean
     setArrowUp: (value: boolean) => void
     dispatch: Dispatch
     setSortPacksValues: SortingPacksType[]
-    sortBy: '' | SortingPacksType
+    sortBy:   SortingPacksType
 }
+// type SortingPack = [{sort:SortingPacksType}]
+
 
 export const SortingItem = React.memo((props: SortingPropsType) => {
 
