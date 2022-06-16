@@ -21,7 +21,7 @@ import {RangeSliderContainer} from "./cards/RangeSlider/RangeSliderContainer";
 import {Button, InputAdornment, TextField} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-import CancelIcon from '@mui/icons-material/Cancel';
+import CancelIcon from "@mui/icons-material/Cancel";
 
 
 import PikachuLoading from "../../../s-3-components/PikachuLoading";
@@ -51,12 +51,18 @@ const PacksPage = () => {
 
     //хуки сюда:
     const [isPrivate, setPrivate] = useState<boolean>(false);
-    const [packName, setPackName] = useState<string>('');
-    const [searchItem, setSearchItem] = useState<string>('');
+    const [packName, setPackName] = useState<string>("");
+    const [searchItem, setSearchItem] = useState<string>("");
 
     const [editPackMode, setEditPackMode] = useState(false)
-    const [editedName, setEditedName] = useState<string>('');
-    const [packIdToEdit, setPackIdToEdit] = useState<string>('')
+    const [editedName, setEditedName] = useState<string>("");
+    const [packIdToEdit, setPackIdToEdit] = useState<string>("")
+    //хуки для модалки удаления колоды
+    const [isOpenDeletePackModal, setIsOpenDeletePackModal] = useState(false)
+    const [isOpenAddNewPackModal, setIsOpenAddNewPackModal] = useState(false)
+    const [isOpenEditPackModal, setIsOpenEditPackModal] = useState(false)
+    const [packId, setPackId] = useState("")
+
 
     // коллбэки тут:
     const searchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -73,29 +79,40 @@ const PacksPage = () => {
         setPackName(e.currentTarget.value)
     }
     const sendNewPackHandler = () => {
-        dispatch(AddNewPackThunk({name: packName, deckCover: '', private: isPrivate}))
-        setPackName('');
+        dispatch(AddNewPackThunk({name: packName, deckCover: "", private: isPrivate}))
+        setPackName("");
         setPrivate(false);
     }
 
     // коллбэки для кнопок внутри таблицы:
-    const deletePackHandler = (event: MouseEvent<HTMLButtonElement>, packId: string) => {
-        event.stopPropagation();
+    const deletePackHandler = () => {
         dispatch(DeletePackThunk(packId))
+    }
+
+    const openDeletePackModal = (event: MouseEvent<HTMLButtonElement>, packId: string) => {
+        event.stopPropagation();
+        setPackId(packId)
+        setIsOpenDeletePackModal(true)
+    }
+    const openEditPackModal = (event: MouseEvent<HTMLButtonElement>, packId: string, packName: string) => {
+        event.stopPropagation();
+        setPackId(packId)
+        setIsOpenEditPackModal(true)
+        setPackName(packName)
     }
 
     const sendEditPackHandler = (packId: string, oldName: string) => {
         if (oldName !== editedName) {
             dispatch(EditPackThunk({_id: packId, name: editedName}))
         }
-        setEditedName('')
+        setEditedName("")
         setEditPackMode(!editPackMode)
     }
 
-    const changeEditModeHandler = (event: MouseEvent<HTMLButtonElement>, userIdFromMap: string, packNameFromMap: string) => {
+    const changeEditModeHandler = (event: MouseEvent<HTMLButtonElement>, userIdFromMap: string, packNameFromMap: string ) => {
         event.stopPropagation();
         if (editPackMode) {
-            setEditedName('')
+            setEditedName("")
         }
         setEditedName(packNameFromMap)
         setPackIdToEdit(userIdFromMap)
@@ -163,13 +180,6 @@ const PacksPage = () => {
             <div className={s.rightContainer}>
                 <div>
                     <div className={s.findContainer}>
-
-                        {/*<input*/}
-                        {/*    value={searchItem}*/}
-                        {/*    onChange={searchInputHandler}*/}
-                        {/*    placeholder={"Search"}*/}
-                        {/*    className={s.input}*/}
-                        {/*/>*/}
                         <TextField type="text"
                                    disabled={isLoading}
                                    value={searchItem}
@@ -185,7 +195,7 @@ const PacksPage = () => {
                                    }}
                         />
                         <CancelIcon
-                            onClick={() => setSearchItem('')}
+                            onClick={() => setSearchItem("")}
                             className={s.clearButton}
                         />
 
@@ -196,18 +206,11 @@ const PacksPage = () => {
                             Search
                         </SuperButton>
 
-                        <input
-                            disabled={isLoading}
-                            value={packName}
-                            onChange={newPackInputHandler}
-                            placeholder={'New pack'}
-                            className={s.input}
-                        />
                         <SuperButton
                             disabled={isLoading}
-                            onClick={sendNewPackHandler}
+                            onClick={() => setIsOpenAddNewPackModal(true)}
                         >
-                            Add pack
+                            Add new pack
                         </SuperButton>
 
                     </div>
@@ -222,6 +225,42 @@ const PacksPage = () => {
                                 <th className={s.th}>Actions</th>
                             </tr>
                             </thead>
+                            <tbody
+                                className={s.trBody}>{!(packsData.length > 0) || !packsData ? "" : packsData.map((t) =>
+                                <tr key={t._id}
+                                    className={s.trItem}
+                                    onClick={() => openPackHandler(t._id, t.user_name, t.name)}
+                                >{t.user_id === loggedUserId && editPackMode && t._id === packIdToEdit
+                                    ? <input
+                                        placeholder={t.name}
+                                        value={editedName}
+                                        onChange={(e) => editPackNameInputHandler(e)}
+                                        autoFocus
+                                        onBlur={() => sendEditPackHandler(t._id, t.name)}
+                                    />
+                                    : <td className={s.td}>{t.name}</td>}
+                                    <td className={s.td}>{t.cardsCount}</td>
+                                    <td className={s.td}>{t.updated.slice(0, 10).replace(/-/g, ".")}</td>
+                                    <td className={s.td}>{t.user_name}</td>
+                                    <td className={s.td}>
+                                        {t.user_id === loggedUserId && <button
+                                            className={s.delButton}
+                                            onClick={(event) => openDeletePackModal(event, t._id)}
+                                            disabled={isLoading}
+                                        >Delete</button>}
+                                        {t.user_id === loggedUserId && <button
+                                            className={s.editButton}
+                                            onClick={(event) => openEditPackModal(event, t._id, t.name)}
+                                            disabled={isLoading}
+                                        >Edit</button>}
+                                        <button
+                                            onClick={(event) => learnButtonHandler(event)}
+                                            className={s.learnButton}
+                                            disabled={isLoading}
+                                        >Learn
+                                        </button>
+                                    </td>
+                                </tr>)}
                             <tbody className={s.trBody}>{!(packsData.length > 0) || !packsData
                                 ? <tr><td>{!isLoading && <ErrorSnackbar vertical={"top"} severity={"warning"}
                                                                         text={'Колоды не найдены'}/>}</td></tr>
@@ -268,15 +307,66 @@ const PacksPage = () => {
                                 )}
                             </tbody>
                         </table>
-                        <FormDialog/>
                         {isLoading && <><PikachuLoading/><LinearIndeterminate/></>}
-
                     </div>
                 </div>
                 <div className={s.paginationBox}>
                     <Pagination/>
                 </div>
             </div>
+            <FormDialog title={"Delete Pack"}
+                        buttonTitle={"Delete"}
+                        buttonAction={deletePackHandler}
+                        open={isOpenDeletePackModal}
+                        setOpen={setIsOpenDeletePackModal}
+                        text={"Do you really want to remove this Pack? All cards will be excluded from this course."}
+            />
+            <FormDialog title={"Add New Pack"}
+                        buttonTitle={"Save"}
+                        buttonAction={sendNewPackHandler}
+                        open={isOpenAddNewPackModal}
+                        setOpen={setIsOpenAddNewPackModal}
+                        text={"Enter new pack name"}
+            >
+                <TextField
+                    disabled={isLoading}
+                    value={packName}
+                    onChange={newPackInputHandler}
+                    placeholder={"New pack name"}
+                    fullWidth
+                    className={s.input}
+                />
+            </FormDialog>
+            <FormDialog title={"Add New Pack"}
+                        buttonTitle={"Save"}
+                        buttonAction={sendNewPackHandler}
+                        open={isOpenAddNewPackModal}
+                        setOpen={setIsOpenAddNewPackModal}
+                        text={"Enter new pack name"}
+            >
+                <TextField
+                    disabled={isLoading}
+                    value={packName}
+                    onChange={newPackInputHandler}
+                    placeholder={"New pack name"}
+                    fullWidth
+                    className={s.input}
+                />
+            </FormDialog>
+            <FormDialog title={"Edit Pack"}
+                        buttonTitle={"Save"}
+                        buttonAction={() => sendEditPackHandler(packId, packName)}
+                        open={isOpenEditPackModal}
+                        setOpen={setIsOpenEditPackModal}
+                        text={"Enter new pack name"}
+            >
+                <input
+                    placeholder={packName}
+                    value={editedName}
+                    onChange={(e) => editPackNameInputHandler(e)}
+                    autoFocus
+                />
+            </FormDialog>
         </div>
     );
 };

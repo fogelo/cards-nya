@@ -1,59 +1,63 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import {FC} from "react";
 
-export default function FormDialog() {
-    const [open, setOpen] = React.useState(false);
+type FormDialogsProps = {
+    children?: React.ReactNode
+    title?: string
+    buttonTitle?: string
+    buttonAction: () => void
+    open: boolean
+    setOpen: (open: boolean) => void
+    text?: string
+}
+const FormDialog: FC<FormDialogsProps> = (
+    {
+        children,
+        title,
+        buttonTitle,
+        buttonAction,
+        open,
+        setOpen,
+        text,
+    }) => {
+    // const [open, setOpen] = React.useState(open);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
 
     const handleClose = () => {
         setOpen(false);
     };
 
+    const onClick = () => {
+        buttonAction()
+        handleClose()
+    }
+
+
     return (
         <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Open form dialog
-            </Button>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Subscribe</DialogTitle>
+                <DialogTitle>{title}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        To subscribe to this website, please enter your email address here. We
-                        will send updates occasionally.
+                        {text}
+                        {children}
                     </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                        variant="standard"
-                    />
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                        variant="standard"
-                    />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Subscribe</Button>
+                    <Button onClick={onClick}>{buttonTitle}</Button>
                 </DialogActions>
             </Dialog>
         </div>
     );
 }
+export default FormDialog
