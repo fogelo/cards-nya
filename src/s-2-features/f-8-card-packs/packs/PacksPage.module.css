@@ -173,3 +173,7 @@
     color: white;
     background-color: #21268F;
 }
+
+tbody tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
