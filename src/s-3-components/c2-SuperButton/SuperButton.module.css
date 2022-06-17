@@ -1,5 +1,6 @@
 .default {
     margin: 10px 10px 10px 10px;
+    height: 40px;
     min-width: 110px;
     display: inline-block;
     font-weight: bold;

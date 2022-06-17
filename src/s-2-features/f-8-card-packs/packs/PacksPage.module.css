@@ -41,10 +41,10 @@
 .findContainer {
     display: flex;
     width: 50%;
-    flex-direction: row;
-    justify-content: flex-start;
+    /*flex-direction: row;*/
+    justify-content: space-between;
     align-items: center;
-    align-content: center;
+    /*align-content: center;*/
     margin: 10px 0 10px 0;
 }
 
@@ -58,10 +58,6 @@
     box-shadow: none;
 }
 
-.clearButton {
-    position: relative;
-    right: 30px;
-}
 .clearButton:hover {
     color: tomato;
 }
