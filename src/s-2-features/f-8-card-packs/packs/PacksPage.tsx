@@ -22,11 +22,10 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import PikachuLoading from "../../../s-3-components/PikachuLoading";
 import {getAllCardsAC, setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
 import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
-import Pagination from "../../../s-3-components/c10-Pagination/Pagination";
 import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
 import {Sorting} from "./cards/Sorting/Sorting";
 import {PaginationPacksContainer} from "./cards/Pagination/PaginationPacksContainer";
-
+import useDebounce from "../../../hooks/useDebounce";
 
 const PacksPage = () => {
 
@@ -54,23 +53,35 @@ const PacksPage = () => {
     const [editPackMode, setEditPackMode] = useState(false)
     const [editedName, setEditedName] = useState<string>("");
     const [packIdToEdit, setPackIdToEdit] = useState<string>("")
+
     //хуки для модалки удаления колоды
     const [isOpenDeletePackModal, setIsOpenDeletePackModal] = useState(false)
     const [isOpenAddNewPackModal, setIsOpenAddNewPackModal] = useState(false)
     const [isOpenEditPackModal, setIsOpenEditPackModal] = useState(false)
     const [packId, setPackId] = useState("")
 
+    //
+    const debouncedValue = useDebounce(searchItem, 2000)
 
     // коллбэки тут:
+    const sendSearchInputValue = (value: string) => {
+        console.log("debounce")
+        dispatch(ParamAC_SetSearch(value))
+        dispatch(GetPacksThunk())
+    }
+
+    const onSearchInputClick = () => {
+        sendSearchInputValue(searchItem)
+    }
+
+    useEffect(() => {
+        sendSearchInputValue(debouncedValue)
+    }, [debouncedValue])
+
+
     const searchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchItem(e.currentTarget.value)
     }
-
-    const sendSearchInputHandler = () => {
-        dispatch(ParamAC_SetSearch(searchItem))
-        dispatch(getAllPacksAC([]))
-    }
-
 
     const newPackInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setPackName(e.currentTarget.value)
@@ -181,19 +192,19 @@ const PacksPage = () => {
             <div className={s.rightContainer}>
                 <div>
                     <div className={s.findContainer}>
-                        <TextField type="text"
-                                   disabled={isLoading}
-                                   value={searchItem}
-                                   placeholder={"Search"}
-                                   onChange={searchInputHandler}
-                                   variant={"outlined"}
-                                   size={"small"}
-                                   className={s.input}
-                                   fullWidth
-                                   sx={{minWidth: "60%"}}
-                                   InputProps={{
-                                       startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>
-                                   }}
+                        <input type="text"
+                               disabled={isLoading}
+                               value={searchItem}
+                               placeholder={"Search"}
+                               onChange={searchInputHandler}
+                            // variant={"outlined"}
+                            // size={"small"}
+                               className={s.input}
+                            // fullWidth
+                            // sx={{minWidth: "60%"}}
+                            // InputProps={{
+                            //     startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>
+                            // }}
                         />
                         <CancelIcon
                             onClick={() => setSearchItem("")}
@@ -202,7 +213,7 @@ const PacksPage = () => {
 
                         <SuperButton
                             disabled={isLoading}
-                            onClick={sendSearchInputHandler}
+                            onClick={onSearchInputClick}
                         >
                             Search
                         </SuperButton>
