@@ -10,7 +10,11 @@ import {
     setUserDataAC,
     SetUserDataType
 } from "../../s-2-features/f-3-profile/p-2-bll/b-2-redux/profile-reducer";
-import {ParamAC_SetSearchType, SetAllPacksDataACType} from "../../s-2-features/f-8-card-packs/packs/packs-reducer";
+import {
+    ParamAC_setCardPacksTotalCountACType,
+    ParamAC_SetSearchType,
+    SetAllPacksDataACType
+} from "../../s-2-features/f-8-card-packs/packs/packs-reducer";
 import {CardsAllActions, SetPackIdACType} from "../../s-2-features/f-8-card-packs/packs/cards/cards-reducer";
 
 const initStateApp = {
@@ -41,11 +45,11 @@ export const appReducer = (state: InitStateTypeApp = initStateApp, action: AppAc
 export const setIsAuthAC = (isAuthAction: boolean) => ({type: "app/SET_IS_AUTH", isAuthAction} as const)
 export const changeIsLoadingAC = (isLoadingApp: boolean) => {
     return {
-        type: 'app/CHANGE-IS-LOADING',
+        type: "app/CHANGE-IS-LOADING",
         isLoadingApp
     } as const
 }
-export const setAppErrorAC = (error: string | null) => ({type: 'app/SET-ERROR', error} as const)
+export const setAppErrorAC = (error: string | null) => ({type: "app/SET-ERROR", error} as const)
 
 
 // THUNKa
@@ -56,7 +60,7 @@ export const initializeAppTC = (value: boolean) => async (dispatch: Dispatch<App
             if (res.data._id) {
                 dispatch(setUserDataAC(res.data))
                 dispatch(setIsLoggedInAC(true))
-                console.log('AuthMe - You are already logged in!')
+                console.log("AuthMe - You are already logged in!")
             } else {
                 dispatch(setIsLoggedInAC(false))
             }
@@ -71,11 +75,11 @@ export const initializeAppTC = (value: boolean) => async (dispatch: Dispatch<App
                 if (data.error === "you are not authorized /ᐠ-ꞈ-ᐟ\\") {
                     return
                 }
-                dispatch(setAppErrorAC(data.error || 'Some error occurred'));
-            } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
+                dispatch(setAppErrorAC(data.error || "Some error occurred"));
+            } else (dispatch(setAppErrorAC(error.message + ". More details in the console")))
             console.log({...error});
         })
-        .finally(()=> {
+        .finally(() => {
             dispatch(changeIsLoadingAC(false))
             dispatch(setIsAuthAC(value))
         })
@@ -98,4 +102,5 @@ export type AppAction =
     | ParamAC_SetSearchType
     | SetPackIdACType
     | CardsAllActions
-| SetAllPacksDataACType
+    | SetAllPacksDataACType
+    | ParamAC_setCardPacksTotalCountACType
