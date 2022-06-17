@@ -15,11 +15,11 @@ export const Sorting = React.memo(() => {
 
     const sortBy = useSelector<RootStateType,  SortingPacksType >(state =>state.packs.params.sortPacks)
 
-    useEffect(() => {
-        return () => {
-            dispatch(setSortPacksValueAC('0updated'))
-        }
-    }, [])
+    // useEffect(() => {
+    //     // return () => {
+    //     //     dispatch(setSortPacksValueAC('0updated'))
+    //     // }
+    // }, [])
 
     return (
         <div className={s.sortingPage}>

@@ -14,11 +14,11 @@ export const PaginationCardsContainer = React.memo(() => {
 
     const currentPageHandler = useCallback((page: number) => {
         dispatch(setCardsCurrentPageAC(page))
-    }, [])
+    }, [dispatch])
 
     const onChangeOption = useCallback((value: number) => {
         dispatch(setCardsPageCountAC(value))
-    }, [])
+    }, [dispatch])
 
 
     return <Pagination

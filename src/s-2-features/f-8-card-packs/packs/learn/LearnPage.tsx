@@ -10,7 +10,7 @@ import {PackParamsType} from "../PacksAPI";
 import {CardsParamsType, CardType} from "../cards/CardsAPI";
 import Button from "@mui/material/Button";
 import PikachuLoading from "../../../../s-3-components/PikachuLoading";
-import {getAllPacksAC, GetAllPacksThunk} from "../packs-reducer";
+import {getAllPacksAC} from "../packs-reducer";
 import {
     getAllCardsAC,
     GetCardsThunk,

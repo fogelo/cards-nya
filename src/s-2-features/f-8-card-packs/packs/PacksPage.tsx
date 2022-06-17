@@ -82,9 +82,9 @@ const PacksPage = () => {
         sendSearchInputValue(searchItem)
     }
 
-    useEffect(() => {
-        sendSearchInputValue(debouncedValue)
-    }, [debouncedValue])
+    // useEffect(() => {
+    //     sendSearchInputValue(debouncedValue)
+    // }, [debouncedValue])
 
 
     const searchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -161,21 +161,15 @@ const PacksPage = () => {
     }
 
     const getMyPacks = () => {
-        // dispatch(GetMyPacksThunk())
-        // dispatch(getAllPacksAC([]))
         dispatch(ParamAC_SetUserId(loggedUserId))
-        dispatch(GetPacksThunk())
     }
     const getAllPacks = () => {
-        // dispatch(GetAllPacksThunk())
-        // dispatch(getAllPacksAC([]))
         dispatch(ParamAC_SetUserId(""))
-        dispatch(GetPacksThunk())
     }
 
     useEffect(() => {
         dispatch(GetPacksThunk());
-    }, [params.pageCount, page, params.sortPacks]);
+    }, [params]);
 
     // редирект на логин тут:
 
