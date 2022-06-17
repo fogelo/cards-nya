@@ -72,7 +72,9 @@ export const RangeSlider = React.memo((props: RangeSliderType) => {
 
     return (<div className={s.range}>
 
-            <div className={s.rangeTitle}><b>Number of cards</b></div>
+            <div className={s.rangeTitle}>
+                <h4> Number of cards </h4>
+            </div>
             <CustomSlider
                 disabled={isLoading}
                 getAriaLabel={() => 'Number of cards'}

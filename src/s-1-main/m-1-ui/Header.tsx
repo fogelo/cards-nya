@@ -10,6 +10,8 @@ import {LogOutThunk} from "../../s-2-features/f-1-authorization/a-1-sign-in/s-2-
 import SuperButton from "../../s-3-components/c2-SuperButton/SuperButton";
 import {setAppErrorAC} from "../m-2-bll/app-reducer";
 import s from "./Header.module.css"
+import PackImg from "./../../assets/images/PacksListImg.png"
+import ProfileImg from "./../../assets/images/ProfileImg.png"
 
 const Header: React.FC = () => {
 
@@ -52,13 +54,13 @@ const Header: React.FC = () => {
             {/*<SuperButton onClick={() => routeChange(NEW_PASSWORD_PATH)} disabled={isLoading}>*/}
             {/*    new password*/}
             {/*</SuperButton>*/}
-            <div className={s.nav}>
+            <div className={s.nav} >
                 {/*{!isLoggedIn && <NavLink to={SIGN_IN_PATH}>sign-in</NavLink>}*/}
                 {/*<NavLink to={REGISTER_PATH}>Register</NavLink>*/}
                 {/*<NavLink to={FORGOT_PATH}>forgot</NavLink>*/}
-                <NavLink to={PACKS_PATH}>Packs</NavLink>
-                <NavLink to={CARDS_PATH}>Cards</NavLink>
-                <NavLink to={PROFILE_PATH} onClick={isLoggedInHandler}>Profile</NavLink>
+               <NavLink to={PACKS_PATH}> <img src={PackImg}/>Packs</NavLink>
+                {/*<NavLink to={CARDS_PATH}>Cards</NavLink>*/}
+                <NavLink to={PROFILE_PATH} onClick={isLoggedInHandler}><img src={ProfileImg}/>Profile</NavLink>
                 {/*<NavLink to={ERROR404_PATH}>error404</NavLink>*/}
                 {/*<NavLink to={RECOVER_PASSWORD_PATH}>recover password</NavLink>*/}
                 {/*<NavLink to={NEW_PASSWORD_PATH}>new password</NavLink>*/}

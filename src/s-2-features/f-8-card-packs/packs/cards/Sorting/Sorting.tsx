@@ -23,7 +23,7 @@ export const Sorting = React.memo(() => {
 
     return (
         <div className={s.sortingPage}>
-            <span>Sort:</span>
+            <span> <h4> Sort </h4> </span>
             <div className={s.sortingItemsWrapper}>
 
 

@@ -47,6 +47,7 @@ const PacksPage = () => {
     const loggedUserName = useSelector<IAppStore, string>((state) => state.profile.userData.name);
     const params = useSelector<IAppStore, PackParamsType>((state) => state.packs.params);
     const packsData = useSelector<IAppStore, CardPackType[]>(state => state.packs.cardPacks)
+    const page = useSelector<RootStateType, number>(state => state.packs.params.page)
 
     //хуки сюда:
     const [isPrivate, setPrivate] = useState<boolean>(false);
@@ -55,7 +56,7 @@ const PacksPage = () => {
 
     const [editPackMode, setEditPackMode] = useState(false)
     const [editedName, setEditedName] = useState<string>("");
-    const [packIdToEdit, setPackIdToEdit] = useState<string>("")
+    const [packIdToEdit] = useState<string>("")
     //хуки для модалки удаления колоды
     const [isOpenDeletePackModal, setIsOpenDeletePackModal] = useState(false)
     const [isOpenAddNewPackModal, setIsOpenAddNewPackModal] = useState(false)
@@ -149,7 +150,7 @@ const PacksPage = () => {
 
     useEffect(() => {
         dispatch(GetAllPacksThunk());
-    }, [dispatch, params]);
+    }, [dispatch, params, page]);
 
     // редирект на логин тут:
 
@@ -162,12 +163,9 @@ const PacksPage = () => {
             {appError && <ErrorSnackbar/>}
             <div className={s.leftContainer}>
                 <div className={s.sideBox}>
-                    Frontend developer
-                </div>
-                <div>
-                    <h3>{loggedUserName}</h3>
-                </div>
-                <div>
+
+                    <h4> Show packs cards </h4>
+
                     <Button disabled={isLoading} variant={"contained"} onClick={getMyPacks}>MY</Button>
                     <Button disabled={isLoading} variant={"contained"} onClick={getAllPacks}
                             color={"secondary"}>ALL</Button>
@@ -273,7 +271,8 @@ const PacksPage = () => {
                     </div>
                 </div>
                 <div className={s.paginationBox}>
-                   <PaginationPacksContainer/>
+                   {/*<Pagination/>*/}
+                    <PaginationPacksContainer/>
                 </div>
             </div>
             <FormDialog title={"Delete Pack"}

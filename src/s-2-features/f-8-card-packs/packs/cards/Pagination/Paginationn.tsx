@@ -11,12 +11,12 @@ type PropsType = {
 }
 
 export const Pagination: React.FC<PropsType> = React.memo((props) => {
-
     let pagesCount = Math.ceil(props.cardPacksTotalCount / props.pageCount); // count of all pages, before pagination
     let pages = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
+    console.log(pagesCount)
     const portionSize = 5; // по 5 страниц показывать до точек
     const portionCount = Math.ceil(pagesCount / portionSize) // сколько всего pagination кнопок
 

@@ -36,10 +36,13 @@ export const packsReducer = (state: PacksInitStateType = initState, action: Pack
     switch (action.type) {
 
         case 'packs/SET-CARD-PACKS-CURRENT-PAGE':
-            return {...state, params: {...state.params, page:action.page}}
+            return {...state, params: {...state.params, page: action.page}}
 
         case 'packs/SET-CARD-PACKS-PAGE-COUNT':
-            return {...state, params: {...state.params, pageCount:action.pageCount}}
+            return {...state, params: {...state.params, pageCount: action.pageCount}}
+
+        case 'packs/SET-CARD-PACKS-TOTAL-COUNT':
+            return {...state, cardPacksTotalCount: action.cardPacksTotalCount}
 
 
         case "packs/SET_PACKS_DATA":
@@ -65,10 +68,11 @@ export const setCardPacksCurrentPageAC = (page: number) =>
 export const setCardPacksPageCountAC = (pageCount: number) =>
     ({type: 'packs/SET-CARD-PACKS-PAGE-COUNT', pageCount} as const)
 
+export const setCardPacksTotalCountAC = (cardPacksTotalCount: number) =>
+    ({type: 'packs/SET-CARD-PACKS-TOTAL-COUNT', cardPacksTotalCount} as const)
 
 
-
-export const setSortPacksValueAC = (value: SortingPacksType ) =>
+export const setSortPacksValueAC = (value: SortingPacksType) =>
     ({type: 'packs/SET-SORT-PACKS-COUNT', value} as const)
 
 
@@ -111,6 +115,8 @@ export const GetAllPacksThunk = () => async (dispatch: AppThunkType, getState: (
     PacksAPI.getPacksData(params)
         .then((res) => {
             dispatch(getAllPacksAC(res.data.cardPacks))
+            dispatch(setCardPacksTotalCountAC(res.data.cardPacksTotalCount))
+            console.log(res)
             console.log("You are get packs data successfully")
         })
         .catch((error) => {
@@ -126,6 +132,7 @@ export const GetAllPacksThunk = () => async (dispatch: AppThunkType, getState: (
         })
         .finally(() => {
             dispatch(changeIsLoadingAC(false))
+
 
         })
 }
@@ -174,6 +181,7 @@ export const AddNewPackThunk = (params: AddNewPackType) => async (dispatch: AppT
         })
         .finally(() => {
             dispatch(changeIsLoadingAC(false))
+
         })
 }
 export const DeletePackThunk = (_id: string) => async (dispatch: AppThunkType) => {
@@ -217,12 +225,12 @@ export const EditPackThunk = (editPack: EditPackType) => async (dispatch: AppThu
         .finally(() => {
             dispatch(changeIsLoadingAC(false))
 
+
         })
 }
 
 // TYPES
 export type PacksInitStateType = typeof initState
-
 export type SetAllPacksDataACType = ReturnType<typeof getAllPacksAC>
 export type setCardPacksCurrentPageType = ReturnType<typeof setCardsPacksCountFromRangeAC>
 export type ParamAC_SetSearchType = ReturnType<typeof ParamAC_SetSearch>
@@ -235,7 +243,7 @@ export type ParamAC_SetSortPacksValueType = ReturnType<typeof setSortPacksValueA
 export type ParamAC_SetUserIdType = ReturnType<typeof ParamAC_SetUserId>
 export type ParamAC_setCardsPageCountType = ReturnType<typeof setCardPacksPageCountAC>
 export type ParamAC_setCardPacksCurrentPageType = ReturnType<typeof setCardPacksCurrentPageAC>
-
+export type ParamAC_setCardPacksTotalCountACType = ReturnType<typeof setCardPacksTotalCountAC>
 
 
 export type PacksAllActions =
@@ -252,8 +260,9 @@ export type PacksAllActions =
     | ParamAC_SetPageCountType
     | ParamAC_SetUserIdType
     | ParamAC_SetSortPacksValueType
-    |ParamAC_setCardsPageCountType
-    |ParamAC_setCardPacksCurrentPageType
+    | ParamAC_setCardsPageCountType
+    | ParamAC_setCardPacksCurrentPageType
+    | ParamAC_setCardPacksTotalCountACType
 
 
 

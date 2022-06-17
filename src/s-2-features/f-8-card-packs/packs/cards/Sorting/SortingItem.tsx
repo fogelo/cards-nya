@@ -51,7 +51,7 @@ export const SortingItem = React.memo((props: SortingPropsType) => {
                                 props.dispatch(setSortPacksValueAC(props.setSortPacksValues[1]))
                                 props.setArrowUp(!props.isArrowUp)
                             }}
-                        ><img src={ArrowBackIcon} height={'6px'}
+                        ><img src={ArrowBackIcon} height={'20px'}
                               style={{
                                   transform: 'rotate(90deg)',
                                   display: 'inline-block'
@@ -63,7 +63,7 @@ export const SortingItem = React.memo((props: SortingPropsType) => {
                                 props.dispatch(setSortPacksValueAC(props.setSortPacksValues[0]))
                                 props.setArrowUp(!props.isArrowUp)
                             }}
-                        ><img src={ArrowBackIcon} height={'6px'}
+                        ><img src={ArrowBackIcon} height={'20px'}
                               style={{
                                   transform: 'rotate(270deg)',
                                   display: 'inline-block'

@@ -10,7 +10,7 @@ export const PaginationPacksContainer = React.memo(() => {
     const dispatch = useDispatch()
     const pageCount = useSelector<RootStateType, number>(state => state.cards.params.pageCount)
     const cardPacksTotalCount = useSelector<RootStateType, number>(state => state.packs.cardPacksTotalCount)
-    const page = useSelector<RootStateType, number>(state =>state.cards.params.page)
+    const page = useSelector<RootStateType, number>(state =>state.packs.params.page)
 
     const currentPageHandler = (page: number) => {
         dispatch(setCardPacksCurrentPageAC(page))
