@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/cards-nya/static/css/main.c9a174b7.css",
-    "main.js": "/cards-nya/static/js/main.2c227aa2.js",
+    "main.css": "/cards-nya/static/css/main.c537a6e8.css",
+    "main.js": "/cards-nya/static/js/main.a08998ec.js",
     "static/media/default_cat_ava.png": "/cards-nya/static/media/default_cat_ava.3948fa2f9f953f52d799.png",
     "static/media/snorlax2.png": "/cards-nya/static/media/snorlax2.a9bdb40533b705530286.png",
     "static/media/snorlax.png": "/cards-nya/static/media/snorlax.eaff114f59ab58b57e92.png",
@@ -9,11 +9,11 @@
     "static/media/pikachu.gif": "/cards-nya/static/media/pikachu.09b000564c077bf0e360.gif",
     "index.html": "/cards-nya/index.html",
     "static/media/ArrowBackIcon.svg": "/cards-nya/static/media/ArrowBackIcon.a0d94486da3f7cdfc1fb80e99e47351c.svg",
-    "main.c9a174b7.css.map": "/cards-nya/static/css/main.c9a174b7.css.map",
-    "main.2c227aa2.js.map": "/cards-nya/static/js/main.2c227aa2.js.map"
+    "main.c537a6e8.css.map": "/cards-nya/static/css/main.c537a6e8.css.map",
+    "main.a08998ec.js.map": "/cards-nya/static/js/main.a08998ec.js.map"
   },
   "entrypoints": [
-    "static/css/main.c9a174b7.css",
-    "static/js/main.2c227aa2.js"
+    "static/css/main.c537a6e8.css",
+    "static/js/main.a08998ec.js"
   ]
 }
