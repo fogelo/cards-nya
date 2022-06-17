@@ -185,7 +185,7 @@ export const EditPackThunk = (editPack: EditPackType) => async (dispatch: AppThu
     dispatch(changeIsLoadingAC(true))
     PacksAPI.editPackName(editPack)
         .then((res) => {
-            if (res.data.newCardsPack) {
+            if (res.data.updatedCardsPack) {
                 console.log("You are added new pack successfully")
             }
             dispatch(GetPacksThunk())
