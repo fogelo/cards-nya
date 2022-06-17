@@ -33,6 +33,7 @@ const initState = {
 }
 
 export const packsReducer = (state: PacksInitStateType = initState, action: PacksAllActions): PacksInitStateType => {
+    console.log(action)
     switch (action.type) {
 
         case 'packs/SET-CARD-PACKS-CURRENT-PAGE':

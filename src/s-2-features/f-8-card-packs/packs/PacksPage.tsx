@@ -2,7 +2,7 @@ import React, {MouseEvent, ChangeEvent, useEffect, useState} from "react";
 import s from "./PacksPage.module.css"
 import SuperButton from "../../../s-3-components/c2-SuperButton/SuperButton";
 import {useSelector} from "react-redux";
-import {IAppStore, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
+import {IAppStore, RootStateType, useAppDispatch} from "../../../s-1-main/m-2-bll/store";
 import {CardPackType, PackParamsType} from "./PacksAPI";
 import {
     AddNewPackThunk,
@@ -163,7 +163,7 @@ const PacksPage = () => {
 
     useEffect(() => {
         dispatch(GetPacksThunk());
-    }, [params.pageCount,page]);
+    }, [params.pageCount, page, params.sortPacks]);
 
     // редирект на логин тут:
 
@@ -177,7 +177,7 @@ const PacksPage = () => {
             <div className={s.leftContainer}>
                 <div className={s.sideBox}>
 
-                    <h4> Show packs cards </h4>
+                    <h4> {loggedUserName} </h4>
 
                     <Button disabled={isLoading} variant={"contained"} onClick={getMyPacks}>MY</Button>
                     <Button disabled={isLoading} variant={"contained"} onClick={getAllPacks}
@@ -287,7 +287,7 @@ const PacksPage = () => {
                     {isLoading && <><PikachuLoading/><LinearIndeterminate/></>}
                 </div>
                 <div className={s.paginationBox}>
-                   {/*<Pagination/>*/}
+                    {/*<Pagination/>*/}
                     <PaginationPacksContainer/>
                 </div>
             </div>
