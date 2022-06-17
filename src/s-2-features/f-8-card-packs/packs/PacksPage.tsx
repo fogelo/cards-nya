@@ -177,7 +177,8 @@ const PacksPage = () => {
             <div className={s.leftContainer}>
                 <div className={s.sideBox}>
 
-                    <h4> {loggedUserName} </h4>
+                    <h3> {loggedUserName} </h3>
+                    <h4> Show packs cards </h4>
 
                     <Button disabled={isLoading} variant={"contained"} onClick={getMyPacks}>MY</Button>
                     <Button disabled={isLoading} variant={"contained"} onClick={getAllPacks}
@@ -221,7 +222,7 @@ const PacksPage = () => {
                         <SuperButton
                             disabled={isLoading}
                             onClick={() => setIsOpenAddNewPackModal(true)}
-                            blue
+                            green
                             width={250}
                         >
                             <div>Add new pack</div>
