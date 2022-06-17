@@ -15,7 +15,7 @@ export const CardsAPI = {
         return instance.put<SendNewCard, AxiosResponse<UpdatedCardType>>(`/cards/card`, {card})
     },
     sendGradeCard (CardGrade: SendCardGradeType){
-        return instance.put<SendCardGradeType, AxiosResponse<UpdatedGradeType>>(`/cards/grade`, {CardGrade})
+        return instance.put<SendCardGradeType, AxiosResponse<UpdatedGradeType>>(`/cards/grade`, CardGrade)
     }
 };
 

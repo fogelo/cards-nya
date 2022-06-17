@@ -72,6 +72,8 @@ const LearnPage = () => {
         updated: '',
         _id: ''
     });
+    const [newGrade, setNewGrade] = useState<number>(0)
+
 
     useEffect(() => {
         console.log('LearnContainer useEffect');
@@ -90,17 +92,24 @@ const LearnPage = () => {
     }, [dispatch, cardsParams.cardsPack_id, cardsData, first]);
 
     const onNext = () => {
-        setIsAnswered(false);
-        if (cardsData.length > 0) {
-            // dispatch(UpdateCardGradeThunk())
-            setCard(getCard(cardsData));
-        } else {
+        if (newGrade !== 0) {
+            setIsAnswered(false);
+            if (cardsData.length > 0) {
+                dispatch(UpdateCardGradeThunk({grade: newGrade, card_id: card._id}))
+                setCard(getCard(cardsData));
+                setNewGrade(0)
+            } else {
 
+            }
         }
     }
 
-    const sendGradeHandler = () => {
-
+    const sendGradeHandler = (g: string) => {
+        if (g === 'не знал') {setNewGrade(1)}
+        if (g === 'забыл') {setNewGrade(2)}
+        if (g === 'долго думал') {setNewGrade(3)}
+        if (g === 'перепутал') {setNewGrade(4)}
+        if (g === 'знал ответ') {setNewGrade(5)}
     }
 
     const learnEndHandler = () => {
@@ -137,10 +146,10 @@ const LearnPage = () => {
             <div>
                 Оцените себя:
                 <div>
-                    {grades.map((grade, i) => (
+                    {grades.map((g, i) => (
                         <Button
                             key={'grade-' + i}
-                            onClick={() => {}}>{grade}</Button>
+                            onClick={() => sendGradeHandler(g)}>{g}</Button>
                     ))}
                 </div>
             </div>
@@ -153,7 +162,7 @@ const LearnPage = () => {
                 >
                     Завершить обучение
                 </SuperButton>
-                <SuperButton onClick={() => onNext()} disabled={isLoading}>Следующая карточка</SuperButton>
+                <SuperButton onClick={() => onNext()} disabled={isLoading || newGrade === 0}>Следующая карточка</SuperButton>
             </span>
 
         </div>

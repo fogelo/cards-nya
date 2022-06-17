@@ -172,7 +172,6 @@ const PacksPage = () => {
     }, [params]);
 
     // редирект на логин тут:
-
     if (!isLoggedIn) {
         return <Navigate to={SIGN_IN_PATH}/>
     }

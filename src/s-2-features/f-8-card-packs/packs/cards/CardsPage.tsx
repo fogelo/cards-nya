@@ -15,7 +15,7 @@ import {
 
 import {Navigate, useNavigate} from "react-router-dom";
 import {IAppStore, RootStateType, useAppDispatch} from "../../../../s-1-main/m-2-bll/store";
-import {PACKS_PATH, SIGN_IN_PATH} from "../../../../s-1-main/m-1-ui/Routing";
+import {LEARN_PATH, PACKS_PATH, SIGN_IN_PATH} from "../../../../s-1-main/m-1-ui/Routing";
 import {ErrorSnackbar} from "../../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
 import LinearIndeterminate from "../../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import SuperButton from "../../../../s-3-components/c2-SuperButton/SuperButton";
@@ -99,6 +99,10 @@ const CardsPage = () => {
         }
         setEditedQuest('')
         setEditCardMode(false)
+    }
+
+    const startLearnHandler = () => {
+        routeChange(LEARN_PATH)
     }
 
 
@@ -206,6 +210,7 @@ const CardsPage = () => {
                                             >Edit</button>}
                                             <button
                                                 className={s.learnButton}
+                                                onClick={startLearnHandler}
                                             >Open
                                             </button>
                                         </td>
