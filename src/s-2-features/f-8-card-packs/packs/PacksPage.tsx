@@ -256,15 +256,8 @@ const PacksPage = () => {
                                     <tr key={t._id}
                                         className={s.trItem}
                                         onClick={() => openPackHandler(t._id, t.user_name, t.name)}
-                                    >{t.user_id === loggedUserId && editPackMode
-                                        ? <input
-                                            placeholder={t.name}
-                                            value={editedName}
-                                            onChange={(e) => editPackNameInputHandler(e)}
-                                            autoFocus
-                                            onBlur={() => sendEditPackHandler(t._id, t.name)}
-                                        />
-                                        : <td className={s.td}>{t.name}</td>}
+                                    >
+                                        <td className={s.td}>{t.name}</td>
                                         <td className={s.td}>{t.cardsCount}</td>
                                         <td className={s.td}>{t.updated.slice(0, 10).replace(/-/g, ".")}</td>
                                         <td className={s.td}>{t.user_name}</td>

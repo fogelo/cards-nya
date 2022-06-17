@@ -154,7 +154,6 @@ const LearnPage = () => {
                 </div>
             </div>
 
-
             <span>
                 <SuperButton
                     onClick={()=>learnEndHandler()}

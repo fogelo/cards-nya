@@ -12,9 +12,10 @@ export const PacksAPI = {
         return instance.delete<string, AxiosResponse<DeletedPackType>>(`/cards/pack?id=${_id}`)
     },
     editPackName(cardsPack: EditPackType) {
-        return instance.put<EditPackType, AxiosResponse<any>>('/cards/pack', {cardsPack})
+        return instance.put<EditPackType, AxiosResponse<any>>('/cards/pack', {cardsPack: {_id: cardsPack._id, name: cardsPack.name}})
     }
 };
+
 
 export type SortingPacksType =
     "0cardsCount"
