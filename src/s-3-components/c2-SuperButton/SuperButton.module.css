@@ -1,17 +1,16 @@
 .default {
     margin: 10px 10px 10px 10px;
-    height: 40px;
-    min-width: 110px;
-    display: inline-block;
+    /*height: 40px;*/
+    min-width: 100%;
     font-weight: bold;
-    color: #fff;
+    color: #e2e2e2;
     text-decoration: none;
     text-shadow: 0 -1px rgba(0,0,0,.5);
     user-select: none;
     padding: .7em 1.5em;
     border: 1px solid rgb(80,32,0);
     border-radius: 5px;
-    outline: none;
+    /*outline: none;*/
     background: rgb(147,80,36) linear-gradient(rgb(106,58,26), rgb(147,80,36) 80%);
     box-shadow:
             0 6px rgb(86,38,6),
@@ -35,18 +34,6 @@
 }
 
 .red {
-    margin: 5px 0;
-    width: 100px;
-    display: inline-block;
-    font-weight: bold;
-    color: #fff;
-    text-decoration: none;
-    text-shadow: 0 -1px rgba(0,0,0,.5);
-    user-select: none;
-    padding: .7em 1.5em;
-    border: 1px solid rgb(80,32,0);
-    border-radius: 5px;
-    outline: none;
     background: linear-gradient(rgb(135, 0, 0), rgb(255, 0, 0) 80%);
     box-shadow:
             0 6px rgb(125, 0, 0),
@@ -57,37 +44,27 @@
 }
 
 .red:hover {
-    background: linear-gradient(rgb(135, 0, 0), rgb(253, 126, 126) 80%);
+    background: linear-gradient(rgb(170, 0, 0), rgb(255, 40, 40) 80%);
 }
-.red:active {
-    box-shadow:
-            0 2px rgb(86,38,6),
-            0 1px 6px rgba(0,0,0,.4),
-            inset 0 1px rgba(255,255,255,.3),
-            inset 0 0 3px rgba(255,255,255,.5);
-    -webkit-transform: translate(0, 4px);
-    transform: translate(0, 4px);
+.red:hover {
+    background: linear-gradient(rgb(170, 0, 0), rgb(255, 40, 40) 80%);
 }
-
-.disabled {
-    opacity: 0.5;
-    margin: 10px 10px 10px 10px;
-    min-width: 110px;
-    display: inline-block;
-    font-weight: bold;
-    color: #fff;
-    text-decoration: none;
-    text-shadow: 0 -1px rgba(0,0,0,.5);
-    user-select: none;
-    padding: .7em 1.5em;
-    border: 1px solid rgb(80,32,0);
-    border-radius: 5px;
-    outline: none;
-    background: rgb(147,80,36) linear-gradient(rgb(106,58,26), rgb(147,80,36) 80%);
+.blue {
+    background: linear-gradient(rgb(40, 40, 170), rgb(0, 0, 255) 80%);
     box-shadow:
-            0 6px rgb(86,38,6),
+            0 6px rgb(0, 0, 125),
             0 3px 15px rgba(0,0,0,.4),
             inset 0 1px rgba(255,255,255,.3),
             inset 0 0 3px rgba(255,255,255,.5);
     transition: .2s;
+}
+
+.blue:hover {
+    background: linear-gradient(rgb(0, 0, 170), rgb(40, 40, 255) 80%);
+    opacity: 0.9;
+}
+
+
+.disabled {
+    opacity: 0.5;
 }

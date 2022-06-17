@@ -192,35 +192,38 @@ const PacksPage = () => {
             <div className={s.rightContainer}>
                 <div>
                     <div className={s.findContainer}>
-                        <TextField type="text"
-                                   disabled={isLoading}
-                                   value={searchItem}
-                                   placeholder={"Search"}
-                                   onChange={searchInputHandler}
-                                   variant={"outlined"}
-                                   size={"small"}
-                                   className={s.input}
-                                   fullWidth
-                                   sx={{minWidth: "60%"}}
-                                   InputProps={{
-                                       startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
-                                       endAdornment: <InputAdornment position={"end"}>
-                                           <CancelIcon
-                                               onClick={() => setSearchItem("")}
-                                               className={s.clearButton}
-                                           /></InputAdornment>
-                                   }}
-                        />
-                        <SuperButton
-                            disabled={isLoading}
-                            onClick={onSearchInputClick}
-                        >
-                            Search
-                        </SuperButton>
+                        <div className={s.search}>
+                            <TextField type="text"
+                                       disabled={isLoading}
+                                       value={searchItem}
+                                       placeholder={"Search"}
+                                       onChange={searchInputHandler}
+                                       variant={"outlined"}
+                                       size={"small"}
+                                       className={s.input}
+                                       sx={{maxWidth: 250}}
+                                       InputProps={{
+                                           startAdornment: <InputAdornment
+                                               position="start"><SearchIcon/></InputAdornment>,
+                                           endAdornment: <InputAdornment position={"end"}>
+                                               <CancelIcon
+                                                   onClick={() => setSearchItem("")}
+                                                   className={s.clearButton}
+                                               /></InputAdornment>
+                                       }}
+                            />
+                            <SuperButton
+                                disabled={isLoading}
+                                onClick={onSearchInputClick}
+                            >
+                                Search
+                            </SuperButton></div>
 
                         <SuperButton
                             disabled={isLoading}
                             onClick={() => setIsOpenAddNewPackModal(true)}
+                            red
+                            width={100}
                         >
                             <div>Add new pack</div>
                         </SuperButton>
@@ -281,8 +284,8 @@ const PacksPage = () => {
                                     </tr>)}
                             </tbody>
                         </table>
-                        {isLoading && <><PikachuLoading/><LinearIndeterminate/></>}
                     </div>
+                    {isLoading && <><PikachuLoading/><LinearIndeterminate/></>}
                 </div>
                 <div className={s.paginationBox}>
                     <PaginationPacksContainer/>
