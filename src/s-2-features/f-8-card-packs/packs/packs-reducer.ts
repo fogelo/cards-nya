@@ -53,6 +53,8 @@ export const packsReducer = (state: PacksInitStateType = initState, action: Pack
             return {...state, params: {...state.params, min: action.min, max: action.max}}
         case 'packs/SET-SORT-PACKS-COUNT':
             return {...state, params: {...state.params, sortPacks: action.value}}
+        case "packs/SET_USERID_PARAM":
+            return {...state, params: {...state.params, user_id: action.userId}}
 
         default:
             return {...state}
@@ -61,8 +63,6 @@ export const packsReducer = (state: PacksInitStateType = initState, action: Pack
 
 // ACTION CREATORS
 //TODO исправить get на set по всему проекту
-
-
 export const setCardPacksCurrentPageAC = (page: number) =>
     ({type: 'packs/SET-CARD-PACKS-CURRENT-PAGE', page} as const)
 export const setCardPacksPageCountAC = (pageCount: number) =>
@@ -72,7 +72,7 @@ export const setCardPacksTotalCountAC = (cardPacksTotalCount: number) =>
     ({type: 'packs/SET-CARD-PACKS-TOTAL-COUNT', cardPacksTotalCount} as const)
 
 
-export const setSortPacksValueAC = (value: SortingPacksType) =>
+export const setSortPacksValueAC = (value: SortingPacksType ) =>
     ({type: 'packs/SET-SORT-PACKS-COUNT', value} as const)
 
 
@@ -104,12 +104,12 @@ export const ParamAC_SetPageCount = (pageCount: number) => {
     return {type: 'packs/SET_PAGE_COUNT_PARAM'} as const
 }
 export const ParamAC_SetUserId = (userId: string) => {
-    return {type: 'packs/SET_USERID_PARAM'} as const
+    return {type: "packs/SET_USERID_PARAM", userId} as const
 }
 
 
 // THUNKS
-export const GetAllPacksThunk = () => async (dispatch: AppThunkType, getState: () => IAppStore) => {
+export const GetPacksThunk = () => (dispatch: AppThunkType, getState: () => IAppStore) => {
     dispatch(changeIsLoadingAC(true))
     const params = getState().packs.params
     PacksAPI.getPacksData(params)
@@ -133,34 +133,9 @@ export const GetAllPacksThunk = () => async (dispatch: AppThunkType, getState: (
         .finally(() => {
             dispatch(changeIsLoadingAC(false))
 
-
         })
 }
-export const GetMyPacksThunk = () => async (dispatch: AppThunkType, getState: () => IAppStore) => {
-    dispatch(changeIsLoadingAC(true))
-    const params = getState().packs.params
-    const userId = getState().profile.userData._id
-    PacksAPI.getPacksData({...params, user_id: userId})
-        .then((res) => {
-            dispatch(getAllPacksAC(res.data.cardPacks))
-            console.log("You are get packs data successfully")
-        })
-        .catch((error) => {
-            const data = error?.response?.data;
-            // При запросе колод если сервер сказал что куки нет, то разлогиниваемся в редаксе.
-            if (error.error === `you are not authorized /ᐠ-ꞈ-ᐟ\\`) {
-                dispatch(LogOutThunk())
-            }
-            if (axios.isAxiosError(error) && data) {
-                dispatch(setAppErrorAC(data.error || "Some error occurred"));
-            } else (dispatch(setAppErrorAC(error.message + ". More details in the console")))
-            console.log({...error});
-        })
-        .finally(() => {
-            dispatch(changeIsLoadingAC(false))
 
-        })
-}
 
 
 export const AddNewPackThunk = (params: AddNewPackType) => async (dispatch: AppThunkType) => {
@@ -170,7 +145,7 @@ export const AddNewPackThunk = (params: AddNewPackType) => async (dispatch: AppT
             if (res.data.newCardsPack) {
                 console.log("You are added new pack successfully")
             }
-            dispatch(GetAllPacksThunk())
+            dispatch(GetPacksThunk())
         })
         .catch((error) => {
             const data = error?.response?.data;
@@ -181,10 +156,9 @@ export const AddNewPackThunk = (params: AddNewPackType) => async (dispatch: AppT
         })
         .finally(() => {
             dispatch(changeIsLoadingAC(false))
-
         })
 }
-export const DeletePackThunk = (_id: string) => async (dispatch: AppThunkType) => {
+export const DeletePackThunk = (_id: string) => async (dispatch: AppThunkType, getState: () => IAppStore) => {
     dispatch(changeIsLoadingAC(true))
     PacksAPI.deletePack(_id)
         .then((res) => {
@@ -192,7 +166,7 @@ export const DeletePackThunk = (_id: string) => async (dispatch: AppThunkType) =
                 // сюда добавить success SnackBar надо потом.
                 console.log("Pack deleted successfully")
             }
-            dispatch(GetAllPacksThunk())
+            dispatch(GetPacksThunk())
         })
         .catch((error) => {
             const data = error?.response?.data;
@@ -213,18 +187,17 @@ export const EditPackThunk = (editPack: EditPackType) => async (dispatch: AppThu
             if (res.data.newCardsPack) {
                 console.log("You are added new pack successfully")
             }
-            dispatch(GetAllPacksThunk())
+            dispatch(GetPacksThunk())
         })
         .catch((error) => {
             const data = error?.response?.data;
             if (axios.isAxiosError(error) && data) {
-                dispatch(setAppErrorAC(data.error || 'Some error occurred'));
-            } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
+                dispatch(setAppErrorAC(data.error || "Some error occurred"));
+            } else (dispatch(setAppErrorAC(error.message + ". More details in the console")))
             console.log({...error});
         })
         .finally(() => {
             dispatch(changeIsLoadingAC(false))
-
 
         })
 }
@@ -244,7 +217,6 @@ export type ParamAC_SetUserIdType = ReturnType<typeof ParamAC_SetUserId>
 export type ParamAC_setCardsPageCountType = ReturnType<typeof setCardPacksPageCountAC>
 export type ParamAC_setCardPacksCurrentPageType = ReturnType<typeof setCardPacksCurrentPageAC>
 export type ParamAC_setCardPacksTotalCountACType = ReturnType<typeof setCardPacksTotalCountAC>
-
 
 export type PacksAllActions =
     SetAllPacksDataACType

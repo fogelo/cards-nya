@@ -13,6 +13,7 @@ import {
 import {
     ParamAC_setCardPacksTotalCountACType,
     ParamAC_SetSearchType,
+    ParamAC_SetUserIdType,
     SetAllPacksDataACType
 } from "../../s-2-features/f-8-card-packs/packs/packs-reducer";
 import {CardsAllActions, SetPackIdACType} from "../../s-2-features/f-8-card-packs/packs/cards/cards-reducer";
@@ -103,4 +104,5 @@ export type AppAction =
     | SetPackIdACType
     | CardsAllActions
     | SetAllPacksDataACType
+    | ParamAC_SetUserIdType
     | ParamAC_setCardPacksTotalCountACType

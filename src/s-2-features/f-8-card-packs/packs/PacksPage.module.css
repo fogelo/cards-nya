@@ -1,8 +1,9 @@
 .mainContainer {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     width: 100%;
-    border: red 1px solid;
+    /*border: red 1px solid;*/
 }
 
 .leftContainer {
@@ -12,8 +13,8 @@
     align-items: center;
     width: 220px;
     height: 85vh;
-    padding: 10px 20px 10px 10px;
-    border: greenyellow 1px solid;
+    padding: 10px 10px 10px 10px;
+    /*border: greenyellow 1px solid;*/
 }
 
 .sideBox {
@@ -21,12 +22,13 @@
 }
 
 .rightContainer {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 85vh;
-    padding: 10px 10px 10px 20px;
-    border: blue 1px solid;
+    width: 100vh;
+    /*height: 85vh;*/
+    padding: 10px 10px 10px 10px;
+    /*border: blue 1px solid;*/
     justify-content: space-between;
 }
 
@@ -40,12 +42,19 @@
 
 .findContainer {
     display: flex;
-    width: 50%;
-    flex-direction: row;
-    justify-content: flex-start;
+    /*width: 50%;*/
+    padding: 0 10px;
+    /*flex-direction: row;*/
+    justify-content: space-between;
     align-items: center;
-    align-content: center;
+    /*align-content: center;*/
     margin: 10px 0 10px 0;
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .input {
@@ -53,22 +62,26 @@
     /*height: 35px;*/
     font-size: large;
     margin-left: 10px;
+    transform: translateY(3px);
 }
+
 .input input:focus {
     box-shadow: none;
 }
 
-.clearButton {
-    position: relative;
-    right: 30px;
-}
 .clearButton:hover {
     color: tomato;
 }
 
-.table {
 
-    min-width: 90%;
+.tableBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table {
+    width: 99%;
     border-collapse: collapse;
     text-align: center;
     border-radius: 10px;
@@ -106,6 +119,7 @@
 .trItem {
 
 }
+
 .trItem:hover {
     background-color: #aaaaaa;
 }
@@ -130,6 +144,7 @@
     border-radius: 2px;
     margin: 1px 1px 1px 1px;
 }
+
 .delButton:hover {
     color: white;
     background-color: red;
@@ -141,16 +156,19 @@
     border-radius: 2px;
     margin: 1px 1px 1px 1px;
 }
+
 .editButton:hover {
     color: white;
     background-color: green;
 }
+
 .learnButton {
     background-color: cornflowerblue;
     border: 0 white;
     border-radius: 2px;
     margin: 1px 1px 1px 1px;
 }
+
 .learnButton:hover {
     color: white;
     background-color: #21268F;
