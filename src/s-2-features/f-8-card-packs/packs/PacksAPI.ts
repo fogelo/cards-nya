@@ -16,13 +16,13 @@ export const PacksAPI = {
     }
 };
 
-export type SortingPacksType = "0cardsCount"
+export type SortingPacksType =
+    "0cardsCount"
     | "1cardsCount"
     | "0name"
     | "1name"
     | "0updated"
     | "1updated"
-
 
 export type EditPackType = {
     _id: string,

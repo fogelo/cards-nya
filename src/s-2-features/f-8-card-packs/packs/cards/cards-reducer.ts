@@ -1,7 +1,7 @@
 import {
     CardsAPI,
     CardsParamsType,
-    CardType, SendNewCard, SendNewCardType
+    CardType, SendCardGradeType, SendNewCard, SendNewCardType
 } from "./CardsAPI";
 import {Dispatch} from "redux";
 import {
@@ -41,8 +41,6 @@ const initState = {
 
 export const cardsReducer = (state: CardsInitStateType = initState, action: CardsAllActions): CardsInitStateType => {
     switch (action.type) {
-
-
 
 
         // case "packs/SET_PACKS_DATA": return {...state, cardPacks: action.cardPacks}
@@ -189,6 +187,30 @@ export const UpdateCardQuestThunk = (cardToUpdate: SendNewCard) => async (dispat
         })
 }
 
+export const UpdateCardGradeThunk = (CardGrade: SendCardGradeType) => async (dispatch: AppThunkType) => {
+    dispatch(changeIsLoadingAC(true))
+    CardsAPI.sendGradeCard(CardGrade)
+        .then((res) => {
+            if (res.data.updatedGrade) {
+                console.log("You are UPDATED CARD GRADE successfully")
+            }
+            dispatch(GetCardsThunk())
+        })
+        .catch((error) => {
+            const data = error?.response?.data;
+            // При запросе колод если сервер сказал что куки нет, то разлогиниваемся в редаксе.
+            if (error.error === `you are not authorized /ᐠ-ꞈ-ᐟ\\`) {
+                dispatch(setIsLoggedInAC(false))
+            }
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppErrorAC(data.error || 'Some error occurred'));
+            } else (dispatch(setAppErrorAC(error.message + '. More details in the console')))
+            console.log({...error});
+        })
+        .finally(() => {
+            dispatch(changeIsLoadingAC(false))
+        })
+}
 
 // TYPES
 export type CardsInitStateType = typeof initState

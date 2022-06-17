@@ -13,18 +13,21 @@ import {
 } from "./packs-reducer";
 
 import {Navigate, useNavigate} from "react-router-dom";
-import {CARDS_PATH, SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
+import {CARDS_PATH, LEARN_PATH, SIGN_IN_PATH} from "../../../s-1-main/m-1-ui/Routing";
 import {ErrorSnackbar} from "../../../s-3-components/ErrorSnackBar/ErrorSnackbar";
 import {RangeSliderContainer} from "./cards/RangeSlider/RangeSliderContainer";
 import {Button, InputAdornment, TextField} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CancelIcon from "@mui/icons-material/Cancel";
 import PikachuLoading from "../../../s-3-components/PikachuLoading";
-import {getAllCardsAC, setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
+import {getAllCardsAC, GetCardsThunk, setPackIdAC, setPackNameAC, setPackUserNameAC} from "./cards/cards-reducer";
 import LinearIndeterminate from "../../../s-3-components/c8-ProgressBarLinear/ProgressBarLinear";
 import FormDialog from "../../../s-3-components/c9-ModalBox/DialogForm";
 import {Sorting} from "./cards/Sorting/Sorting";
 import {PaginationPacksContainer} from "./cards/Pagination/PaginationPacksContainer";
+import Modalka from "../../../s-3-components/Modalka/Modalka";
+import modalka from "../../../s-3-components/Modalka/Modalka";
+import learnPage from "./learn/LearnPage";
 import useDebounce from "../../../hooks/useDebounce";
 
 const PacksPage = () => {
@@ -64,6 +67,9 @@ const PacksPage = () => {
 
     //
     const debouncedValue = useDebounce(searchItem, 2000)
+    // хуки для Modalka
+    const [activeModalka, setActiveModalka] = useState(false)
+
 
     // коллбэки тут:
     const sendSearchInputValue = (value: string) => {
@@ -143,9 +149,15 @@ const PacksPage = () => {
         }
     }
 
-    const learnButtonHandler = (event: MouseEvent<HTMLButtonElement>) => {
+    const learnButtonHandler = (event: MouseEvent<HTMLButtonElement>, packId: string, createdBy: string, packNameInMap: string) => {
         event.stopPropagation();
-
+        setActiveModalka(true)
+        dispatch(setPackIdAC(packId))
+        dispatch(setPackUserNameAC(createdBy))
+        dispatch(setPackNameAC(packNameInMap))
+    }
+    const startLearnHandler = () => {
+        routeChange(LEARN_PATH)
     }
 
     const getMyPacks = () => {
@@ -225,7 +237,7 @@ const PacksPage = () => {
                             green
                             width={250}
                         >
-                            <div>Add new pack</div>
+                            Add new pack
                         </SuperButton>
 
                     </div>
@@ -251,7 +263,7 @@ const PacksPage = () => {
                                     <tr key={t._id}
                                         className={s.trItem}
                                         onClick={() => openPackHandler(t._id, t.user_name, t.name)}
-                                    >{t.user_id === loggedUserId && editPackMode && t._id === packIdToEdit
+                                    >{t.user_id === loggedUserId && editPackMode
                                         ? <input
                                             placeholder={t.name}
                                             value={editedName}
@@ -275,7 +287,7 @@ const PacksPage = () => {
                                                 disabled={isLoading}
                                             >Edit</button>}
                                             <button
-                                                onClick={(event) => learnButtonHandler(event)}
+                                                onClick={(event) => learnButtonHandler(event,t._id, t.user_name, t.name)}
                                                 className={s.learnButton}
                                                 disabled={isLoading}
                                             >Learn
@@ -345,6 +357,18 @@ const PacksPage = () => {
                     autoFocus
                 />
             </FormDialog>
+
+            <Modalka active={activeModalka} setActive={setActiveModalka}>
+                <b>Начать обучение колоды?</b>
+                <div>
+                    Pack name: {params.packName}
+                </div>
+                <div>
+                    <button onClick={()=>setActiveModalka(false)}>Cancel</button>
+                    <button onClick={startLearnHandler}>START</button>
+                </div>
+            </Modalka>
+
         </div>
     );
 };

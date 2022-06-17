@@ -10,6 +10,7 @@ import Login from "../../s-2-features/f-1-authorization/a-1-sign-in/s-1-ui/Login
 import PacksPage from "../../s-2-features/f-8-card-packs/packs/PacksPage";
 import RecoverPasswordPage from "../../s-2-features/f-5-recover-password/p-1-ui/RecoverPasswordPage";
 import CardsPage from "../../s-2-features/f-8-card-packs/packs/cards/CardsPage";
+import LearnPage from "../../s-2-features/f-8-card-packs/packs/learn/LearnPage";
 
 // all project paths
 export const SIGN_IN_PATH = "/sign-in";
@@ -24,8 +25,7 @@ export const SUPER_COMPONENTS_PATH = "/super-components";
 // card pack page:
 export const PACKS_PATH = "/packs";
 export const CARDS_PATH = "/cards";
-
-
+export const LEARN_PATH = "/learn";
 
 
 const Routing: React.FC = () => {
@@ -33,6 +33,7 @@ const Routing: React.FC = () => {
         <>
             <Routes>
                 <Route path={"/"} element={<ProfilePage/>}/>
+                <Route path={LEARN_PATH} element={<LearnPage/>}/>
                 <Route path={PACKS_PATH} element={<PacksPage/>}/>
                 <Route path={CARDS_PATH} element={<CardsPage/>}/>
                 <Route path={SIGN_IN_PATH} element={<Login/>}/>

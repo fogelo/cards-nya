@@ -111,9 +111,8 @@ const CardsPage = () => {
         cardsParams.page,
         cardsParams.cardAnswer,
         cardsParams.cardQuestion,
-        cardsParams. pageCount,
-        cardsParams. page,
-
+        cardsParams.pageCount,
+        cardsParams.page,
     ]);
 
 
