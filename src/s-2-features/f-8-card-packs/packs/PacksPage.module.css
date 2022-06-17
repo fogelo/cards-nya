@@ -62,6 +62,7 @@
     /*height: 35px;*/
     font-size: large;
     margin-left: 10px;
+    transform: translateY(3px);
 }
 
 .input input:focus {
