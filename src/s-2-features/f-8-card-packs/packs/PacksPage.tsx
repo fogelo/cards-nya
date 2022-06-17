@@ -222,7 +222,7 @@ const PacksPage = () => {
                         <SuperButton
                             disabled={isLoading}
                             onClick={() => setIsOpenAddNewPackModal(true)}
-                            red
+                            blue
                             width={250}
                         >
                             <div>Add new pack</div>

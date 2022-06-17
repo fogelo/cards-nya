@@ -56,17 +56,19 @@ const Header: React.FC = () => {
                 {/*{!isLoggedIn && <NavLink to={SIGN_IN_PATH}>sign-in</NavLink>}*/}
                 {/*<NavLink to={REGISTER_PATH}>Register</NavLink>*/}
                 {/*<NavLink to={FORGOT_PATH}>forgot</NavLink>*/}
-                <NavLink to={PACKS_PATH}>Packs</NavLink>
-                <NavLink to={CARDS_PATH}>Cards</NavLink>
-                <NavLink to={PROFILE_PATH} onClick={isLoggedInHandler}>Profile</NavLink>
+                {/*<NavLink to={PACKS_PATH}>Packs</NavLink>*/}
+                {/*<NavLink to={CARDS_PATH}>Cards</NavLink>*/}
+                <NavLink to={PROFILE_PATH} onClick={isLoggedInHandler}>
+                    <SuperButton>
+                        Profile
+                    </SuperButton>
+                </NavLink>
                 {/*<NavLink to={ERROR404_PATH}>error404</NavLink>*/}
                 {/*<NavLink to={RECOVER_PASSWORD_PATH}>recover password</NavLink>*/}
                 {/*<NavLink to={NEW_PASSWORD_PATH}>new password</NavLink>*/}
                 {/*<NavLink to={SUPER_COMPONENTS_PATH}>super components</NavLink>*/}
             </div>
-
         </div>
-
     );
 };
 
