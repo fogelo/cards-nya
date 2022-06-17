@@ -17,7 +17,7 @@ export const Sorting = React.memo(() => {
 
     useEffect(() => {
         return () => {
-            dispatch(setSortPacksValueAC('0name'))
+            dispatch(setSortPacksValueAC('0updated'))
         }
     }, [])
 
@@ -25,7 +25,6 @@ export const Sorting = React.memo(() => {
         <div className={s.sortingPage}>
             <span>Sort:</span>
             <div className={s.sortingItemsWrapper}>
-
 
                 <SortingItem isArrowUp={isNameArrowUp}
                              setArrowUp={setNameArrowUp}

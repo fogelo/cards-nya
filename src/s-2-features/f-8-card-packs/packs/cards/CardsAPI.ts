@@ -13,8 +13,29 @@ export const CardsAPI = {
     },
     sendUpdateCardData (card: SendNewCard) {
         return instance.put<SendNewCard, AxiosResponse<UpdatedCardType>>(`/cards/card`, {card})
+    },
+    sendGradeCard (CardGrade: SendCardGradeType){
+        return instance.put<SendCardGradeType, AxiosResponse<UpdatedGradeType>>(`/cards/grade`, {CardGrade})
     }
 };
+
+export type UpdatedGradeType = {
+    updatedGrade: {
+        _id: string,
+        cardsPack_id: string,
+        card_id: string,
+        user_id: string,
+        grade: number,
+        shots: number
+    }
+}
+
+export type SendCardGradeType = {
+    grade: number,
+    card_id: string
+}
+
+
 export type UpdatedCardType = {
     updatedCard: {}
 }
@@ -24,9 +45,6 @@ export type SendNewCard = {
     question: string
     comments: string
 }
-
-
-
 
 export type deletedCardRespType = {
     deletedCard: {}
